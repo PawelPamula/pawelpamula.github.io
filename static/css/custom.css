@@ -1,0 +1,15 @@
+/* Apply centering to both images */
+.themed-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0; /* Adds a bit of breathing room above and below the image */
+}
+
+/* Default to Light Image */
+.img-dark { display: none; }
+.img-light { display: block; }
+
+/* When the website's dark mode class is active, swap them */
+[data-theme="dark"] .img-light { display: none; }
+[data-theme="dark"] .img-dark { display: block; }

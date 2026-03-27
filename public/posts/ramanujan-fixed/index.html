@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Ramanujan&#39;s puzzle | Truly Random Stuff</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.
+
+This riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan immediately came up with a general solution in the form of a continuous fraction that encoded all the infinite solutions. In this post I&#39;d like to present the way of solving this puzzle.">
+<meta name="author" content="Paweł Pamuła">
+<link rel="canonical" href="http://localhost:1313/posts/ramanujan-fixed/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/ramanujan-fixed/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="stylesheet" href="/css/custom.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.css" integrity="sha384-DVShYR21zvUU4zL2VjLlIbYSeiS43grntDO/Sm1DwmGGXKxGmvBlXWZ9lnyKhota" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.js" integrity="sha384-qrraMcfiHZOij7s14X818B0oe4NpSugmOO0Q0fmDYBWV+6c10vA26yjevqe5zD0D" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://d3js.org/d3.v7.min.min.js"></script>
+<meta property="og:url" content="http://localhost:1313/posts/ramanujan-fixed/">
+  <meta property="og:site_name" content="Truly Random Stuff">
+  <meta property="og:title" content="Ramanujan&#39;s puzzle">
+  <meta property="og:description" content="A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.
+This riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan immediately came up with a general solution in the form of a continuous fraction that encoded all the infinite solutions. In this post I&#39;d like to present the way of solving this puzzle.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-03-20T23:33:49+09:00">
+    <meta property="article:modified_time" content="2026-03-20T23:33:49+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ramanujan&#39;s puzzle">
+  <meta name="twitter:description" content="A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.
+This riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan immediately came up with a general solution in the form of a continuous fraction that encoded all the infinite solutions. In this post I&#39;d like to present the way of solving this puzzle.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Ramanujan's puzzle",
+      "item": "http://localhost:1313/posts/ramanujan-fixed/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ramanujan's puzzle",
+  "name": "Ramanujan\u0027s puzzle",
+  "description": " A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.\nThis riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan immediately came up with a general solution in the form of a continuous fraction that encoded all the infinite solutions. In this post I'd like to present the way of solving this puzzle.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": " A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.\nThis riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan immediately came up with a general solution in the form of a continuous fraction that encoded all the infinite solutions. In this post I'd like to present the way of solving this puzzle.\nSimple algebraic solution Let's rewrite the problem in terms of algebraic equations. We will denote the overall number of houses by \\(n\\) and the number of the specific house from the problem by \\(x\\).\n$$ \\underbrace{1 + \\ldots + (x - 1)}_{\\text{left side}} + x + \\underbrace{(x + 1) + \\ldots + n}_{\\text{right side}} $$Left side of this formula needs to be equal to right side, hence\n$$ \\frac{x(x-1)}{2} = \\frac{n(n+1)}{2} - \\frac{x(x+1)}{2} $$$$ \\begin{equation} x = \\sqrt{\\frac{n(n+1)}{2}} \\end{equation} $$At this point it suffices to run a simple Python script to find a triangular number 1 that is a perfect square.\nfrom math import sqrt, floor for n in range(1, 10000): t = n*(n+1) // 2 if floor(sqrt(t))**2 == t: print(\"n = %d, x = %d\" % (n, floor(sqrt(t)))) We obtained the following results. As we can see, the only pair that meets the requirements is \\(n=8\\) and \\(x=6\\).\nn = 1, x = 1 n = 8, x = 6 n = 49, x = 35 n = 288, x = 204 n = 1681, x = 1189 n = 9800, x = 6930 However, it's an ugly, brute force solutions. Let's look for a nicer one!\nGeneral solution It turns out that if we don't impose the lower and upper bound on \\(n\\), there are infinitely many solutions. Let's make a simple observation. Given that\n$$ x = \\sqrt{\\frac{n(n+1)}{2}}, $$either \\(n\\) or \\(n+1\\) needs to be even in this equation. Let's rewrite these variables in the following way: \\(n \\rightarrow 2k\\), \\(n + 1 \\rightarrow 2k + 1\\).\n$$ x = \\sqrt{k(2k+1)} $$Since \\(k\\) and \\(2k + 1\\) cannot have a common factor greater than 1, we know that they both must be perfect squares and we can rewrite it like this: \\(k \\rightarrow b^2\\), \\(2k + 1 \\rightarrow a^2\\). It means that:\n$$ a^2 - 2b^2 = 1 $$Obviously, we need to consider the symmetrical case where \\((n + 1)\\) is even and eventually we come up with the equation:\n$$ a^2 - 2b^2 = \\pm 1 $$which is known (wrongfully 2) as Pell's equation 3. In general, Pell's equation looks like this:\n$$ a^2 - db^2 = \\pm 1 $$Lagrange showed that the continued fraction expansion of \\(\\sqrt{d}\\) is related to the solution of the aforementioned equation.\nWhat is a continued fraction? It is basically an expression of the form\n$$ a_0 + \\frac{1}{a_1 + \\frac{1}{a_2 + \\ldots}} $$where \\(a_i\\) are integers and we use the notation \\([a_0, a_1, a_2, \\ldots]\\).\nIn our case \\(d\\) is \\(2\\), therefore we need to represent \\(\\sqrt{2}\\) as a continued fraction. At first it may seem a bit tricky.\n$$ \\sqrt{2} = 1 + (\\sqrt{2} - 1) = 1 + (\\sqrt{2} - 1)\\cdot\\frac{\\sqrt{2} + 1}{\\sqrt{2} + 1} = 1 + \\frac{1}{1 + \\sqrt{2}} $$There is \\(\\sqrt{2}\\) on both sides of the equation, so we can do the following substition (infinitely many times)\n$$ \\sqrt{2} = 1 + \\frac{1}{1 + (1 + \\frac{1}{1 + \\sqrt{2}})} = 1 + \\frac{1}{2 + \\frac{1}{2 + \\ldots}} = [1, 2, 2, 2, \\ldots] $$Let's also define \\(k\\)th convergent of a continued fraction, which will come in handy in a second. \\(k\\)th convergent is a continued fraction truncated at \\(k\\)th term. For instance, \\(k\\)th convergents for \\(\\sqrt{2}\\):\n$$ C_0 = 1 $$$$ C_1 = 1 + \\frac{1}{2} = \\frac{3}{2} $$$$ C_2 = 1 + \\frac{1}{2 + \\frac{1}{2}} = \\frac{7}{5} $$$$ C_3 = 1 + \\frac{1}{2 + \\frac{1}{2 + \\frac{1}{2}}} = \\frac{17}{12} $$3rd convergent is already a pretty decent estimation of \\(\\sqrt{2}\\).\nLagrange theorem Lagrange noticed that there's a connection between a continued fraction and Pell's equation. If we take \\(k\\)th convergent \\(C_k = \\frac{A_k}{B_k}\\), \\(A_k\\) and \\(B_k\\) are solutions to the equations.\nLet's take a look at an example with the 2nd convergent, where \\(A_k = 7\\) and \\(B_k = 5\\). In fact\n$$ A_k^2 - 2B_k^2 = 49 - 2\\cdot25 = -1 $$Recovering solution In order to solve the riddle with the aforementioned method, we need to go back a little bit and remember that we've rewritten x in the following way.\n$$ x = \\sqrt{k(2k+1)} = \\sqrt{a^2b^2} = a \\cdot b = A_k \\cdot B_k $$We can verify the solution with the output of our Python script and see that in fact it's consistent!\nhttps://en.wikipedia.org/wiki/Triangular_number ↩︎\nIt was Euler who made that mistake! ↩︎\nhttps://en.wikipedia.org/wiki/Pell%27s_equation ↩︎\n",
+  "wordCount" : "826",
+  "inLanguage": "en",
+  "datePublished": "2026-03-20T23:33:49+09:00",
+  "dateModified": "2026-03-20T23:33:49+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "Paweł Pamuła"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/ramanujan-fixed/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Truly Random Stuff",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Truly Random Stuff (Alt + H)">Truly Random Stuff</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Ramanujan&#39;s puzzle
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta"><span title='2026-03-20 23:33:49 +0900 JST'>March 20, 2026</span>&nbsp;·&nbsp;<span>Paweł Pamuła</span>
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.</p>
+</blockquote>
+<p>This riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan immediately came up with a general solution in the form of a continuous fraction that encoded all the infinite solutions. In this post I'd like to present the way of solving this puzzle.</p>
+<h3 id="simple-algebraic-solution">Simple algebraic solution<a hidden class="anchor" aria-hidden="true" href="#simple-algebraic-solution">#</a></h3>
+<p>Let's rewrite the problem in terms of algebraic equations. We will denote the overall number of houses by \(n\) and the number of the specific house from the problem by \(x\).</p>
+$$
+\underbrace{1 + \ldots + (x - 1)}_{\text{left side}} + x + \underbrace{(x + 1) + \ldots + n}_{\text{right side}} 
+$$<p>Left side of this formula needs to be equal to right side, hence</p>
+$$
+\frac{x(x-1)}{2} = \frac{n(n+1)}{2} - \frac{x(x+1)}{2}
+$$$$
+\begin{equation}
+x = \sqrt{\frac{n(n+1)}{2}}
+\end{equation}
+$$<p>At this point it suffices to run a simple Python script to find a triangular number <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> that is a perfect square.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> sqrt, floor
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> n <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10000</span>):
+</span></span><span style="display:flex;"><span>    t <span style="color:#f92672">=</span> n<span style="color:#f92672">*</span>(n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> floor(sqrt(t))<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> t:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;n = </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">, x = </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (n, floor(sqrt(t))))
+</span></span></code></pre></div><p>We obtained the following results. As we can see, the only pair that meets the requirements is \(n=8\) and \(x=6\).</p>
+<pre tabindex="0"><code>n = 1, x = 1
+n = 8, x = 6
+n = 49, x = 35
+n = 288, x = 204
+n = 1681, x = 1189
+n = 9800, x = 6930
+</code></pre><p>However, it's an ugly, brute force solutions. Let's look for a nicer one!</p>
+<h3 id="general-solution">General solution<a hidden class="anchor" aria-hidden="true" href="#general-solution">#</a></h3>
+<p>It turns out that if we don't impose the lower and upper bound on \(n\), there are infinitely many solutions.
+Let's make a simple observation. Given that</p>
+$$
+x = \sqrt{\frac{n(n+1)}{2}},
+$$<p>either \(n\) or \(n+1\) needs to be even in this equation. Let's rewrite these variables in the following way: \(n \rightarrow 2k\), \(n + 1 \rightarrow 2k + 1\).</p>
+$$
+x = \sqrt{k(2k+1)}
+$$<p>Since \(k\) and \(2k + 1\) cannot have a common factor greater than 1, we know that they both must be perfect squares and we can rewrite it like this: \(k \rightarrow b^2\), \(2k + 1 \rightarrow a^2\). It means that:</p>
+$$
+a^2 - 2b^2 = 1
+$$<p>Obviously, we need to consider the symmetrical case where \((n + 1)\) is even and eventually we come up with the equation:</p>
+$$
+a^2 - 2b^2 = \pm 1
+$$<p>which is known (wrongfully <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>) as <strong>Pell's equation</strong> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. In general, Pell's equation looks like this:</p>
+$$
+a^2 - db^2 = \pm 1
+$$<p>Lagrange showed that the continued fraction expansion of \(\sqrt{d}\) is related to the solution of the aforementioned equation.</p>
+<h3 id="what-is-a-continued-fraction">What is a continued fraction?<a hidden class="anchor" aria-hidden="true" href="#what-is-a-continued-fraction">#</a></h3>
+<p>It is basically an expression of the form</p>
+$$
+a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \ldots}}
+$$<p>where \(a_i\) are integers and we use the notation \([a_0, a_1, a_2, \ldots]\).</p>
+<p>In our case \(d\) is \(2\), therefore we need to represent \(\sqrt{2}\) as a continued fraction. At first it may seem a bit tricky.</p>
+$$
+\sqrt{2} = 1 + (\sqrt{2} - 1) = 1 + (\sqrt{2} - 1)\cdot\frac{\sqrt{2} + 1}{\sqrt{2} + 1} = 1 + \frac{1}{1 + \sqrt{2}}
+$$<p>There is \(\sqrt{2}\) on both sides of the equation, so we can do the following substition (infinitely many times)</p>
+$$
+\sqrt{2} = 1 + \frac{1}{1 + (1 + \frac{1}{1 + \sqrt{2}})} = 1 + \frac{1}{2 + \frac{1}{2 + \ldots}} = [1, 2, 2, 2, \ldots]
+$$<p>Let's also define \(k\)th convergent of a continued fraction, which will come in handy in a second. \(k\)th convergent is a continued fraction truncated at \(k\)th term. For instance, \(k\)th convergents for \(\sqrt{2}\):</p>
+$$
+C_0 = 1
+$$$$
+C_1 = 1 + \frac{1}{2} = \frac{3}{2}
+$$$$
+C_2 = 1 + \frac{1}{2 + \frac{1}{2}} = \frac{7}{5}
+$$$$
+C_3 = 1 + \frac{1}{2 + \frac{1}{2 + \frac{1}{2}}} = \frac{17}{12}
+$$<p>3rd convergent is already a pretty decent estimation of \(\sqrt{2}\).</p>
+<h3 id="lagrange-theorem">Lagrange theorem<a hidden class="anchor" aria-hidden="true" href="#lagrange-theorem">#</a></h3>
+<p>Lagrange noticed that there's a connection between a continued fraction and Pell's equation. If we take \(k\)th convergent \(C_k = \frac{A_k}{B_k}\), \(A_k\) and \(B_k\) are solutions to the equations.</p>
+<p>Let's take a look at an example with the 2nd convergent, where \(A_k = 7\) and \(B_k = 5\). In fact</p>
+$$
+A_k^2 - 2B_k^2 = 49 - 2\cdot25 = -1
+$$<h3 id="recovering-solution">Recovering solution<a hidden class="anchor" aria-hidden="true" href="#recovering-solution">#</a></h3>
+<p>In order to solve the riddle with the aforementioned method, we need to go back a little bit and remember that we've rewritten x in the following way.</p>
+$$
+x = \sqrt{k(2k+1)} = \sqrt{a^2b^2} = a \cdot b = A_k \cdot B_k
+$$<p>We can verify the solution with the output of our Python script and see that in fact it's consistent!</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://en.wikipedia.org/wiki/Triangular_number">https://en.wikipedia.org/wiki/Triangular_number</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>It was Euler who made that mistake!&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://en.wikipedia.org/wiki/Pell%27s_equation">https://en.wikipedia.org/wiki/Pell%27s_equation</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Truly Random Stuff</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

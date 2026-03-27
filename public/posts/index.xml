@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on Truly Random</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on Truly Random</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 Mar 2026 21:56:30 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>So how does one derive Maxwell&#39;s distribution again?</title>
+      <link>http://localhost:1313/posts/maxwell-boltzmann/</link>
+      <pubDate>Wed, 25 Mar 2026 21:56:30 +0900</pubDate>
+      <guid>http://localhost:1313/posts/maxwell-boltzmann/</guid>
+      <description>&lt;p&gt;A recent &lt;a href=&#34;https://www.youtube.com/watch?v=fsLh-NYhOoU&#34;&gt;3blue1brown&#39;s video&lt;/a&gt; on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.&lt;/p&gt;
+&lt;p&gt;While seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.&lt;/p&gt;
+&lt;video 
+  autoplay 
+  loop 
+  muted 
+  playsinline 
+  style=&#34;width: 50%; display: block; margin: 2rem auto; background: transparent;&#34;&gt;
+  &lt;source src=&#34;http://localhost:1313/animations/particles.webm&#34; type=&#34;video/webm&#34;&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;p&gt;The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ramanujan&#39;s Puzzle</title>
+      <link>http://localhost:1313/posts/ramanujan/</link>
+      <pubDate>Fri, 20 Mar 2026 23:33:49 +0900</pubDate>
+      <guid>http://localhost:1313/posts/ramanujan/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;A certain street has between 50 and 500 houses in a row, numbered 1, 2, 3, 4, … consecutively. There is a certain house on the street such that the sum of all the house numbers to the left side of it is equal to the sum of all the house numbers to its right. Find the number of this house.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This riddle was presented to Ramanujan by his friend, P. C. Mahalanobis. Ramanujan famously came up with a general solution immediately, providing a continued fraction that encoded an infinite series of solutions. In this post, we&#39;re going to explore the method for solving this puzzle.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

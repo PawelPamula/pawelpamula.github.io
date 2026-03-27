@@ -1,0 +1,61 @@
+baseURL: https://pawelpamula.github.io
+languageCode: en-us
+title: "Truly Random"
+theme: PaperMod
+
+params:
+  env: production
+  description: "Random thoughts in computer science, math and physics."
+  author: "Paweł Pamuła"
+  math: true
+
+  hideFooter: false
+
+  ShowShareButtons: true
+  ShareButtons: ["linkedin", "ycombinator", "reddit"]
+
+  homeInfoParams:
+    Title: "Paweł Pamuła"
+    Content: "Random thoughts in computer science, math and physics."
+  socialIcons:
+    - name: linkedin
+      url: "https://linkedin.com/in/pamulapawel"
+    - name: email
+      url: "mailto:pawel.pamula@gmail.com"
+
+  # profileMode:
+  #   enabled: true
+  #   title: "" # optional default will be site title
+  #   subtitle: "This is subtitle"
+  #   imageUrl: "<image link>" # optional
+  #   imageTitle: "<title of image as alt>" # optional
+  #   imageWidth: 120 # custom size
+  #   imageHeight: 120 # custom size
+
+  mainSections:
+    - posts
+
+menu:
+  main:
+    - name: Posts
+      url: /posts/
+      weight: 10
+    - name: About
+      url: /about/
+      weight: 20
+
+markup:
+  goldmark:
+    extensions:
+      typographer: false
+      passthrough:
+        enable: true
+        delimiters:
+          block:
+            - - '\['
+              - '\]'
+            - - '$$'
+              - '$$'
+          inline:
+            - - '\('
+              - '\)'
