@@ -139,7 +139,7 @@ I^2 &= \int_{0}^{2\pi}\frac{d\phi}{2\pi}\int_{1}^{0} -d\upsilon \\\\
 &= \int_{0}^{2\pi}\frac{d\phi}{2\pi}\int_{0}^{1} d\upsilon
 \end{aligned}$$
 
-We have arrived at two separate integrals where \(\phi\) is a uniform random number between 0 and \(2\pi\) and \(\upsilon\) is a uniform random number between 0 and 1. By walking back through these substitutions, we can generate normally distributed \(x\) and \(y\) (this is the Box-Muller transform):
+We have arrived at two separate integrals where \(\phi\) is a uniform random number between 0 and \(2\pi\) and \(\upsilon\) is a uniform random number between 0 and 1. By walking back through these substitutions, we can generate normally distributed \(x\) and \(y\) (this is the **Box-Muller transform**[^1]):
 
 $$\begin{aligned}
 \psi &= -\ln\upsilon \\\\
@@ -156,8 +156,9 @@ It turns out that this rotational invariance extends to any number of dimensions
 
 So far, we have shown that normalizing a vector of independent normal variables uniformly samples a hypersphere. But is this the only way? If it weren't, velocity components wouldn't necessarily have to be normal.
 
-However, the **Herschel-Maxwell Theorem**[^1] proves that if a random vector's distribution is rotationally invariant and its components are independent, then those components must be identically and normally distributed. I’ll leave the proof for another post.
+However, the **Herschel-Maxwell Theorem**[^2] proves that if a random vector's distribution is rotationally invariant and its components are independent, then those components must be identically and normally distributed. I’ll leave the proof for another post.
 
 The Maxwell-Boltzmann distribution was the first time that made me see conservation of kinetic energy geometrically as sampling points on a hypersphere, which was quite an interesting realization. The simple observation that space has no preferred direction actually dictates the micro-scale statistical distribution of velocities of every single particle in the gas.
 
-[^1]: https://en.wikipedia.org/wiki/Maxwell%27s_theorem
+[^1]: https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+[^2]: https://en.wikipedia.org/wiki/Maxwell%27s_theorem
