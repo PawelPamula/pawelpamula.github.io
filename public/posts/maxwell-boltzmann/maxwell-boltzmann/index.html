@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>So how does one derive Maxwell&#39;s distribution again? | Truly Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="A recent 3blue1brown&#39;s video on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.
+While seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.
+
+  
+  Your browser does not support the video tag.
+
+The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.">
+<meta name="author" content="Paweł Pamuła">
+<link rel="canonical" href="http://localhost:1313/posts/maxwell-boltzmann/maxwell-boltzmann/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b8f462f34ea9aeddb01fe7058c5ece9b9a3f66fad77b960bddd73f2caf7234b9.css" integrity="sha256-uPRi806prt2wH&#43;cFjF7Om5o/ZvrXe5YL3dc/LK9yNLk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/maxwell-boltzmann/maxwell-boltzmann/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="stylesheet" href="/css/custom.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.css" integrity="sha384-DVShYR21zvUU4zL2VjLlIbYSeiS43grntDO/Sm1DwmGGXKxGmvBlXWZ9lnyKhota" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.js" integrity="sha384-qrraMcfiHZOij7s14X818B0oe4NpSugmOO0Q0fmDYBWV+6c10vA26yjevqe5zD0D" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://d3js.org/d3.v7.min.min.js"></script>
+<meta property="og:url" content="http://localhost:1313/posts/maxwell-boltzmann/maxwell-boltzmann/">
+  <meta property="og:site_name" content="Truly Random">
+  <meta property="og:title" content="So how does one derive Maxwell&#39;s distribution again?">
+  <meta property="og:description" content="A recent 3blue1brown&#39;s video on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.
+While seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.
+Your browser does not support the video tag. The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-03-25T21:56:30+09:00">
+    <meta property="article:modified_time" content="2026-03-25T21:56:30+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="So how does one derive Maxwell&#39;s distribution again?">
+  <meta name="twitter:description" content="A recent 3blue1brown&#39;s video on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.
+While seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.
+Your browser does not support the video tag. The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "So how does one derive Maxwell's distribution again?",
+      "item": "http://localhost:1313/posts/maxwell-boltzmann/maxwell-boltzmann/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "So how does one derive Maxwell's distribution again?",
+  "name": "So how does one derive Maxwell\u0027s distribution again?",
+  "description": "A recent 3blue1brown's video on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.\nWhile seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.\nYour browser does not support the video tag. The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "A recent 3blue1brown's video on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.\nWhile seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.\nYour browser does not support the video tag. The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.\nIn this simulation, we handle two types of events: wall reflections and particle-to-particle collisions.\nWhen a particle hits a wall, it simply mirrors its velocity. However, when two particles collide, they exchange momentum. For two particles with positions \\(\\vec{x_1}, \\vec{x_2}\\) and velocities \\(\\vec{v_1}, \\vec{v_2}\\), the post-collision velocity \\(\\vec{v_1^{\\prime}}\\) (and analogously \\(\\vec{v_2^{\\prime}}\\)) is given by the standard elastic collision formula:\n$$\\vec{v_1^{\\prime}} = \\vec{v_1} - \\frac{\\langle \\vec{v_1} - \\vec{v_2}, \\vec{x_1} - \\vec{x_2} \\rangle}{\\|\\vec{x_1} - \\vec{x_2}\\|^2}(\\vec{x_1} - \\vec{x_2})$$Each interaction changes the individual velocity components \\(v_x\\) and \\(v_y\\) by a small amount \\(\\Delta v\\). Because these changes are essentially random and independent, the Central Limit Theorem takes over, and the components eventually follow gaussian distribution.\nHowever, while the velocity components are normal, the speed \\( v = \\sqrt{v_x^2 + v_y^2}\\) follows a different distribution.\nTo find this distribution, we have to look at the geometry of the velocity space. As mentioned before, the total kinetic energy of the system is constant.\n$$ E_{kin} = \\frac{1}{2}m(\\vec{v_1}^2 + \\cdots + \\vec{v_N}^2) $$Each velocity has two components, therefore squared velocity is \\( \\vec{v_i}^2 = v_{x,i}^2 + v_{y,i}^2 \\). We can rewrite the sum of all velocities squared as\n$$ v_{x,0}^2 + v_{y,0}^2 + \\cdots + v_{x,N}^2 + v_{y,N}^2 = \\frac{2 E_{kin}}{m} $$On the left side of the equation we have \\(2N\\) components. The right side of the equation is constant. Therefore, we can see any set of legal velocities as a point on a \\(2N\\)-dimensional hypersphere with radius \\(\\sqrt\\frac{2E_{kin}}{m}\\).\nAs mentioned earlier, every velocity component \\(v_i\\) (let's drop \\(x\\) and \\(y\\) indexes and assume we have \\(2N\\) components) is a normally distributed random variable with variance \\( \\sigma^2 \\).\n$$ v_i \\sim \\mathcal{N}(0, \\sigma^2) $$The variance (let's use \\( Var(v_i)\\) this time) of a random variable (in our case \\( v_i \\)) is given as\n$$ Var[v_i] = E[v_i^2] - E[v_i]^2 $$In our simulation, we sampled the initial velocity components from a uniform distribution betwen -1 and 1, so the expected value of each component \\( E[v_i] \\) is \\(0\\). That leaves us with \\( Var[v_i]\\), or in other words \\( \\sigma^2 \\) equal to \\( E[v_i^2]\\). So variance is equal to the expected value of the velocity component squared. We could sum these expected values.\n$$ \\sum_{i=1}^{2N} E[v_i^2] = 2N\\sigma^2 $$On the other hand, from the linearity of expectation, the same sum is equal to the aformentioned (constant) radius of the hypersphere.\n$$ \\sum_{i=1}^{2N} E[v_i^2] = E[\\sum_{i=1}^{2N} v_i^2] = E[R^2] = R^2 = \\frac{2 E_{kin}}{m} $$Now we have an explicit variance component \\(\\sigma^2 = \\frac{2E_{kin}}{m2N}\\) which lets us write down the probability density function for velocity components. There's also one more step that probably deserves it's own derivation, but for now we're going to take it for granted. Namely, it's the Equipartition Theorem that states that in two dimensional systems (with two independent degree of freedom), the average kinetic energy is equal to \\( k_BT \\), \\( \\frac{1}{2}k_BT \\) per each degree of freedom (where \\(k_B\\) is the Boltzmann constant and T is tempreature).\nWe mentioned earlier that each velocity component is distributed normally \\(v_i \\sim \\mathcal{N}(0, \\sigma^2)\\), therefore we can write the probability density function in the following way.\n$$ \\begin{aligned} \\pi(v_i) \u0026= \\frac{1}{\\sqrt{2\\pi}\\sigma}exp\\left(-\\frac{v_i^2}{2\\sigma^2}\\right) \\\\\\\\ \u0026= \\sqrt{\\frac{m}{2\\pi k_B T}}exp\\left(-\\frac{1}{2}\\frac{mv_i^2}{k_BT}\\right) \\end{aligned} $$From 1D to 2D probability density function. Now, it takes a little bit of work using tools from statistics and multivariable calculus to arrive at the probability density function of \\( \\vec{v} \\) in two dimensions. However, I think it's worth seeing the derivation step by step just for completeness.\nBecause the movement in the \\(x\\)-direction is completely independent of the movement in the \\(y\\)-direction, the probability of a particle having a specific velocity vector \\(\\vec{v} = (v_x, v_y)\\) is simply the product of their individual probability density functions:\n$$P(v_x, v_y) = \\pi(v_x) \\cdot \\pi(v_y)$$When we multiply these together, the constants multiply and the exponents add:\n$$P(v_x, v_y) = \\frac{m}{2\\pi k_B T}\\exp\\left(-\\frac{m(v_x^2 + v_y^2)}{2k_BT}\\right)$$Now we want to get to a one dimensional probability density function of a particle landing in a tiny mathematical \"box\" of velocity space. To get there, we multiply the density function by the area of that box \\((dv_x, dv_y)\\):\n$$\\text{Probability} = P(v_x, v_y) \\, dv_x \\, dv_y$$Next, we convert the Cartesian area element (\\(dv_x \\, dv_y\\)) into a polar area element. In polar coordinates, an area element is defined by a tiny change in radius (\\(dv\\)) and a tiny change in angle (\\(d\\theta\\)). The size of this area is \\(v \\, dv \\, d\\theta\\). The \\(v\\) pops out from the Jacobian of the coordinate transformation. Substituting the new area element into our probability equation:\n$$\\text{Probability} = \\frac{m}{2\\pi k_B T}\\exp\\left(-\\frac{mv^2}{2k_BT}\\right) v \\, dv \\, d\\theta$$Right now, this equation describes the probability of a particle having a specific speed \\(v\\) and pointing in a specific direction \\(\\theta\\).But we don't care about the direction; we only want the probability distribution of the speed. To get this, we add up the probabilities for all possible directions from \\(\\theta = 0\\) to \\(2\\pi\\). This is called finding the marginal distribution.\n$$\\pi(v) \\, dv = \\int_{0}^{2\\pi} \\frac{m}{2\\pi k_B T}\\exp\\left(-\\frac{mv^2}{2k_BT}\\right) v \\, dv \\, d\\theta$$Since nothing inside the integral depends on \\(\\theta\\) (the distribution is isotropic), we can pull everything out except \\(d\\theta\\):\n$$ \\begin{aligned} \\pi(v) \\, dv \u0026= \\frac{m}{2\\pi k_B T} v \\exp\\left(-\\frac{mv^2}{2k_BT}\\right) dv \\int_{0}^{2\\pi} d\\theta \\\\\\\\ \u0026= \\frac{m}{2\\pi k_B T} v \\exp\\left(-\\frac{mv^2}{2k_BT}\\right) dv (2\\pi) \\\\\\\\ \u0026= \\frac{mv}{k_BT}exp\\left(-\\frac{mv^2}{2k_BT}\\right) dv \\end{aligned} $$Indeed, we can plot the resulting distribution and it matches the simulation data.\nSampling points on a hypersphere Earlier we stated that the distribution of velocity component \\(v_i\\) is distributed normally due to a bunch of independent, random interactions. While it's true, it's a fairly hand-wavy assumption. Let's take a look at it from a different angle. Recall the following equation stating that any set of legal velocities can be viewed as a point on a \\(2N\\)-dimensional hypersphere with radius \\(\\sqrt\\frac{2E_{kin}}{m}\\), and\n$$ v_{x,0}^2 + v_{y,0}^2 + \\cdots + v_{x,N}^2 + v_{y,N}^2 = \\frac{2 E_{kin}}{m} $$is the equation of the aforementioned hypersphere.\nSince all configurations should be equally likely, we can ask the question of how to uniformly sample a point on a hypersphere.\nSampling points on a circle and sphere Usually it's useful to start with a simpler case. Let's take a look at a 2D case of sampling points on a circle (the boundary of a disk). There's a straightforward method using polar coordinates and sampling the angle \\(\\theta\\) uniformly from \\([0, 2\\pi)\\) interval, which we can use to convert back to cartesian coordinates: \\(x = cos(\\theta), y = sin(\\theta)\\). However, this method doesn't easily extend to higher dimensions. For example, in three dimensions\n",
+  "wordCount" : "1194",
+  "inLanguage": "en",
+  "datePublished": "2026-03-25T21:56:30+09:00",
+  "dateModified": "2026-03-25T21:56:30+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "Paweł Pamuła"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/maxwell-boltzmann/maxwell-boltzmann/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Truly Random",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Truly Random (Alt + H)">Truly Random</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      So how does one derive Maxwell&#39;s distribution again?
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta"><span title='2026-03-25 21:56:30 +0900 JST'>March 25, 2026</span>&nbsp;·&nbsp;<span>Paweł Pamuła</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>A recent <a href="https://www.youtube.com/watch?v=fsLh-NYhOoU">3blue1brown's video</a> on the properties of hyperspheres reminded me of a classic problem in statistical mechanics - the distribution of speeds for particles in a gas.</p>
+<p>While seemingly unrelated, hyperspheres are very useful for explaining the physical properties of such a system.</p>
+<video 
+  autoplay 
+  loop 
+  muted 
+  playsinline 
+  style="width: 50%; display: block; margin: 2rem auto; background: transparent;">
+  <source src="/animations/particles.webm" type="video/webm">
+  Your browser does not support the video tag.
+</video>
+<p>The animation above shows 64 identical particles on a grid, initialized with uniformly sampled velocities, colliding within a rigid box. These collisions are perfectly elastic, meaning that while individual particles exchange momentum and energy, the total kinetic energy of the system remains constant.</p>
+<p>In this simulation, we handle two types of events: wall reflections and particle-to-particle collisions.</p>
+<p>When a particle hits a wall, it simply mirrors its velocity. However, when two particles collide, they exchange momentum. For two particles with positions \(\vec{x_1}, \vec{x_2}\) and velocities \(\vec{v_1}, \vec{v_2}\), the post-collision velocity \(\vec{v_1^{\prime}}\) (and analogously \(\vec{v_2^{\prime}}\)) is given by the standard elastic collision formula:</p>
+$$\vec{v_1^{\prime}} = \vec{v_1} - \frac{\langle \vec{v_1} - \vec{v_2}, \vec{x_1} - \vec{x_2} \rangle}{\|\vec{x_1} - \vec{x_2}\|^2}(\vec{x_1} - \vec{x_2})$$<p>Each interaction changes the individual velocity components \(v_x\) and \(v_y\) by a small amount \(\Delta v\). Because these changes are essentially random and independent, the Central Limit Theorem takes over, and the components eventually follow gaussian distribution.</p>
+<p>However, while the velocity components are normal, the speed \( v = \sqrt{v_x^2 + v_y^2}\) follows a different distribution.</p>
+ 
+
+
+
+
+<div class="themed-image-container">
+  <img src="/images/speed_distribution_light.png" class="img-light" alt="Speed distribution of particles in a box." loading="lazy">
+  <img src="/images/speed_distribution_dark.png" class="img-dark" alt="Speed distribution of particles in a box." loading="lazy">
+</div>
+<p>To find this distribution, we have to look at the geometry of the velocity space. As mentioned before, the total kinetic energy of the system is constant.</p>
+$$ E_{kin} = \frac{1}{2}m(\vec{v_1}^2 + \cdots + \vec{v_N}^2) $$<p>Each velocity has two components, therefore squared velocity is \( \vec{v_i}^2 = v_{x,i}^2 + v_{y,i}^2 \). We can rewrite the sum of all velocities squared as</p>
+$$ v_{x,0}^2 + v_{y,0}^2 + \cdots + v_{x,N}^2 + v_{y,N}^2 = \frac{2 E_{kin}}{m} $$<p>On the left side of the equation we have \(2N\) components. The right side of the equation is constant. Therefore, we can see any set of legal velocities as a <strong>point on a \(2N\)-dimensional hypersphere with radius \(\sqrt\frac{2E_{kin}}{m}\)</strong>.</p>
+<p>As mentioned earlier, every velocity component \(v_i\) (let's drop \(x\) and \(y\) indexes and assume we have \(2N\) components) is a normally distributed random variable with variance \( \sigma^2 \).</p>
+$$ v_i \sim \mathcal{N}(0, \sigma^2) $$<p>The variance (let's use \( Var(v_i)\) this time) of a random variable (in our case \( v_i \)) is given as</p>
+$$ Var[v_i] = E[v_i^2] - E[v_i]^2 $$<p>In our simulation, we sampled the initial velocity components from a uniform distribution betwen -1 and 1, so the expected value of each component \( E[v_i] \) is \(0\). That leaves us with \( Var[v_i]\), or in other words \( \sigma^2 \) equal to \( E[v_i^2]\). So variance is equal to the expected value of the velocity component squared. We could sum these expected values.</p>
+$$ \sum_{i=1}^{2N} E[v_i^2] = 2N\sigma^2 $$<p>On the other hand, from the linearity of expectation, the same sum is equal to the aformentioned (constant) radius of the hypersphere.</p>
+$$ \sum_{i=1}^{2N} E[v_i^2] = E[\sum_{i=1}^{2N} v_i^2] = E[R^2] = R^2 = \frac{2 E_{kin}}{m} $$<p>Now we have an explicit variance component \(\sigma^2 = \frac{2E_{kin}}{m2N}\) which lets us write down the probability density function for velocity components. There's also one more step that probably deserves it's own derivation, but for now we're going to take it for granted. Namely, it's the Equipartition Theorem that states that in two dimensional systems (with two independent degree of freedom), the average kinetic energy is equal to \( k_BT \), \( \frac{1}{2}k_BT \) per each degree of freedom (where \(k_B\) is the Boltzmann constant and T is tempreature).</p>
+<p>We mentioned earlier that each velocity component is distributed normally \(v_i \sim \mathcal{N}(0, \sigma^2)\), therefore we can write the probability density function in the following way.</p>
+$$
+\begin{aligned}
+\pi(v_i) &= \frac{1}{\sqrt{2\pi}\sigma}exp\left(-\frac{v_i^2}{2\sigma^2}\right) \\\\
+&= \sqrt{\frac{m}{2\pi k_B T}}exp\left(-\frac{1}{2}\frac{mv_i^2}{k_BT}\right)
+\end{aligned}
+$$<h3 id="from-1d-to-2d-probability-density-function">From 1D to 2D probability density function.<a hidden class="anchor" aria-hidden="true" href="#from-1d-to-2d-probability-density-function">#</a></h3>
+<p>Now, it takes a little bit of work using tools from statistics and multivariable calculus to arrive at the probability density function of \( \vec{v} \) in two dimensions. However, I think it's worth seeing the derivation step by step just for completeness.</p>
+<p>Because the movement in the \(x\)-direction is completely independent of the movement in the \(y\)-direction, the probability of a particle having a specific velocity vector \(\vec{v} = (v_x, v_y)\) is simply the product of their individual probability density functions:</p>
+$$P(v_x, v_y) = \pi(v_x) \cdot \pi(v_y)$$<p>When we multiply these together, the constants multiply and the exponents add:</p>
+$$P(v_x, v_y) = \frac{m}{2\pi k_B T}\exp\left(-\frac{m(v_x^2 + v_y^2)}{2k_BT}\right)$$<p>Now we want to get to a one dimensional probability density function of a particle landing in a tiny mathematical &quot;box&quot; of velocity space. To get there, we multiply the density function by the area of that box \((dv_x, dv_y)\):</p>
+$$\text{Probability} = P(v_x, v_y) \, dv_x \, dv_y$$<p>Next, we convert the Cartesian area element (\(dv_x \, dv_y\)) into a polar area element. In polar coordinates, an area element is defined by a tiny change in radius (\(dv\)) and a tiny change in angle (\(d\theta\)). The size of this area is \(v \, dv \, d\theta\). The \(v\) pops out from the Jacobian  of the coordinate transformation. Substituting the new area element into our probability equation:</p>
+$$\text{Probability} = \frac{m}{2\pi k_B T}\exp\left(-\frac{mv^2}{2k_BT}\right) v \, dv \, d\theta$$<p>Right now, this equation describes the probability of a particle having a specific speed \(v\) and pointing in a specific direction \(\theta\).But we don't care about the direction; we only want the probability distribution of the speed. To get this, we add up the probabilities for all possible directions from \(\theta = 0\) to \(2\pi\). This is called finding the marginal distribution.</p>
+$$\pi(v) \, dv = \int_{0}^{2\pi} \frac{m}{2\pi k_B T}\exp\left(-\frac{mv^2}{2k_BT}\right) v \, dv \, d\theta$$<p>Since nothing inside the integral depends on \(\theta\) (the distribution is isotropic), we can pull everything out except \(d\theta\):</p>
+$$
+\begin{aligned}
+\pi(v) \, dv &= \frac{m}{2\pi k_B T} v \exp\left(-\frac{mv^2}{2k_BT}\right) dv \int_{0}^{2\pi} d\theta \\\\
+&= \frac{m}{2\pi k_B T} v \exp\left(-\frac{mv^2}{2k_BT}\right) dv (2\pi) \\\\
+&= \frac{mv}{k_BT}exp\left(-\frac{mv^2}{2k_BT}\right) dv
+\end{aligned}
+$$<p>Indeed, we can plot the resulting distribution and it matches the simulation data.</p>
+ 
+
+
+
+
+<div class="themed-image-container">
+  <img src="/images/speed_distribution_with_boltzmann_light.png" class="img-light" alt="Speed distribution of particles in a box." loading="lazy">
+  <img src="/images/speed_distribution_with_boltzmann_dark.png" class="img-dark" alt="Speed distribution of particles in a box." loading="lazy">
+</div>
+<h3 id="sampling-points-on-a-hypersphere">Sampling points on a hypersphere<a hidden class="anchor" aria-hidden="true" href="#sampling-points-on-a-hypersphere">#</a></h3>
+<p>Earlier we stated that the distribution of velocity component \(v_i\) is distributed normally due to a bunch of independent, random interactions. While it's true, it's a fairly hand-wavy assumption. Let's take a look at it from a different angle. Recall the following equation stating that any set of legal velocities can be viewed as a point on a \(2N\)-dimensional hypersphere with radius \(\sqrt\frac{2E_{kin}}{m}\), and</p>
+$$ v_{x,0}^2 + v_{y,0}^2 + \cdots + v_{x,N}^2 + v_{y,N}^2 = \frac{2 E_{kin}}{m} $$<p>is the equation of the aforementioned hypersphere.</p>
+<p>Since all configurations should be equally likely, we can ask the question of how to uniformly sample a point on a hypersphere.</p>
+<h4 id="sampling-points-on-a-circle-and-sphere">Sampling points on a circle and sphere<a hidden class="anchor" aria-hidden="true" href="#sampling-points-on-a-circle-and-sphere">#</a></h4>
+<p>Usually it's useful to start with a simpler case. Let's take a look at a 2D case of sampling points on a circle (the boundary of a disk). There's a straightforward method using polar coordinates and sampling the angle \(\theta\) uniformly from \([0, 2\pi)\) interval, which we can use to convert back to cartesian coordinates: \(x = cos(\theta), y = sin(\theta)\). However, this method doesn't easily extend to higher dimensions. For example, in three dimensions</p>
+<p><img alt="Incorrect sphere sampling" loading="lazy" src="/images/sphere_sampling_incorrect.png"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share So how does one derive Maxwell&#39;s distribution again? on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fmaxwell-boltzmann%2fmaxwell-boltzmann%2f&amp;title=So%20how%20does%20one%20derive%20Maxwell%27s%20distribution%20again%3f&amp;summary=So%20how%20does%20one%20derive%20Maxwell%27s%20distribution%20again%3f&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fmaxwell-boltzmann%2fmaxwell-boltzmann%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share So how does one derive Maxwell&#39;s distribution again? on reddit"
+            href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fmaxwell-boltzmann%2fmaxwell-boltzmann%2f&title=So%20how%20does%20one%20derive%20Maxwell%27s%20distribution%20again%3f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share So how does one derive Maxwell&#39;s distribution again? on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=So%20how%20does%20one%20derive%20Maxwell%27s%20distribution%20again%3f&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fmaxwell-boltzmann%2fmaxwell-boltzmann%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Truly Random</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

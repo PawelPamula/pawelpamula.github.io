@@ -1,9 +1,9 @@
 {{ $base := .Get "name" }} 
 {{ $ext := .Get "ext" | default "png" }}
 {{ $alt := .Get "alt" | default "Image" }}
-{{ $dir := .Get "dir" | default "/images/" }}
+{{ $width := .Get "width" }}
 
 <div class="themed-image-container">
-  <img src="{{ $dir }}{{ $base }}_light.{{ $ext }}" class="img-light" alt="{{ $alt }}" loading="lazy">
-  <img src="{{ $dir }}{{ $base }}_dark.{{ $ext }}" class="img-dark" alt="{{ $alt }}" loading="lazy">
+  <img src="{{ $base }}_light.{{ $ext }}" class="img-light" alt="{{ $alt }}" loading="lazy" {{ with $width }}style="width: {{ . }}"{{ end }}>
+  <img src="{{ $base }}_dark.{{ $ext }}" class="img-dark" alt="{{ $alt }}" loading="lazy" {{ with $width }}style="width: {{ . }}"{{ end }}>
 </div>
