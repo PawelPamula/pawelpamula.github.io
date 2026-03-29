@@ -2,20 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://pawelpamula.github.io/posts/</loc>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2026-03-25T21:56:30+09:00</lastmod>
   </url><url>
-    <loc>https://pawelpamula.github.io/posts/maxwell-boltzmann/</loc>
+    <loc>http://localhost:1313/posts/maxwell-boltzmann/</loc>
     <lastmod>2026-03-25T21:56:30+09:00</lastmod>
   </url><url>
-    <loc>https://pawelpamula.github.io/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2026-03-25T21:56:30+09:00</lastmod>
   </url><url>
-    <loc>https://pawelpamula.github.io/posts/ramanujan/</loc>
+    <loc>http://localhost:1313/posts/ramanujan/</loc>
     <lastmod>2026-03-20T23:33:49+09:00</lastmod>
   </url><url>
-    <loc>https://pawelpamula.github.io/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url><url>
-    <loc>https://pawelpamula.github.io/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>
