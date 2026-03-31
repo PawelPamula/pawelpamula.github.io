@@ -13,3 +13,7 @@
 /* When the website's dark mode class is active, swap them */
 [data-theme="dark"] .img-light { display: none; }
 [data-theme="dark"] .img-dark { display: block; }
+
+:root {
+    --main-width: 800px;
+}
