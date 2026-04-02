@@ -10,7 +10,11 @@
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How does one derive Maxwell-Boltzmann distribution again?</title>
+<<<<<<< HEAD
       <link>http://localhost:1313/posts/maxwell-boltzmann/</link>
+=======
+      <link>https://pawelpamula.github.io/posts/maxwell-boltzmann/</link>
+>>>>>>> b8b37daecb031012abc4ae5a42b5f37e6ff7ab09
       <pubDate>Wed, 25 Mar 2026 21:56:30 +0900</pubDate>
       <guid>http://localhost:1313/posts/maxwell-boltzmann/</guid>
       <description>&lt;p&gt;I was recently watching &lt;a href=&#34;https://www.youtube.com/watch?v=fsLh-NYhOoU&#34;&gt;3blue1brown&#39;s video&lt;/a&gt; on the properties of hyperspheres, and it reminded me of a classic problem from statistical mechanics: the distribution of speeds for particles in a gas. While they might seem unrelated at first, hyperspheres are actually a great tool for explaining why a system of particles behaves the way it does. I decided to revisit the derivation of the Maxwell-Boltzmann distribution, which at its heart comes down to a simple geometric realization: if you treat the velocities of every particle as a single point in a high-dimensional space, the conservation of energy forces that point to live on the surface of a hypersphere.&lt;/p&gt;</description>
