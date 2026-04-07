@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>From Maxwell-Boltzmann to Boltzmann distribution | Truly Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="In the previous post, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.
+In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble1, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.">
+<meta name="author" content="Paweł Pamuła">
+<link rel="canonical" href="https://pawelpamula.github.io/posts/boltzmann-sampling/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://pawelpamula.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://pawelpamula.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://pawelpamula.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://pawelpamula.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://pawelpamula.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://pawelpamula.github.io/posts/boltzmann-sampling/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script data-goatcounter="https://trulyrandom.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.css" integrity="sha384-DVShYR21zvUU4zL2VjLlIbYSeiS43grntDO/Sm1DwmGGXKxGmvBlXWZ9lnyKhota" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.js" integrity="sha384-qrraMcfiHZOij7s14X818B0oe4NpSugmOO0Q0fmDYBWV+6c10vA26yjevqe5zD0D" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://d3js.org/d3.v7.min.min.js"></script>
+
+<meta property="og:url" content="https://pawelpamula.github.io/posts/boltzmann-sampling/">
+  <meta property="og:site_name" content="Truly Random">
+  <meta property="og:title" content="From Maxwell-Boltzmann to Boltzmann distribution">
+  <meta property="og:description" content="In the previous post, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.
+In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble1, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-07T14:56:51+09:00">
+    <meta property="article:modified_time" content="2026-04-07T14:56:51+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="From Maxwell-Boltzmann to Boltzmann distribution">
+  <meta name="twitter:description" content="In the previous post, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.
+In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble1, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://pawelpamula.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "From Maxwell-Boltzmann to Boltzmann distribution",
+      "item": "https://pawelpamula.github.io/posts/boltzmann-sampling/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "From Maxwell-Boltzmann to Boltzmann distribution",
+  "name": "From Maxwell-Boltzmann to Boltzmann distribution",
+  "description": "In the previous post, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.\nIn this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble1, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "In the previous post, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.\nIn this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble1, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.\nParticles in a box interacting with an external bath In the figure above, we have a box of particles closed off by a piston. On the left side, we assume there is a large bath of particles behind an elastic plate, which allows for an exchange of energy between the particles in the system and the bath.\nIf the box was closed off by a fixed wall on the left, the total energy would simply be the sum of the potential energy of the spring and the kinetic energy of the particles. If the piston moved in the negative \\(x\\) direction, the spring's potential energy would transform into kinetic energy, raising the system's temperature.\nHowever, by allowing particles to exchange energy through a loose elastic plate with an external \"bath\", we can maintain the system at a constant temperature. The plate moves along the \\(x\\) direction over a small distance \\(\\Delta\\), responding to hits from particles in both the system and the bath.\nAssuming equal masses, elastic head-on collisions exchange velocities. Once hit by a particle, the plate begins vibrating with a velocity \\(\\pm v_x\\). The plate will have its own velocity distribution, which differs from the Maxwell distribution of the particles' \\(x\\)-velocity component:\n$$\\begin{aligned} \\pi(v_x)dv_x \\varpropto e^{-\\beta\\frac{v_x^2}{2}}dv_x \\end{aligned}$$From the perspective of the plate, however, disproportionately more fast particles hit it than slow ones. Fast particles cover more distance in less time and reach the plate more frequently. A single particle traveling with velocity \\(v_x\\) needs to travel a total distance of \\(2L\\) to hit the plate, bounce off the piston, and hit the plate again. The time between hits is \\(\\Delta t = \\frac{2L}{|v_x|}\\), which results in a collision frequency \\(f = \\frac{|v_x|}{2L}\\).\nBecause the frequency of hits is directly proportional to the \\(x\\) component of the velocity, we find the distribution of collision velocities by multiplying the particle density at \\(v_x\\) by the frequency of these hits. This product dictates how the plate is pushed and defines its resulting velocity distribution:\n$$\\begin{aligned} \\pi_{collision}(v_x)dv_x \\varpropto |v_x|e^{-\\beta\\frac{v_x^2}{2}}dv_x \\end{aligned}$$Getting rid of the bath We can now eliminate the external bath and the elastic plate with a clever abstraction. Instead of modeling the physical collisions, we can simply resample the horizontal velocity component whenever a particle hits the boundary.\nSince this collision distribution is equivalent to the Maxwell distribution for absolute velocity in two dimensions (as shown in the previous post), we can replace it with two independent Gaussian variables:\n$$\\Upsilon_1, \\Upsilon_2 \\sim Gaussian(0, \\frac{1}{\\sqrt\\beta})$$The \\(x\\)-velocity component becomes \\(v_x = \\sqrt{\\Upsilon_1^2 + \\Upsilon_2^2}\\). To implement this in a model, we can start with a uniform random variable \\(\\Upsilon \\sim Uniform(0, 1)\\) and substitute \\(\\Upsilon = e^{-u}\\), which gives \\(u = -\\log\\Upsilon\\). Setting this equal to \\(\\beta\\frac{v_x^2}{2}\\), we arrive at a simple \"boundary sampler\":\n$$v_x = \\sqrt{\\frac{-2\\log\\Upsilon}{\\beta}}$$Whenever a particle hits the plate, its outgoing horizontal velocity component is redrawn from this \\(\\pi_{collision}(v_x)\\) distribution.\nSwitching to the piston perspective Now, let's shift our focus to the piston itself. From a microscopic view, the piston interacts with the plate when it reaches the boundary. As we've shown, we can replace the bath and particles with our boundary sampler. The result is that when the piston makes contact at \\(L = 0\\), it is \"relaunched\" with an outgoing velocity \\(v_0\\) drawn from the collision distribution. We can drop the absolute value since the launch always occurs in the positive \\(x\\) direction:\n$$\\begin{aligned} \\pi_{launch}(v_0)dv_0 \\varpropto v_0e^{-\\beta\\frac{v_0^2}{2}}dv_0 \\end{aligned}$$Once launched, the piston moves under constant acceleration, pulled back by the spring. If we set the units such that mass and force equal 1, the equations of motion are straightforward:\n$$\\ddot{x} = -1$$Integrating with respect to time gives the velocity:\n$$\\dot{x} = v_0 - t$$Integrating again, knowing the piston starts at \\(x = 0\\), gives its position:\n$$x = v_0t - \\frac{1}{2}t^2$$How long does it take for the piston to return to the plate? Setting \\(x = 0\\) yields:\n$$0 = v_0t - \\frac{1}{2}t^2 = t(v_0 - \\frac{1}{2}t)$$Solving for \\(t\\) reveals two distinct moments: the launch (\\(t = 0\\)) and the return (\\(t = 2v_0\\)). Crucially, the total \"flight time\" is directly proportional to the launch velocity; the harder we throw the piston, the longer it stays out in the box.\nFrom launch velocity to time distribution If we observe this system at a random moment, what is the probability of finding it in a state that originated from a specific launch velocity \\(v_0\\)? To answer this, we use the ergodic principle: the probability of a state is proportional to the fraction of time the system spends in that state.\nPiston launches in the interval \\([v_0, v_0 + dv_0]\\) occur with a probability proportional to \\(\\pi_{launch}(v_0)\\). However, because each such launch lasts for a duration of \\(2v_0\\), the system spends more time on high-velocity trajectories. Therefore, the time-averaged probability is:\n$$\\pi_{time}(v_0)dv_0 \\varpropto v_0 \\cdot \\pi_{launch}(v_0)dv_0 \\varpropto v_0^2 e^{-\\beta\\frac{v_0^2}{2}}dv_0$$We can rewrite this in terms of the total energy \\(E\\). At the moment of launch (\\(x = 0\\)), the energy is simply \\(E = \\frac{v_0^2}{2}\\). Differentiating gives \\(dE = v_0dv_0\\), allowing us to transform the distribution:\n$$\\begin{aligned} \\pi_{time}(v_0)dv_0 \u0026\\varpropto v_0 \\cdot (v_0 e^{-\\beta E} dv_0) \\\\\\\\ \u0026\\varpropto v_0 e^{-\\beta E} dE \\end{aligned}$$The Boltzmann distribution Substituting \\(v_0 = \\sqrt{2E}\\) into the expression above, the probability of finding the piston at energy \\(E\\) becomes:\n$$\\begin{aligned} \\pi_{time}(E)dE \\varpropto \\sqrt{E}e^{-\\beta E}dE \\end{aligned}$$We have arrived at the Boltzmann distribution. The \\(\\sqrt{E}\\) term is the density of states—a factor that accounts for how much \"room\" exists in phase space at a particular energy level.\nTo visualize this, consider the phase space \\((x, v)\\). For a fixed energy \\(E = x + \\frac{v^2}{2}\\), there are many combinations of position and velocity that satisfy the equation. The \"volume\" of states available up to energy \\(E\\) is the area under the curve in phase space:\n\u003c?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?\u003e \u003c!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"\u003e 2026-04-07T14:37:39.495493 image/svg+xml Matplotlib v3.10.8, https://matplotlib.org/ $$\\begin{aligned} V(E) \u0026= \\int_{-\\sqrt{2E}}^{\\sqrt{2E}}\\left(E-\\frac{v^2}{2} \\right)dv \\\\\\\\ \u0026= \\frac{4\\sqrt{2}}{3}E^{\\frac{3}{2}} \\end{aligned}$$The density of states \\(N(E)\\), i.e. the number of states available specifically in the interval \\([E, E+dE]\\), is the derivative of this volume:\n$$N(E) = \\frac{\\partial V(E)}{\\partial E} \\varpropto \\sqrt{E}$$This completes our derivation. The final probability distribution for the energy is the product of the number of available states and the exponential Boltzmann factor:\n$$\\boxed{\\pi(E) \\varpropto N(E)e^{-\\beta E}}$$ Canonical ensemble is a 5 dollar word for a 25 cent concept - it's a system of particles in thermal equilibrium with a heat bath at a constant temperature. ↩︎\n",
+  "wordCount" : "1196",
+  "inLanguage": "en",
+  "datePublished": "2026-04-07T14:56:51+09:00",
+  "dateModified": "2026-04-07T14:56:51+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "Paweł Pamuła"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://pawelpamula.github.io/posts/boltzmann-sampling/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Truly Random",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pawelpamula.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://pawelpamula.github.io/" accesskey="h" title="Truly Random (Alt + H)">Truly Random</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://pawelpamula.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      From Maxwell-Boltzmann to Boltzmann distribution
+    </h1>
+    <div class="post-meta"><span title='2026-04-07 14:56:51 +0900 JST'>April 7, 2026</span>&nbsp;·&nbsp;<span>Paweł Pamuła</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>In the <a href="/posts/maxwell-boltzmann/">previous post</a>, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.</p>
+<p>In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.</p>
+<h3 id="particles-in-a-box-interacting-with-an-external-bath">Particles in a box interacting with an external bath<a hidden class="anchor" aria-hidden="true" href="#particles-in-a-box-interacting-with-an-external-bath">#</a></h3>
+<div class="svg-inline" style="max-width: 60%; width: 100%;">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="242.53865pt" height="98.235547pt" viewBox="19.92528 -.000002 242.53865 98.235547">
+<defs>
+<path id="g0-76" d="M3.726027-6.027397C3.815691-6.386052 3.845579-6.495641 4.782067-6.495641C5.080946-6.495641 5.160648-6.495641 5.160648-6.684932C5.160648-6.804483 5.051059-6.804483 5.001245-6.804483C4.672478-6.804483 3.855542-6.774595 3.526775-6.774595C3.227895-6.774595 2.500623-6.804483 2.201743-6.804483C2.132005-6.804483 2.012453-6.804483 2.012453-6.60523C2.012453-6.495641 2.102117-6.495641 2.291407-6.495641C2.311333-6.495641 2.500623-6.495641 2.669988-6.475716C2.849315-6.455791 2.938979-6.445828 2.938979-6.316314C2.938979-6.276463 2.929016-6.246575 2.899128-6.127024L1.564134-.777086C1.464508-.388543 1.444583-.308842 .657534-.308842C.488169-.308842 .388543-.308842 .388543-.109589C.388543 0 .478207 0 .657534 0H5.270237C5.50934 0 5.519303 0 5.579078-.169365L6.366127-2.321295C6.405978-2.430884 6.405978-2.450809 6.405978-2.460772C6.405978-2.500623 6.37609-2.570361 6.286426-2.570361S6.1868-2.520548 6.117061-2.361146C5.778331-1.444583 5.339975-.308842 3.616438-.308842H2.67995C2.540473-.308842 2.520548-.308842 2.460772-.318804C2.361146-.328767 2.331258-.33873 2.331258-.418431C2.331258-.448319 2.331258-.468244 2.381071-.647572L3.726027-6.027397Z"/>
+<path id="g0-120" d="M3.327522-3.008717C3.387298-3.267746 3.616438-4.184309 4.313823-4.184309C4.363636-4.184309 4.60274-4.184309 4.811955-4.054795C4.533001-4.004981 4.333748-3.755915 4.333748-3.516812C4.333748-3.35741 4.443337-3.16812 4.712329-3.16812C4.931507-3.16812 5.250311-3.347447 5.250311-3.745953C5.250311-4.26401 4.662516-4.403487 4.323786-4.403487C3.745953-4.403487 3.39726-3.875467 3.277709-3.646326C3.028643-4.303861 2.49066-4.403487 2.201743-4.403487C1.165629-4.403487 .597758-3.118306 .597758-2.86924C.597758-2.769614 .697385-2.769614 .71731-2.769614C.797011-2.769614 .826899-2.789539 .846824-2.879203C1.185554-3.935243 1.843088-4.184309 2.181818-4.184309C2.371108-4.184309 2.719801-4.094645 2.719801-3.516812C2.719801-3.20797 2.550436-2.540473 2.181818-1.145704C2.022416-.52802 1.673724-.109589 1.235367-.109589C1.175592-.109589 .946451-.109589 .737235-.239103C.986301-.288917 1.205479-.498132 1.205479-.777086C1.205479-1.046077 .986301-1.125778 .836862-1.125778C.537983-1.125778 .288917-.86675 .288917-.547945C.288917-.089664 .787049 .109589 1.225405 .109589C1.882939 .109589 2.241594-.587796 2.271482-.647572C2.391034-.278954 2.749689 .109589 3.347447 .109589C4.373599 .109589 4.941469-1.175592 4.941469-1.424658C4.941469-1.524284 4.851806-1.524284 4.821918-1.524284C4.732254-1.524284 4.712329-1.484433 4.692403-1.414695C4.363636-.348692 3.686177-.109589 3.367372-.109589C2.978829-.109589 2.819427-.428394 2.819427-.767123C2.819427-.986301 2.879203-1.205479 2.988792-1.643836L3.327522-3.008717Z"/>
+<path id="g1-1" d="M4.403487-6.953923C4.333748-7.083437 4.313823-7.13325 4.144458-7.13325S3.955168-7.083437 3.88543-6.953923L.518057-.199253C.468244-.109589 .468244-.089664 .468244-.079701C.468244 0 .52802 0 .687422 0H7.601494C7.760897 0 7.820672 0 7.820672-.079701C7.820672-.089664 7.820672-.109589 7.770859-.199253L4.403487-6.953923ZM3.825654-6.136986L6.505604-.757161H1.135741L3.825654-6.136986Z"/>
+<path id="g1-48" d="M4.582814-3.188045C4.582814-3.985056 4.533001-4.782067 4.184309-5.519303C3.726027-6.475716 2.909091-6.635118 2.49066-6.635118C1.892902-6.635118 1.165629-6.37609 .757161-5.449564C.438356-4.762142 .388543-3.985056 .388543-3.188045C.388543-2.440847 .428394-1.544209 .836862-.787049C1.265255 .019925 1.992528 .219178 2.480697 .219178C3.01868 .219178 3.775841 .009963 4.214197-.936488C4.533001-1.62391 4.582814-2.400996 4.582814-3.188045ZM2.480697 0C2.092154 0 1.504359-.249066 1.325031-1.205479C1.215442-1.803238 1.215442-2.719801 1.215442-3.307597C1.215442-3.945205 1.215442-4.60274 1.295143-5.140722C1.484433-6.326276 2.231631-6.41594 2.480697-6.41594C2.809465-6.41594 3.466999-6.236613 3.656289-5.250311C3.755915-4.692403 3.755915-3.935243 3.755915-3.307597C3.755915-2.560399 3.755915-1.882939 3.646326-1.24533C3.496887-.298879 2.929016 0 2.480697 0Z"/>
+</defs>
+<g id="page1">
+<g stroke-miterlimit="10" transform="translate(45.835396,57.091388)scale(0.996264,-0.996264)">
+<g fill="#000" stroke="#000">
+<g stroke-width="0.4">
+<g stroke-linecap="round">
+<g stroke-linejoin="round">
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 56.90549 L 170.71646 56.90549" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 0.0 L 170.71646 0.0" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M -5.69046 1.42271 L -5.69046 55.48276" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 5.69046 1.42271 L 5.69046 55.48276" fill="none"/>
+</g>
+</g>
+<g transform="translate(-4.16667,23.77692)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(45.835396,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="45.835396" y="57.091388" xlink:href="#g1-1"/>
+</g>
+</g>
+</g>
+</g>
+<path d="M -2.6151 21.33955 L 2.6151 21.33955" fill="none"/>
+<g transform="matrix(-1.0,0.0,0.0,-1.0,-0.89049,21.33955)">
+<g stroke-dasharray="none" stroke-dashoffset="0.0">
+ <g stroke-linejoin="miter">
+ <path d=" M 4.2304 0.0 L 0.64584 1.35075 L 1.8246 0.0 L 0.64584 -1.35075 Z  "/>
+ </g>
+ </g>
+</g>
+<g transform="translate(0.89049,21.33955)">
+<g stroke-dasharray="none" stroke-dashoffset="0.0">
+ <g stroke-linejoin="miter">
+ <path d=" M 4.2304 0.0 L 0.64584 1.35075 L 1.8246 0.0 L 0.64584 -1.35075 Z  "/>
+ </g>
+ </g>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 142.26372 55.48276 M 142.26372 55.48276 L 142.26372 1.42271 L 150.79962 1.42271 L 150.79962 55.48276 Z M 150.79962 1.42271" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 147.95418 28.45274 C 148.90254 37.92737 152.88965 45.52438 157.6278 45.52438 C 162.36597 45.52438 166.35309 37.92737 167.30145 28.45274 C 168.24982 18.97812 166.15942 11.3811 163.318 11.3811 C 160.47656 11.3811 158.38618 18.97812 159.33455 28.45274 C 160.28363 37.92737 164.27074 45.52438 169.0089 45.52438 C 173.74706 45.52438 177.73418 37.92737 178.68254 28.45274 C 179.6309 18.97812 177.54051 11.3811 174.69908 11.3811 C 171.85765 11.3811 169.76727 18.97812 170.71564 28.45274 C 171.66472 37.92737 175.65182 45.52438 180.38998 45.52438 C 185.12814 45.52438 189.11526 37.92737 190.06363 28.45274 C 191.012 18.97812 188.9216 11.3811 186.08017 11.3811 C 183.23874 11.3811 181.14836 18.97812 182.09673 28.45274 C 183.0458 37.92737 187.03291 45.52438 191.77107 45.52438 C 196.50923 45.52438 200.49635 37.92737 201.44472 28.45274 L 210.55013 28.45274" fill="none"/>
+</g>
+</g>
+<g fill="#ececec" stroke="#ececec">
+<path d="M -21.33955 49.7923 M -17.07182 49.7923 C -17.07182 52.14932 -18.98253 54.06003 -21.33955 54.06003 C -23.69658 54.06003 -25.60728 52.14932 -25.60728 49.7923 C -25.60728 47.43527 -23.69658 45.52457 -21.33955 45.52457 C -18.98253 45.52457 -17.07182 47.43527 -17.07182 49.7923 Z M -21.33955 49.7923" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M -21.33955 49.7923 M -17.07182 49.7923 C -17.07182 52.14932 -18.98253 54.06003 -21.33955 54.06003 C -23.69658 54.06003 -25.60728 52.14932 -25.60728 49.7923 C -25.60728 47.43527 -23.69658 45.52457 -21.33955 45.52457 C -18.98253 45.52457 -17.07182 47.43527 -17.07182 49.7923 Z M -21.33955 49.7923" fill="none"/>
+</g>
+</g>
+<g fill="#ececec" stroke="#ececec">
+<path d="M -13.65718 34.1432 M -9.38945 34.1432 C -9.38945 36.50023 -11.30016 38.41093 -13.65718 38.41093 C -16.0142 38.41093 -17.92491 36.50023 -17.92491 34.1432 C -17.92491 31.78618 -16.0142 29.87547 -13.65718 29.87547 C -11.30016 29.87547 -9.38945 31.78618 -9.38945 34.1432 Z M -13.65718 34.1432" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M -13.65718 34.1432 M -9.38945 34.1432 C -9.38945 36.50023 -11.30016 38.41093 -13.65718 38.41093 C -16.0142 38.41093 -17.92491 36.50023 -17.92491 34.1432 C -17.92491 31.78618 -16.0142 29.87547 -13.65718 29.87547 C -11.30016 29.87547 -9.38945 31.78618 -9.38945 34.1432 Z M -13.65718 34.1432" fill="none"/>
+</g>
+</g>
+<g fill="#ececec" stroke="#ececec">
+<path d="M -21.05518 13.65718 M -16.78745 13.65718 C -16.78745 16.0142 -18.69815 17.92491 -21.05518 17.92491 C -23.4122 17.92491 -25.3229 16.0142 -25.3229 13.65718 C -25.3229 11.30016 -23.4122 9.38945 -21.05518 9.38945 C -18.69815 9.38945 -16.78745 11.30016 -16.78745 13.65718 Z M -21.05518 13.65718" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M -21.05518 13.65718 M -16.78745 13.65718 C -16.78745 16.0142 -18.69815 17.92491 -21.05518 17.92491 C -23.4122 17.92491 -25.3229 16.0142 -25.3229 13.65718 C -25.3229 11.30016 -23.4122 9.38945 -21.05518 9.38945 C -18.69815 9.38945 -16.78745 11.30016 -16.78745 13.65718 Z M -21.05518 13.65718" fill="none"/>
+</g>
+</g>
+<g fill="#ececec" stroke="#ececec">
+<path d="M -14.22636 5.69046 M -9.95863 5.69046 C -9.95863 8.04749 -11.86934 9.95819 -14.22636 9.95819 C -16.58339 9.95819 -18.4941 8.04749 -18.4941 5.69046 C -18.4941 3.33344 -16.58339 1.42273 -14.22636 1.42273 C -11.86934 1.42273 -9.95863 3.33344 -9.95863 5.69046 Z M -14.22636 5.69046" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M -14.22636 5.69046 M -9.95863 5.69046 C -9.95863 8.04749 -11.86934 9.95819 -14.22636 9.95819 C -16.58339 9.95819 -18.4941 8.04749 -18.4941 5.69046 C -18.4941 3.33344 -16.58339 1.42273 -14.22636 1.42273 C -11.86934 1.42273 -9.95863 3.33344 -9.95863 5.69046 Z M -14.22636 5.69046" fill="none"/>
+</g>
+</g>
+<g fill="#ececec" stroke="#ececec">
+<path d="M 28.45274 28.45274 M 32.72047 28.45274 C 32.72047 30.80977 30.80977 32.72047 28.45274 32.72047 C 26.09572 32.72047 24.18501 30.80977 24.18501 28.45274 C 24.18501 26.09572 26.09572 24.18501 28.45274 24.18501 C 30.80977 24.18501 32.72047 26.09572 32.72047 28.45274 Z M 28.45274 28.45274" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 28.45274 28.45274 M 32.72047 28.45274 C 32.72047 30.80977 30.80977 32.72047 28.45274 32.72047 C 26.09572 32.72047 24.18501 30.80977 24.18501 28.45274 C 24.18501 26.09572 26.09572 24.18501 28.45274 24.18501 C 30.80977 24.18501 32.72047 26.09572 32.72047 28.45274 Z M 28.45274 28.45274" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 21.33955 49.7923 M 25.60728 49.7923 C 25.60728 52.14932 23.69658 54.06003 21.33955 54.06003 C 18.98253 54.06003 17.07182 52.14932 17.07182 49.7923 C 17.07182 47.43527 18.98253 45.52457 21.33955 45.52457 C 23.69658 45.52457 25.60728 47.43527 25.60728 49.7923 Z M 21.33955 49.7923" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 21.33955 49.7923 M 25.60728 49.7923 C 25.60728 52.14932 23.69658 54.06003 21.33955 54.06003 C 18.98253 54.06003 17.07182 52.14932 17.07182 49.7923 C 17.07182 47.43527 18.98253 45.52457 21.33955 45.52457 C 23.69658 45.52457 25.60728 47.43527 25.60728 49.7923 Z M 21.33955 49.7923" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 13.65718 34.1432 M 17.92491 34.1432 C 17.92491 36.50023 16.0142 38.41093 13.65718 38.41093 C 11.30016 38.41093 9.38945 36.50023 9.38945 34.1432 C 9.38945 31.78618 11.30016 29.87547 13.65718 29.87547 C 16.0142 29.87547 17.92491 31.78618 17.92491 34.1432 Z M 13.65718 34.1432" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 13.65718 34.1432 M 17.92491 34.1432 C 17.92491 36.50023 16.0142 38.41093 13.65718 38.41093 C 11.30016 38.41093 9.38945 36.50023 9.38945 34.1432 C 9.38945 31.78618 11.30016 29.87547 13.65718 29.87547 C 16.0142 29.87547 17.92491 31.78618 17.92491 34.1432 Z M 13.65718 34.1432" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 21.05518 13.65718 M 25.3229 13.65718 C 25.3229 16.0142 23.4122 17.92491 21.05518 17.92491 C 18.69815 17.92491 16.78745 16.0142 16.78745 13.65718 C 16.78745 11.30016 18.69815 9.38945 21.05518 9.38945 C 23.4122 9.38945 25.3229 11.30016 25.3229 13.65718 Z M 21.05518 13.65718" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 21.05518 13.65718 M 25.3229 13.65718 C 25.3229 16.0142 23.4122 17.92491 21.05518 17.92491 C 18.69815 17.92491 16.78745 16.0142 16.78745 13.65718 C 16.78745 11.30016 18.69815 9.38945 21.05518 9.38945 C 23.4122 9.38945 25.3229 11.30016 25.3229 13.65718 Z M 21.05518 13.65718" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 58.3282 30.729 M 62.59593 30.729 C 62.59593 33.08603 60.68523 34.99673 58.3282 34.99673 C 55.97118 34.99673 54.06047 33.08603 54.06047 30.729 C 54.06047 28.37198 55.97118 26.46127 58.3282 26.46127 C 60.68523 26.46127 62.59593 28.37198 62.59593 30.729 Z M 58.3282 30.729" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 58.3282 30.729 M 62.59593 30.729 C 62.59593 33.08603 60.68523 34.99673 58.3282 34.99673 C 55.97118 34.99673 54.06047 33.08603 54.06047 30.729 C 54.06047 28.37198 55.97118 26.46127 58.3282 26.46127 C 60.68523 26.46127 62.59593 28.37198 62.59593 30.729 Z M 58.3282 30.729" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 55.48276 17.64055 M 59.75049 17.64055 C 59.75049 19.99757 57.83978 21.90828 55.48276 21.90828 C 53.12573 21.90828 51.21503 19.99757 51.21503 17.64055 C 51.21503 15.28352 53.12573 13.37282 55.48276 13.37282 C 57.83978 13.37282 59.75049 15.28352 59.75049 17.64055 Z M 55.48276 17.64055" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 55.48276 17.64055 M 59.75049 17.64055 C 59.75049 19.99757 57.83978 21.90828 55.48276 21.90828 C 53.12573 21.90828 51.21503 19.99757 51.21503 17.64055 C 51.21503 15.28352 53.12573 13.37282 55.48276 13.37282 C 57.83978 13.37282 59.75049 15.28352 59.75049 17.64055 Z M 55.48276 17.64055" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 39.26492 48.93875 M 43.53265 48.93875 C 43.53265 51.29578 41.62195 53.20648 39.26492 53.20648 C 36.9079 53.20648 34.9972 51.29578 34.9972 48.93875 C 34.9972 46.58173 36.9079 44.67102 39.26492 44.67102 C 41.62195 44.67102 43.53265 46.58173 43.53265 48.93875 Z M 39.26492 48.93875" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 39.26492 48.93875 M 43.53265 48.93875 C 43.53265 51.29578 41.62195 53.20648 39.26492 53.20648 C 36.9079 53.20648 34.9972 51.29578 34.9972 48.93875 C 34.9972 46.58173 36.9079 44.67102 39.26492 44.67102 C 41.62195 44.67102 43.53265 46.58173 43.53265 48.93875 Z M 39.26492 48.93875" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 73.9773 28.45274 M 78.24503 28.45274 C 78.24503 30.80977 76.33432 32.72047 73.9773 32.72047 C 71.62027 32.72047 69.70956 30.80977 69.70956 28.45274 C 69.70956 26.09572 71.62027 24.18501 73.9773 24.18501 C 76.33432 24.18501 78.24503 26.09572 78.24503 28.45274 Z M 73.9773 28.45274" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 73.9773 28.45274 M 78.24503 28.45274 C 78.24503 30.80977 76.33432 32.72047 73.9773 32.72047 C 71.62027 32.72047 69.70956 30.80977 69.70956 28.45274 C 69.70956 26.09572 71.62027 24.18501 73.9773 24.18501 C 76.33432 24.18501 78.24503 26.09572 78.24503 28.45274 Z M 73.9773 28.45274" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 83.9355 17.64055 M 88.20323 17.64055 C 88.20323 19.99757 86.29253 21.90828 83.9355 21.90828 C 81.57848 21.90828 79.66777 19.99757 79.66777 17.64055 C 79.66777 15.28352 81.57848 13.37282 83.9355 13.37282 C 86.29253 13.37282 88.20323 15.28352 88.20323 17.64055 Z M 83.9355 17.64055" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 83.9355 17.64055 M 88.20323 17.64055 C 88.20323 19.99757 86.29253 21.90828 83.9355 21.90828 C 81.57848 21.90828 79.66777 19.99757 79.66777 17.64055 C 79.66777 15.28352 81.57848 13.37282 83.9355 13.37282 C 86.29253 13.37282 88.20323 15.28352 88.20323 17.64055 Z M 83.9355 17.64055" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 67.71767 48.93875 M 71.9854 48.93875 C 71.9854 51.29578 70.07469 53.20648 67.71767 53.20648 C 65.36064 53.20648 63.44994 51.29578 63.44994 48.93875 C 63.44994 46.58173 65.36064 44.67102 67.71767 44.67102 C 70.07469 44.67102 71.9854 46.58173 71.9854 48.93875 Z M 67.71767 48.93875" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 67.71767 48.93875 M 71.9854 48.93875 C 71.9854 51.29578 70.07469 53.20648 67.71767 53.20648 C 65.36064 53.20648 63.44994 51.29578 63.44994 48.93875 C 63.44994 46.58173 65.36064 44.67102 67.71767 44.67102 C 70.07469 44.67102 71.9854 46.58173 71.9854 48.93875 Z M 67.71767 48.93875" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 76.25314 11.38092 M 80.52087 11.38092 C 80.52087 13.73795 78.61017 15.64865 76.25314 15.64865 C 73.89612 15.64865 71.98541 13.73795 71.98541 11.38092 C 71.98541 9.0239 73.89612 7.11319 76.25314 7.11319 C 78.61017 7.11319 80.52087 9.0239 80.52087 11.38092 Z M 76.25314 11.38092" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 76.25314 11.38092 M 80.52087 11.38092 C 80.52087 13.73795 78.61017 15.64865 76.25314 15.64865 C 73.89612 15.64865 71.98541 13.73795 71.98541 11.38092 C 71.98541 9.0239 73.89612 7.11319 76.25314 7.11319 C 78.61017 7.11319 80.52087 9.0239 80.52087 11.38092 Z M 76.25314 11.38092" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 99.5846 20.48601 M 103.85233 20.48601 C 103.85233 22.84303 101.94162 24.75374 99.5846 24.75374 C 97.22757 24.75374 95.31686 22.84303 95.31686 20.48601 C 95.31686 18.12898 97.22757 16.21828 99.5846 16.21828 C 101.94162 16.21828 103.85233 18.12898 103.85233 20.48601 Z M 99.5846 20.48601" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 99.5846 20.48601 M 103.85233 20.48601 C 103.85233 22.84303 101.94162 24.75374 99.5846 24.75374 C 97.22757 24.75374 95.31686 22.84303 95.31686 20.48601 C 95.31686 18.12898 97.22757 16.21828 99.5846 16.21828 C 101.94162 16.21828 103.85233 18.12898 103.85233 20.48601 Z M 99.5846 20.48601" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 103.56796 34.71237 M 107.8357 34.71237 C 107.8357 37.0694 105.92499 38.9801 103.56796 38.9801 C 101.21094 38.9801 99.30023 37.0694 99.30023 34.71237 C 99.30023 32.35535 101.21094 30.44464 103.56796 30.44464 C 105.92499 30.44464 107.8357 32.35535 107.8357 34.71237 Z M 103.56796 34.71237" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 103.56796 34.71237 M 107.8357 34.71237 C 107.8357 37.0694 105.92499 38.9801 103.56796 38.9801 C 101.21094 38.9801 99.30023 37.0694 99.30023 34.71237 C 99.30023 32.35535 101.21094 30.44464 103.56796 30.44464 C 105.92499 30.44464 107.8357 32.35535 107.8357 34.71237 Z M 103.56796 34.71237" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 124.62315 14.22636 M 128.89088 14.22636 C 128.89088 16.58339 126.98018 18.4941 124.62315 18.4941 C 122.26613 18.4941 120.35542 16.58339 120.35542 14.22636 C 120.35542 11.86934 122.26613 9.95863 124.62315 9.95863 C 126.98018 9.95863 128.89088 11.86934 128.89088 14.22636 Z M 124.62315 14.22636" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 124.62315 14.22636 M 128.89088 14.22636 C 128.89088 16.58339 126.98018 18.4941 124.62315 18.4941 C 122.26613 18.4941 120.35542 16.58339 120.35542 14.22636 C 120.35542 11.86934 122.26613 9.95863 124.62315 9.95863 C 126.98018 9.95863 128.89088 11.86934 128.89088 14.22636 Z M 124.62315 14.22636" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 124.62315 48.93875 M 128.89088 48.93875 C 128.89088 51.29578 126.98018 53.20648 124.62315 53.20648 C 122.26613 53.20648 120.35542 51.29578 120.35542 48.93875 C 120.35542 46.58173 122.26613 44.67102 124.62315 44.67102 C 126.98018 44.67102 128.89088 46.58173 128.89088 48.93875 Z M 124.62315 48.93875" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 124.62315 48.93875 M 128.89088 48.93875 C 128.89088 51.29578 126.98018 53.20648 124.62315 53.20648 C 122.26613 53.20648 120.35542 51.29578 120.35542 48.93875 C 120.35542 46.58173 122.26613 44.67102 124.62315 44.67102 C 126.98018 44.67102 128.89088 46.58173 128.89088 48.93875 Z M 124.62315 48.93875" fill="none"/>
+</g>
+</g>
+<g fill="#b9b9b9" stroke="#b9b9b9">
+<path d="M 28.45274 28.45274 M 32.72047 28.45274 C 32.72047 30.80977 30.80977 32.72047 28.45274 32.72047 C 26.09572 32.72047 24.18501 30.80977 24.18501 28.45274 C 24.18501 26.09572 26.09572 24.18501 28.45274 24.18501 C 30.80977 24.18501 32.72047 26.09572 32.72047 28.45274 Z M 28.45274 28.45274" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 28.45274 28.45274 M 32.72047 28.45274 C 32.72047 30.80977 30.80977 32.72047 28.45274 32.72047 C 26.09572 32.72047 24.18501 30.80977 24.18501 28.45274 C 24.18501 26.09572 26.09572 24.18501 28.45274 24.18501 C 30.80977 24.18501 32.72047 26.09572 32.72047 28.45274 Z M 28.45274 28.45274" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 -14.22636 L 199.1692 -14.22636" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 -14.22636 L 0.0 -22.76227" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 142.26372 -14.22636 L 142.26372 -22.76227" fill="none"/>
+</g>
+</g>
+<g transform="translate(-2.5,-37.57658)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(45.835396,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="45.835396" y="57.091388" xlink:href="#g1-48"/>
+</g>
+</g>
+</g>
+</g>
+<g transform="translate(138.86093,-37.96547)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(45.835396,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="45.835396" y="57.091388" xlink:href="#g0-76"/>
+</g>
+</g>
+</g>
+</g>
+<g transform="translate(208.39264,-16.37914)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(45.835396,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="45.835396" y="57.091388" xlink:href="#g0-120"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+  </div>
+<p>In the figure above, we have a box of particles closed off by a piston. On the left side, we assume there is a large bath of particles behind an elastic plate, which allows for an exchange of energy between the particles in the system and the bath.</p>
+<p>If the box was closed off by a fixed wall on the left, the total energy would simply be the sum of the potential energy of the spring and the kinetic energy of the particles. If the piston moved in the negative \(x\) direction, the spring's potential energy would transform into kinetic energy, raising the system's temperature.</p>
+<p>However, by allowing particles to exchange energy through a loose elastic plate with an external &quot;bath&quot;, we can maintain the system at a constant temperature. The plate moves along the \(x\) direction over a small distance \(\Delta\), responding to hits from particles in both the system and the bath.</p>
+<p>Assuming equal masses, elastic head-on collisions exchange velocities. Once hit by a particle, the plate begins vibrating with a velocity \(\pm v_x\). The plate will have its own velocity distribution, which differs from the Maxwell distribution of the particles' \(x\)-velocity component:</p>
+$$\begin{aligned}
+\pi(v_x)dv_x \varpropto e^{-\beta\frac{v_x^2}{2}}dv_x
+\end{aligned}$$<p>From the perspective of the plate, however, disproportionately more fast particles hit it than slow ones. Fast particles cover more distance in less time and reach the plate more frequently. A single particle traveling with velocity \(v_x\) needs to travel a total distance of \(2L\) to hit the plate, bounce off the piston, and hit the plate again. The time between hits is \(\Delta t = \frac{2L}{|v_x|}\), which results in a collision frequency \(f = \frac{|v_x|}{2L}\).</p>
+<p>Because the frequency of hits is directly proportional to the \(x\) component of the velocity, we find the distribution of collision velocities by multiplying the particle density at \(v_x\) by the frequency of these hits. This product dictates how the plate is pushed and defines its resulting velocity distribution:</p>
+$$\begin{aligned}
+\pi_{collision}(v_x)dv_x \varpropto |v_x|e^{-\beta\frac{v_x^2}{2}}dv_x
+\end{aligned}$$<h3 id="getting-rid-of-the-bath">Getting rid of the bath<a hidden class="anchor" aria-hidden="true" href="#getting-rid-of-the-bath">#</a></h3>
+<p>We can now eliminate the external bath and the elastic plate with a clever abstraction. Instead of modeling the physical collisions, we can simply resample the horizontal velocity component whenever a particle hits the boundary.</p>
+<p>Since this collision distribution is equivalent to the Maxwell distribution for absolute velocity in two dimensions (as shown in the <a href="/posts/maxwell-boltzmann/#from-1d-to-2d-probability-density-function">previous post</a>), we can replace it with two independent Gaussian variables:</p>
+$$\Upsilon_1, \Upsilon_2 \sim Gaussian(0, \frac{1}{\sqrt\beta})$$<p>The \(x\)-velocity component becomes \(v_x = \sqrt{\Upsilon_1^2 + \Upsilon_2^2}\). To implement this in a model, we can start with a uniform random variable \(\Upsilon \sim Uniform(0, 1)\) and substitute \(\Upsilon = e^{-u}\), which gives \(u = -\log\Upsilon\). Setting this equal to \(\beta\frac{v_x^2}{2}\), we arrive at a simple &quot;boundary sampler&quot;:</p>
+$$v_x = \sqrt{\frac{-2\log\Upsilon}{\beta}}$$<p>Whenever a particle hits the plate, its outgoing horizontal velocity component is redrawn from this \(\pi_{collision}(v_x)\) distribution.</p>
+<h3 id="switching-to-the-piston-perspective">Switching to the piston perspective<a hidden class="anchor" aria-hidden="true" href="#switching-to-the-piston-perspective">#</a></h3>
+<div class="svg-inline" style="max-width: 60%; width: 100%;">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="222.439711pt" height="98.235547pt" viewBox="19.92528 -.000002 222.439711 98.235547">
+<defs>
+<path id="g2-48" d="M4.582814-3.188045C4.582814-3.985056 4.533001-4.782067 4.184309-5.519303C3.726027-6.475716 2.909091-6.635118 2.49066-6.635118C1.892902-6.635118 1.165629-6.37609 .757161-5.449564C.438356-4.762142 .388543-3.985056 .388543-3.188045C.388543-2.440847 .428394-1.544209 .836862-.787049C1.265255 .019925 1.992528 .219178 2.480697 .219178C3.01868 .219178 3.775841 .009963 4.214197-.936488C4.533001-1.62391 4.582814-2.400996 4.582814-3.188045ZM2.480697 0C2.092154 0 1.504359-.249066 1.325031-1.205479C1.215442-1.803238 1.215442-2.719801 1.215442-3.307597C1.215442-3.945205 1.215442-4.60274 1.295143-5.140722C1.484433-6.326276 2.231631-6.41594 2.480697-6.41594C2.809465-6.41594 3.466999-6.236613 3.656289-5.250311C3.755915-4.692403 3.755915-3.935243 3.755915-3.307597C3.755915-2.560399 3.755915-1.882939 3.646326-1.24533C3.496887-.298879 2.929016 0 2.480697 0Z"/>
+<path id="g1-120" d="M1.736488-.739228C1.66675-.502117 1.436613-.125529 1.080946-.125529C1.060025-.125529 .850809-.125529 .704359-.223163C.990286-.313823 1.011208-.564882 1.011208-.606725C1.011208-.760149 .892653-.864757 .732254-.864757C.536986-.864757 .334745-.697385 .334745-.439352C.334745-.09066 .72528 .069738 1.066999 .069738C1.387796 .069738 1.673724-.132503 1.84807-.425405C2.015442-.055791 2.399004 .069738 2.677958 .069738C3.47995 .069738 3.905355-.801993 3.905355-.99726C3.905355-1.08792 3.814695-1.08792 3.793773-1.08792C3.696139-1.08792 3.689166-1.053051 3.66127-.969365C3.514819-.488169 3.096389-.125529 2.705853-.125529C2.426899-.125529 2.280448-.313823 2.280448-.578829C2.280448-.760149 2.447821-1.39477 2.643088-2.168867C2.782565-2.705853 3.096389-2.880199 3.326526-2.880199C3.340473-2.880199 3.556663-2.880199 3.703113-2.782565C3.47995-2.719801 3.396264-2.524533 3.396264-2.399004C3.396264-2.245579 3.514819-2.140971 3.675218-2.140971S4.065753-2.273474 4.065753-2.566376C4.065753-2.956912 3.619427-3.075467 3.340473-3.075467C2.991781-3.075467 2.712827-2.84533 2.559402-2.580324C2.433873-2.866252 2.113076-3.075467 1.72254-3.075467C.941469-3.075467 .495143-2.217684 .495143-2.008468C.495143-1.917808 .592777-1.917808 .613699-1.917808C.704359-1.917808 .711333-1.945704 .746202-2.036364C.920548-2.580324 1.3599-2.880199 1.701619-2.880199C1.931756-2.880199 2.12005-2.75467 2.12005-2.419925C2.12005-2.280448 2.036364-1.931756 1.973599-1.694645L1.736488-.739228Z"/>
+<path id="g0-76" d="M3.726027-6.027397C3.815691-6.386052 3.845579-6.495641 4.782067-6.495641C5.080946-6.495641 5.160648-6.495641 5.160648-6.684932C5.160648-6.804483 5.051059-6.804483 5.001245-6.804483C4.672478-6.804483 3.855542-6.774595 3.526775-6.774595C3.227895-6.774595 2.500623-6.804483 2.201743-6.804483C2.132005-6.804483 2.012453-6.804483 2.012453-6.60523C2.012453-6.495641 2.102117-6.495641 2.291407-6.495641C2.311333-6.495641 2.500623-6.495641 2.669988-6.475716C2.849315-6.455791 2.938979-6.445828 2.938979-6.316314C2.938979-6.276463 2.929016-6.246575 2.899128-6.127024L1.564134-.777086C1.464508-.388543 1.444583-.308842 .657534-.308842C.488169-.308842 .388543-.308842 .388543-.109589C.388543 0 .478207 0 .657534 0H5.270237C5.50934 0 5.519303 0 5.579078-.169365L6.366127-2.321295C6.405978-2.430884 6.405978-2.450809 6.405978-2.460772C6.405978-2.500623 6.37609-2.570361 6.286426-2.570361S6.1868-2.520548 6.117061-2.361146C5.778331-1.444583 5.339975-.308842 3.616438-.308842H2.67995C2.540473-.308842 2.520548-.308842 2.460772-.318804C2.361146-.328767 2.331258-.33873 2.331258-.418431C2.331258-.448319 2.331258-.468244 2.381071-.647572L3.726027-6.027397Z"/>
+<path id="g0-118" d="M4.662516-3.706102C4.662516-4.244085 4.403487-4.403487 4.224159-4.403487C3.975093-4.403487 3.73599-4.144458 3.73599-3.92528C3.73599-3.795766 3.785803-3.73599 3.895392-3.626401C4.104608-3.427148 4.234122-3.16812 4.234122-2.809465C4.234122-2.391034 3.626401-.109589 2.460772-.109589C1.952677-.109589 1.723537-.458281 1.723537-.976339C1.723537-1.534247 1.992528-2.261519 2.30137-3.088418C2.371108-3.257783 2.420922-3.39726 2.420922-3.58655C2.420922-4.034869 2.102117-4.403487 1.603985-4.403487C.667497-4.403487 .288917-2.958904 .288917-2.86924C.288917-2.769614 .388543-2.769614 .408468-2.769614C.508095-2.769614 .518057-2.789539 .56787-2.948941C.856787-3.955168 1.285181-4.184309 1.574097-4.184309C1.653798-4.184309 1.823163-4.184309 1.823163-3.865504C1.823163-3.616438 1.723537-3.347447 1.653798-3.16812C1.215442-2.012453 1.085928-1.554172 1.085928-1.125778C1.085928-.049813 1.96264 .109589 2.420922 .109589C4.094645 .109589 4.662516-3.188045 4.662516-3.706102Z"/>
+<path id="g0-120" d="M3.327522-3.008717C3.387298-3.267746 3.616438-4.184309 4.313823-4.184309C4.363636-4.184309 4.60274-4.184309 4.811955-4.054795C4.533001-4.004981 4.333748-3.755915 4.333748-3.516812C4.333748-3.35741 4.443337-3.16812 4.712329-3.16812C4.931507-3.16812 5.250311-3.347447 5.250311-3.745953C5.250311-4.26401 4.662516-4.403487 4.323786-4.403487C3.745953-4.403487 3.39726-3.875467 3.277709-3.646326C3.028643-4.303861 2.49066-4.403487 2.201743-4.403487C1.165629-4.403487 .597758-3.118306 .597758-2.86924C.597758-2.769614 .697385-2.769614 .71731-2.769614C.797011-2.769614 .826899-2.789539 .846824-2.879203C1.185554-3.935243 1.843088-4.184309 2.181818-4.184309C2.371108-4.184309 2.719801-4.094645 2.719801-3.516812C2.719801-3.20797 2.550436-2.540473 2.181818-1.145704C2.022416-.52802 1.673724-.109589 1.235367-.109589C1.175592-.109589 .946451-.109589 .737235-.239103C.986301-.288917 1.205479-.498132 1.205479-.777086C1.205479-1.046077 .986301-1.125778 .836862-1.125778C.537983-1.125778 .288917-.86675 .288917-.547945C.288917-.089664 .787049 .109589 1.225405 .109589C1.882939 .109589 2.241594-.587796 2.271482-.647572C2.391034-.278954 2.749689 .109589 3.347447 .109589C4.373599 .109589 4.941469-1.175592 4.941469-1.424658C4.941469-1.524284 4.851806-1.524284 4.821918-1.524284C4.732254-1.524284 4.712329-1.484433 4.692403-1.414695C4.363636-.348692 3.686177-.109589 3.367372-.109589C2.978829-.109589 2.819427-.428394 2.819427-.767123C2.819427-.986301 2.879203-1.205479 2.988792-1.643836L3.327522-3.008717Z"/>
+</defs>
+<g id="page1">
+<g stroke-miterlimit="10" transform="translate(25.736466,57.091388)scale(0.996264,-0.996264)">
+<g fill="#000" stroke="#000">
+<g stroke-width="0.4">
+<g stroke-linecap="round">
+<g stroke-linejoin="round">
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 56.90549 L 170.71646 56.90549" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 0.0 L 170.71646 0.0" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 0.0 L 0.0 56.90549" fill="none"/>
+</g>
+</g>
+<g transform="translate(12.13083,33.48569)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(25.736466,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="25.736466" y="57.091388" xlink:href="#g0-118"/>
+<use x="30.565597" y="58.585769" xlink:href="#g1-120"/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width="0.8">
+<path d="M 0.0 28.45274 L 38.55339 28.45274" fill="none"/>
+<g transform="translate(36.0791,28.45274)">
+<g stroke-dasharray="none" stroke-dashoffset="0.0">
+ <g stroke-linejoin="miter">
+ <path d=" M 5.4608 0.0 L 1.29181 1.57648 L 2.67429 0.0 L 1.29181 -1.57648 Z  "/>
+ </g>
+ </g>
+</g>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 0.0 55.48276 M 0.0 55.48276 L 0.0 1.42271 L 8.5359 1.42271 L 8.5359 55.48276 Z M 8.5359 1.42271" stroke="none"/>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 5.69046 28.45274 C 8.06137 37.92737 16.5099 45.52438 26.46056 45.52438 C 36.4112 45.52438 44.85974 37.92737 47.23065 28.45274 C 49.60156 18.97812 45.89484 11.3811 40.68602 11.3811 C 35.47719 11.3811 31.77048 18.97812 34.14139 28.45274 C 36.51411 37.92737 44.96265 45.52438 54.9133 45.52438 C 64.86394 45.52438 73.31248 37.92737 75.6834 28.45274 C 78.0543 18.97812 74.34758 11.3811 69.13876 11.3811 C 63.92993 11.3811 60.22322 18.97812 62.59413 28.45274 C 64.96686 37.92737 73.41539 45.52438 83.36604 45.52438 C 93.31668 45.52438 101.76523 37.92737 104.13614 28.45274 C 106.50705 18.97812 102.80032 11.3811 97.5915 11.3811 C 92.38268 11.3811 88.67596 18.97812 91.04688 28.45274 C 93.4196 37.92737 101.86813 45.52438 111.81879 45.52438 C 121.76942 45.52438 130.21797 37.92737 132.58888 28.45274 C 134.9598 18.97812 131.25307 11.3811 126.04425 11.3811 C 120.83542 11.3811 117.12871 18.97812 119.49962 28.45274 C 121.87234 37.92737 130.32088 45.52438 140.27153 45.52438 C 150.22217 45.52438 158.67072 37.92737 161.04163 28.45274 C 163.41254 18.97812 159.70581 11.3811 154.497 11.3811 C 149.28816 11.3811 145.58145 18.97812 147.95236 28.45274 C 150.32509 37.92737 158.77362 45.52438 168.72427 45.52438 C 178.67491 45.52438 187.12346 37.92737 189.49437 28.45274 L 210.55013 28.45274" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 -14.22636 L 199.1692 -14.22636" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 0.0 -14.22636 L 0.0 -22.76227" fill="none"/>
+</g>
+</g>
+<g stroke="#000">
+<g stroke-width="0.8">
+<path d="M 142.26372 -14.22636 L 142.26372 -22.76227" fill="none"/>
+</g>
+</g>
+<g transform="translate(-2.5,-37.57658)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(25.736466,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="25.736466" y="57.091388" xlink:href="#g2-48"/>
+</g>
+</g>
+</g>
+</g>
+<g transform="translate(138.86093,-37.96547)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(25.736466,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="25.736466" y="57.091388" xlink:href="#g0-76"/>
+</g>
+</g>
+</g>
+</g>
+<g transform="translate(208.39264,-16.37914)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(25.736466,57.091388)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="25.736466" y="57.091388" xlink:href="#g0-120"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+  </div>
+<p>Now, let's shift our focus to the piston itself. From a microscopic view, the piston interacts with the plate when it reaches the boundary. As we've shown, we can replace the bath and particles with our boundary sampler. The result is that when the piston makes contact at \(L = 0\), it is &quot;relaunched&quot; with an outgoing velocity \(v_0\) drawn from the collision distribution. We can drop the absolute value since the launch always occurs in the positive \(x\) direction:</p>
+$$\begin{aligned}
+\pi_{launch}(v_0)dv_0 \varpropto v_0e^{-\beta\frac{v_0^2}{2}}dv_0
+\end{aligned}$$<p>Once launched, the piston moves under constant acceleration, pulled back by the spring. If we set the units such that mass and force equal 1, the equations of motion are straightforward:</p>
+$$\ddot{x} = -1$$<p>Integrating with respect to time gives the velocity:</p>
+$$\dot{x} = v_0 - t$$<p>Integrating again, knowing the piston starts at \(x = 0\), gives its position:</p>
+$$x = v_0t - \frac{1}{2}t^2$$<p>How long does it take for the piston to return to the plate? Setting \(x = 0\) yields:</p>
+$$0 = v_0t - \frac{1}{2}t^2 = t(v_0 - \frac{1}{2}t)$$<p>Solving for \(t\) reveals two distinct moments: the launch (\(t = 0\)) and the return (\(t = 2v_0\)). Crucially, the total &quot;flight time&quot; is directly proportional to the launch velocity; the harder we throw the piston, the longer it stays out in the box.</p>
+<h3 id="from-launch-velocity-to-time-distribution">From launch velocity to time distribution<a hidden class="anchor" aria-hidden="true" href="#from-launch-velocity-to-time-distribution">#</a></h3>
+<p>If we observe this system at a random moment, what is the probability of finding it in a state that originated from a specific launch velocity \(v_0\)? To answer this, we use the ergodic principle: the probability of a state is proportional to the fraction of time the system spends in that state.</p>
+<p>Piston launches in the interval \([v_0, v_0 + dv_0]\) occur with a probability proportional to \(\pi_{launch}(v_0)\). However, because each such launch lasts for a duration of \(2v_0\), the system spends more time on high-velocity trajectories. Therefore, the time-averaged probability is:</p>
+$$\pi_{time}(v_0)dv_0 \varpropto v_0 \cdot \pi_{launch}(v_0)dv_0 \varpropto v_0^2 e^{-\beta\frac{v_0^2}{2}}dv_0$$<p>We can rewrite this in terms of the total energy \(E\). At the moment of launch (\(x = 0\)), the energy is simply \(E = \frac{v_0^2}{2}\). Differentiating gives \(dE = v_0dv_0\), allowing us to transform the distribution:</p>
+$$\begin{aligned}
+\pi_{time}(v_0)dv_0 &\varpropto v_0 \cdot (v_0 e^{-\beta E} dv_0) \\\\
+&\varpropto v_0 e^{-\beta E} dE
+\end{aligned}$$<h3 id="the-boltzmann-distribution">The Boltzmann distribution<a hidden class="anchor" aria-hidden="true" href="#the-boltzmann-distribution">#</a></h3>
+<p>Substituting \(v_0 = \sqrt{2E}\) into the expression above, the probability of finding the piston at energy \(E\) becomes:</p>
+$$\begin{aligned}
+\pi_{time}(E)dE \varpropto \sqrt{E}e^{-\beta E}dE
+\end{aligned}$$<p>We have arrived at the Boltzmann distribution. The \(\sqrt{E}\) term is the density of states—a factor that accounts for how much &quot;room&quot; exists in phase space at a particular energy level.</p>
+<p>To visualize this, consider the phase space \((x, v)\). For a fixed energy \(E = x + \frac{v^2}{2}\), there are many combinations of position and velocity that satisfy the equation. The &quot;volume&quot; of states available up to energy \(E\) is the area under the curve in phase space:</p>
+<div class="svg-inline" style="max-width: 60%; width: 100%;">
+    <?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="576pt" height="360pt" viewBox="0 0 576 360" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-04-07T14:37:39.495493</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 360 
+L 576 360 
+L 576 0 
+L 0 0 
+L 0 360 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 40.334375 313.79 
+L 565.2 313.79 
+L 565.2 26.16 
+L 40.334375 26.16 
+L 40.334375 313.79 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 64.191903 313.79 
+L 64.191903 26.16 
+" clip-path="url(#p0bae122b4a)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #b0b0b0; stroke-opacity: 0.6; stroke-width: 0.8"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m53a29c8283" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m53a29c8283" x="64.191903" y="313.79" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- $-\sqrt{2E}$ -->
+      <g transform="translate(49.391903 329.910312) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-2212" d="M 678 2272 
+L 4684 2272 
+L 4684 1741 
+L 678 1741 
+L 678 2272 
+z
+" transform="scale(0.015625)"/>
+        <path id="STIXSizeOneSym-Regular-221a" d="M 6970 9933 
+L 3373 -1888 
+L 3104 -1888 
+L 1626 2918 
+Q 1555 3149 1465 3251 
+Q 1376 3354 1229 3354 
+Q 1011 3354 794 3181 
+L 717 3309 
+L 1766 4115 
+L 1926 4115 
+L 3379 -602 
+L 3405 -602 
+L 6605 9933 
+L 6970 9933 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-32" d="M 1228 531 
+L 3431 531 
+L 3431 0 
+L 469 0 
+L 469 531 
+Q 828 903 1448 1529 
+Q 2069 2156 2228 2338 
+Q 2531 2678 2651 2914 
+Q 2772 3150 2772 3378 
+Q 2772 3750 2511 3984 
+Q 2250 4219 1831 4219 
+Q 1534 4219 1204 4116 
+Q 875 4013 500 3803 
+L 500 4441 
+Q 881 4594 1212 4672 
+Q 1544 4750 1819 4750 
+Q 2544 4750 2975 4387 
+Q 3406 4025 3406 3419 
+Q 3406 3131 3298 2873 
+Q 3191 2616 2906 2266 
+Q 2828 2175 2409 1742 
+Q 1991 1309 1228 531 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-Oblique-45" d="M 1081 4666 
+L 4031 4666 
+L 3928 4134 
+L 1606 4134 
+L 1338 2753 
+L 3566 2753 
+L 3463 2222 
+L 1234 2222 
+L 909 531 
+L 3284 531 
+L 3181 0 
+L 172 0 
+L 1081 4666 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-2212" transform="translate(0 0.71875)"/>
+       <use xlink:href="#STIXSizeOneSym-Regular-221a" transform="translate(83.789062 17.53125) scale(0.571018)"/>
+       <use xlink:href="#DejaVuSans-32" transform="translate(156.670181 0.53125)"/>
+       <use xlink:href="#DejaVuSans-Oblique-45" transform="translate(220.293228 0.53125)"/>
+       <path d="M 144.170181 99.5 
+L 144.170181 105.75 
+L 295.976822 105.75 
+L 295.976822 99.5 
+L 144.170181 99.5 
+z
+"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 302.767187 313.79 
+L 302.767187 26.16 
+" clip-path="url(#p0bae122b4a)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #b0b0b0; stroke-opacity: 0.6; stroke-width: 0.8"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m53a29c8283" x="302.767187" y="313.79" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 0 -->
+      <g transform="translate(299.585938 328.388438) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-30" d="M 2034 4250 
+Q 1547 4250 1301 3770 
+Q 1056 3291 1056 2328 
+Q 1056 1369 1301 889 
+Q 1547 409 2034 409 
+Q 2525 409 2770 889 
+Q 3016 1369 3016 2328 
+Q 3016 3291 2770 3770 
+Q 2525 4250 2034 4250 
+z
+M 2034 4750 
+Q 2819 4750 3233 4129 
+Q 3647 3509 3647 2328 
+Q 3647 1150 3233 529 
+Q 2819 -91 2034 -91 
+Q 1250 -91 836 529 
+Q 422 1150 422 2328 
+Q 422 3509 836 4129 
+Q 1250 4750 2034 4750 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-30"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 541.342472 313.79 
+L 541.342472 26.16 
+" clip-path="url(#p0bae122b4a)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #b0b0b0; stroke-opacity: 0.6; stroke-width: 0.8"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m53a29c8283" x="541.342472" y="313.79" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- $+\sqrt{2E}$ -->
+      <g transform="translate(526.542472 329.910312) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-2b" d="M 2944 4013 
+L 2944 2272 
+L 4684 2272 
+L 4684 1741 
+L 2944 1741 
+L 2944 0 
+L 2419 0 
+L 2419 1741 
+L 678 1741 
+L 678 2272 
+L 2419 2272 
+L 2419 4013 
+L 2944 4013 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-2b" transform="translate(0 0.71875)"/>
+       <use xlink:href="#STIXSizeOneSym-Regular-221a" transform="translate(83.789062 17.53125) scale(0.571018)"/>
+       <use xlink:href="#DejaVuSans-32" transform="translate(156.670181 0.53125)"/>
+       <use xlink:href="#DejaVuSans-Oblique-45" transform="translate(220.293228 0.53125)"/>
+       <path d="M 144.170181 99.5 
+L 144.170181 105.75 
+L 295.976822 105.75 
+L 295.976822 99.5 
+L 144.170181 99.5 
+z
+"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_4">
+     <!-- velocity ($v$) -->
+     <g transform="translate(274.767187 343.59) scale(0.1 -0.1)">
+      <defs>
+       <path id="DejaVuSans-76" d="M 191 3500 
+L 800 3500 
+L 1894 563 
+L 2988 3500 
+L 3597 3500 
+L 2284 0 
+L 1503 0 
+L 191 3500 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-65" d="M 3597 1894 
+L 3597 1613 
+L 953 1613 
+Q 991 1019 1311 708 
+Q 1631 397 2203 397 
+Q 2534 397 2845 478 
+Q 3156 559 3463 722 
+L 3463 178 
+Q 3153 47 2828 -22 
+Q 2503 -91 2169 -91 
+Q 1331 -91 842 396 
+Q 353 884 353 1716 
+Q 353 2575 817 3079 
+Q 1281 3584 2069 3584 
+Q 2775 3584 3186 3129 
+Q 3597 2675 3597 1894 
+z
+M 3022 2063 
+Q 3016 2534 2758 2815 
+Q 2500 3097 2075 3097 
+Q 1594 3097 1305 2825 
+Q 1016 2553 972 2059 
+L 3022 2063 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-6c" d="M 603 4863 
+L 1178 4863 
+L 1178 0 
+L 603 0 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-6f" d="M 1959 3097 
+Q 1497 3097 1228 2736 
+Q 959 2375 959 1747 
+Q 959 1119 1226 758 
+Q 1494 397 1959 397 
+Q 2419 397 2687 759 
+Q 2956 1122 2956 1747 
+Q 2956 2369 2687 2733 
+Q 2419 3097 1959 3097 
+z
+M 1959 3584 
+Q 2709 3584 3137 3096 
+Q 3566 2609 3566 1747 
+Q 3566 888 3137 398 
+Q 2709 -91 1959 -91 
+Q 1206 -91 779 398 
+Q 353 888 353 1747 
+Q 353 2609 779 3096 
+Q 1206 3584 1959 3584 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-63" d="M 3122 3366 
+L 3122 2828 
+Q 2878 2963 2633 3030 
+Q 2388 3097 2138 3097 
+Q 1578 3097 1268 2742 
+Q 959 2388 959 1747 
+Q 959 1106 1268 751 
+Q 1578 397 2138 397 
+Q 2388 397 2633 464 
+Q 2878 531 3122 666 
+L 3122 134 
+Q 2881 22 2623 -34 
+Q 2366 -91 2075 -91 
+Q 1284 -91 818 406 
+Q 353 903 353 1747 
+Q 353 2603 823 3093 
+Q 1294 3584 2113 3584 
+Q 2378 3584 2631 3529 
+Q 2884 3475 3122 3366 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-69" d="M 603 3500 
+L 1178 3500 
+L 1178 0 
+L 603 0 
+L 603 3500 
+z
+M 603 4863 
+L 1178 4863 
+L 1178 4134 
+L 603 4134 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-74" d="M 1172 4494 
+L 1172 3500 
+L 2356 3500 
+L 2356 3053 
+L 1172 3053 
+L 1172 1153 
+Q 1172 725 1289 603 
+Q 1406 481 1766 481 
+L 2356 481 
+L 2356 0 
+L 1766 0 
+Q 1100 0 847 248 
+Q 594 497 594 1153 
+L 594 3053 
+L 172 3053 
+L 172 3500 
+L 594 3500 
+L 594 4494 
+L 1172 4494 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-79" d="M 2059 -325 
+Q 1816 -950 1584 -1140 
+Q 1353 -1331 966 -1331 
+L 506 -1331 
+L 506 -850 
+L 844 -850 
+Q 1081 -850 1212 -737 
+Q 1344 -625 1503 -206 
+L 1606 56 
+L 191 3500 
+L 800 3500 
+L 1894 763 
+L 2988 3500 
+L 3597 3500 
+L 2059 -325 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-20" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-28" d="M 1984 4856 
+Q 1566 4138 1362 3434 
+Q 1159 2731 1159 2009 
+Q 1159 1288 1364 580 
+Q 1569 -128 1984 -844 
+L 1484 -844 
+Q 1016 -109 783 600 
+Q 550 1309 550 2009 
+Q 550 2706 781 3412 
+Q 1013 4119 1484 4856 
+L 1984 4856 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-Oblique-76" d="M 459 3500 
+L 1069 3500 
+L 1581 525 
+L 3256 3500 
+L 3866 3500 
+L 1875 0 
+L 1100 0 
+L 459 3500 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-29" d="M 513 4856 
+L 1013 4856 
+Q 1481 4119 1714 3412 
+Q 1947 2706 1947 2009 
+Q 1947 1309 1714 600 
+Q 1481 -109 1013 -844 
+L 513 -844 
+Q 928 -128 1133 580 
+Q 1338 1288 1338 2009 
+Q 1338 2731 1133 3434 
+Q 928 4138 513 4856 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-76" transform="translate(0 0.015625)"/>
+      <use xlink:href="#DejaVuSans-65" transform="translate(59.179688 0.015625)"/>
+      <use xlink:href="#DejaVuSans-6c" transform="translate(120.703125 0.015625)"/>
+      <use xlink:href="#DejaVuSans-6f" transform="translate(148.486328 0.015625)"/>
+      <use xlink:href="#DejaVuSans-63" transform="translate(209.667969 0.015625)"/>
+      <use xlink:href="#DejaVuSans-69" transform="translate(264.648438 0.015625)"/>
+      <use xlink:href="#DejaVuSans-74" transform="translate(292.431641 0.015625)"/>
+      <use xlink:href="#DejaVuSans-79" transform="translate(331.640625 0.015625)"/>
+      <use xlink:href="#DejaVuSans-20" transform="translate(390.820312 0.015625)"/>
+      <use xlink:href="#DejaVuSans-28" transform="translate(422.607422 0.015625)"/>
+      <use xlink:href="#DejaVuSans-Oblique-76" transform="translate(461.621094 0.015625)"/>
+      <use xlink:href="#DejaVuSans-29" transform="translate(520.800781 0.015625)"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_7">
+      <path d="M 40.334375 300.715909 
+L 565.2 300.715909 
+" clip-path="url(#p0bae122b4a)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #b0b0b0; stroke-opacity: 0.6; stroke-width: 0.8"/>
+     </g>
+     <g id="line2d_8">
+      <defs>
+       <path id="m33f9df467a" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m33f9df467a" x="40.334375" y="300.715909" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 0 -->
+      <g transform="translate(26.971875 304.515128) scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-30"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_9">
+      <path d="M 40.334375 39.233041 
+L 565.2 39.233041 
+" clip-path="url(#p0bae122b4a)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #b0b0b0; stroke-opacity: 0.6; stroke-width: 0.8"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m33f9df467a" x="40.334375" y="39.233041" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- $E$ -->
+      <g transform="translate(26.934375 43.03226) scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-Oblique-45" transform="translate(0 0.09375)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_7">
+     <!-- position ($x$) -->
+     <g transform="translate(20.834375 198.275) rotate(-90) scale(0.1 -0.1)">
+      <defs>
+       <path id="DejaVuSans-70" d="M 1159 525 
+L 1159 -1331 
+L 581 -1331 
+L 581 3500 
+L 1159 3500 
+L 1159 2969 
+Q 1341 3281 1617 3432 
+Q 1894 3584 2278 3584 
+Q 2916 3584 3314 3078 
+Q 3713 2572 3713 1747 
+Q 3713 922 3314 415 
+Q 2916 -91 2278 -91 
+Q 1894 -91 1617 61 
+Q 1341 213 1159 525 
+z
+M 3116 1747 
+Q 3116 2381 2855 2742 
+Q 2594 3103 2138 3103 
+Q 1681 3103 1420 2742 
+Q 1159 2381 1159 1747 
+Q 1159 1113 1420 752 
+Q 1681 391 2138 391 
+Q 2594 391 2855 752 
+Q 3116 1113 3116 1747 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-73" d="M 2834 3397 
+L 2834 2853 
+Q 2591 2978 2328 3040 
+Q 2066 3103 1784 3103 
+Q 1356 3103 1142 2972 
+Q 928 2841 928 2578 
+Q 928 2378 1081 2264 
+Q 1234 2150 1697 2047 
+L 1894 2003 
+Q 2506 1872 2764 1633 
+Q 3022 1394 3022 966 
+Q 3022 478 2636 193 
+Q 2250 -91 1575 -91 
+Q 1294 -91 989 -36 
+Q 684 19 347 128 
+L 347 722 
+Q 666 556 975 473 
+Q 1284 391 1588 391 
+Q 1994 391 2212 530 
+Q 2431 669 2431 922 
+Q 2431 1156 2273 1281 
+Q 2116 1406 1581 1522 
+L 1381 1569 
+Q 847 1681 609 1914 
+Q 372 2147 372 2553 
+Q 372 3047 722 3315 
+Q 1072 3584 1716 3584 
+Q 2034 3584 2315 3537 
+Q 2597 3491 2834 3397 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-6e" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-Oblique-78" d="M 3841 3500 
+L 2234 1784 
+L 3219 0 
+L 2559 0 
+L 1819 1388 
+L 531 0 
+L -166 0 
+L 1556 1844 
+L 641 3500 
+L 1300 3500 
+L 1972 2234 
+L 3144 3500 
+L 3841 3500 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-70" transform="translate(0 0.015625)"/>
+      <use xlink:href="#DejaVuSans-6f" transform="translate(63.476562 0.015625)"/>
+      <use xlink:href="#DejaVuSans-73" transform="translate(124.658203 0.015625)"/>
+      <use xlink:href="#DejaVuSans-69" transform="translate(176.757812 0.015625)"/>
+      <use xlink:href="#DejaVuSans-74" transform="translate(204.541016 0.015625)"/>
+      <use xlink:href="#DejaVuSans-69" transform="translate(243.75 0.015625)"/>
+      <use xlink:href="#DejaVuSans-6f" transform="translate(271.533203 0.015625)"/>
+      <use xlink:href="#DejaVuSans-6e" transform="translate(332.714844 0.015625)"/>
+      <use xlink:href="#DejaVuSans-20" transform="translate(396.09375 0.015625)"/>
+      <use xlink:href="#DejaVuSans-28" transform="translate(427.880859 0.015625)"/>
+      <use xlink:href="#DejaVuSans-Oblique-78" transform="translate(466.894531 0.015625)"/>
+      <use xlink:href="#DejaVuSans-29" transform="translate(526.074219 0.015625)"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_11">
+    <path d="M 64.191903 300.715909 
+L 71.841612 284.216301 
+L 79.49132 268.254359 
+L 87.141029 252.830082 
+L 94.790737 237.943471 
+L 102.440446 223.594525 
+L 109.133941 211.480251 
+L 115.827436 199.777627 
+L 122.520931 188.486653 
+L 129.214426 177.607329 
+L 135.907921 167.139655 
+L 142.601416 157.083631 
+L 149.294911 147.439258 
+L 155.988406 138.206534 
+L 162.6819 129.385461 
+L 169.375395 120.976038 
+L 175.112677 114.0956 
+L 180.849958 107.5176 
+L 186.58724 101.242036 
+L 192.324521 95.268909 
+L 198.061802 89.598219 
+L 203.799084 84.229966 
+L 209.536365 79.16415 
+L 215.273646 74.40077 
+L 221.010928 69.939827 
+L 226.748209 65.781321 
+L 232.485491 61.925252 
+L 238.222772 58.37162 
+L 243.960053 55.120424 
+L 249.697335 52.171665 
+L 254.478403 49.945394 
+L 259.25947 47.929149 
+L 264.040538 46.122929 
+L 268.821606 44.526735 
+L 273.602674 43.140566 
+L 278.383742 41.964423 
+L 283.164809 40.998306 
+L 287.945877 40.242214 
+L 292.726945 39.696147 
+L 297.508013 39.360106 
+L 302.289081 39.234091 
+L 307.070149 39.318101 
+L 311.851216 39.612137 
+L 316.632284 40.116198 
+L 321.413352 40.830285 
+L 326.19442 41.754398 
+L 330.975488 42.888536 
+L 335.756555 44.232699 
+L 340.537623 45.786888 
+L 345.318691 47.551103 
+L 350.099759 49.525343 
+L 354.880827 51.709609 
+L 359.661895 54.1039 
+L 364.442962 56.708217 
+L 370.180244 60.110631 
+L 375.917525 63.815482 
+L 381.654806 67.82277 
+L 387.392088 72.132494 
+L 393.129369 76.744655 
+L 398.866651 81.659253 
+L 404.603932 86.876288 
+L 410.341213 92.39576 
+L 416.078495 98.217668 
+L 421.815776 104.342014 
+L 427.553058 110.768796 
+L 433.290339 117.498014 
+L 439.02762 124.52967 
+L 445.721115 133.115515 
+L 452.41461 142.11301 
+L 459.108105 151.522155 
+L 465.8016 161.34295 
+L 472.495095 171.575395 
+L 479.18859 182.21949 
+L 485.882085 193.275235 
+L 492.57558 204.742631 
+L 499.269075 216.621676 
+L 505.96257 228.912372 
+L 513.612278 243.462942 
+L 521.261987 258.551178 
+L 528.911695 274.17708 
+L 536.561404 290.340647 
+L 541.342472 300.715909 
+L 541.342472 300.715909 
+" clip-path="url(#p0bae122b4a)" style="fill: none; stroke: #000000; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 40.334375 313.79 
+L 40.334375 26.16 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 565.2 313.79 
+L 565.2 26.16 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 40.334375 313.79 
+L 565.2 313.79 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 40.334375 26.16 
+L 565.2 26.16 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_8">
+    <!-- Phase space for energy -->
+    <g transform="translate(232.37125 20.16) scale(0.12 -0.12)">
+     <defs>
+      <path id="DejaVuSans-50" d="M 1259 4147 
+L 1259 2394 
+L 2053 2394 
+Q 2494 2394 2734 2622 
+Q 2975 2850 2975 3272 
+Q 2975 3691 2734 3919 
+Q 2494 4147 2053 4147 
+L 1259 4147 
+z
+M 628 4666 
+L 2053 4666 
+Q 2838 4666 3239 4311 
+Q 3641 3956 3641 3272 
+Q 3641 2581 3239 2228 
+Q 2838 1875 2053 1875 
+L 1259 1875 
+L 1259 0 
+L 628 0 
+L 628 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-68" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 4863 
+L 1159 4863 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-61" d="M 2194 1759 
+Q 1497 1759 1228 1600 
+Q 959 1441 959 1056 
+Q 959 750 1161 570 
+Q 1363 391 1709 391 
+Q 2188 391 2477 730 
+Q 2766 1069 2766 1631 
+L 2766 1759 
+L 2194 1759 
+z
+M 3341 1997 
+L 3341 0 
+L 2766 0 
+L 2766 531 
+Q 2569 213 2275 61 
+Q 1981 -91 1556 -91 
+Q 1019 -91 701 211 
+Q 384 513 384 1019 
+Q 384 1609 779 1909 
+Q 1175 2209 1959 2209 
+L 2766 2209 
+L 2766 2266 
+Q 2766 2663 2505 2880 
+Q 2244 3097 1772 3097 
+Q 1472 3097 1187 3025 
+Q 903 2953 641 2809 
+L 641 3341 
+Q 956 3463 1253 3523 
+Q 1550 3584 1831 3584 
+Q 2591 3584 2966 3190 
+Q 3341 2797 3341 1997 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-66" d="M 2375 4863 
+L 2375 4384 
+L 1825 4384 
+Q 1516 4384 1395 4259 
+Q 1275 4134 1275 3809 
+L 1275 3500 
+L 2222 3500 
+L 2222 3053 
+L 1275 3053 
+L 1275 0 
+L 697 0 
+L 697 3053 
+L 147 3053 
+L 147 3500 
+L 697 3500 
+L 697 3744 
+Q 697 4328 969 4595 
+Q 1241 4863 1831 4863 
+L 2375 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-72" d="M 2631 2963 
+Q 2534 3019 2420 3045 
+Q 2306 3072 2169 3072 
+Q 1681 3072 1420 2755 
+Q 1159 2438 1159 1844 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1341 3275 1631 3429 
+Q 1922 3584 2338 3584 
+Q 2397 3584 2469 3576 
+Q 2541 3569 2628 3553 
+L 2631 2963 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-67" d="M 2906 1791 
+Q 2906 2416 2648 2759 
+Q 2391 3103 1925 3103 
+Q 1463 3103 1205 2759 
+Q 947 2416 947 1791 
+Q 947 1169 1205 825 
+Q 1463 481 1925 481 
+Q 2391 481 2648 825 
+Q 2906 1169 2906 1791 
+z
+M 3481 434 
+Q 3481 -459 3084 -895 
+Q 2688 -1331 1869 -1331 
+Q 1566 -1331 1297 -1286 
+Q 1028 -1241 775 -1147 
+L 775 -588 
+Q 1028 -725 1275 -790 
+Q 1522 -856 1778 -856 
+Q 2344 -856 2625 -561 
+Q 2906 -266 2906 331 
+L 2906 616 
+Q 2728 306 2450 153 
+Q 2172 0 1784 0 
+Q 1141 0 747 490 
+Q 353 981 353 1791 
+Q 353 2603 747 3093 
+Q 1141 3584 1784 3584 
+Q 2172 3584 2450 3431 
+Q 2728 3278 2906 2969 
+L 2906 3500 
+L 3481 3500 
+L 3481 434 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-50"/>
+     <use xlink:href="#DejaVuSans-68" transform="translate(60.302734 0)"/>
+     <use xlink:href="#DejaVuSans-61" transform="translate(123.681641 0)"/>
+     <use xlink:href="#DejaVuSans-73" transform="translate(184.960938 0)"/>
+     <use xlink:href="#DejaVuSans-65" transform="translate(237.060547 0)"/>
+     <use xlink:href="#DejaVuSans-20" transform="translate(298.583984 0)"/>
+     <use xlink:href="#DejaVuSans-73" transform="translate(330.371094 0)"/>
+     <use xlink:href="#DejaVuSans-70" transform="translate(382.470703 0)"/>
+     <use xlink:href="#DejaVuSans-61" transform="translate(445.947266 0)"/>
+     <use xlink:href="#DejaVuSans-63" transform="translate(507.226562 0)"/>
+     <use xlink:href="#DejaVuSans-65" transform="translate(562.207031 0)"/>
+     <use xlink:href="#DejaVuSans-20" transform="translate(623.730469 0)"/>
+     <use xlink:href="#DejaVuSans-66" transform="translate(655.517578 0)"/>
+     <use xlink:href="#DejaVuSans-6f" transform="translate(690.722656 0)"/>
+     <use xlink:href="#DejaVuSans-72" transform="translate(751.904297 0)"/>
+     <use xlink:href="#DejaVuSans-20" transform="translate(793.017578 0)"/>
+     <use xlink:href="#DejaVuSans-65" transform="translate(824.804688 0)"/>
+     <use xlink:href="#DejaVuSans-6e" transform="translate(886.328125 0)"/>
+     <use xlink:href="#DejaVuSans-65" transform="translate(949.707031 0)"/>
+     <use xlink:href="#DejaVuSans-72" transform="translate(1011.230469 0)"/>
+     <use xlink:href="#DejaVuSans-67" transform="translate(1050.59375 0)"/>
+     <use xlink:href="#DejaVuSans-79" transform="translate(1114.070312 0)"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="patch_7">
+     <path d="M 480.3 53.86 
+L 558.2 53.86 
+Q 560.2 53.86 560.2 51.86 
+L 560.2 33.16 
+Q 560.2 31.16 558.2 31.16 
+L 480.3 31.16 
+Q 478.3 31.16 478.3 33.16 
+L 478.3 51.86 
+Q 478.3 53.86 480.3 53.86 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_12">
+     <path d="M 482.3 42.36 
+L 492.3 42.36 
+L 502.3 42.36 
+" style="fill: none; stroke: #000000; stroke-width: 2; stroke-linecap: square"/>
+    </g>
+    <g id="text_9">
+     <!-- $x = E - \frac{v^2}{2}$ -->
+     <g transform="translate(510.3 45.86) scale(0.1 -0.1)">
+      <defs>
+       <path id="DejaVuSans-3d" d="M 678 2906 
+L 4684 2906 
+L 4684 2381 
+L 678 2381 
+L 678 2906 
+z
+M 678 1631 
+L 4684 1631 
+L 4684 1100 
+L 678 1100 
+L 678 1631 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-Oblique-78" transform="translate(0 0.039062)"/>
+      <use xlink:href="#DejaVuSans-3d" transform="translate(78.662109 0.039062)"/>
+      <use xlink:href="#DejaVuSans-Oblique-45" transform="translate(181.933594 0.039062)"/>
+      <use xlink:href="#DejaVuSans-2212" transform="translate(264.599609 0.039062)"/>
+      <use xlink:href="#DejaVuSans-Oblique-76" transform="translate(367.871094 43.835938) scale(0.7)"/>
+      <use xlink:href="#DejaVuSans-32" transform="translate(412.423177 70.632812) scale(0.49)"/>
+      <use xlink:href="#DejaVuSans-32" transform="translate(384.871094 -39.367188) scale(0.7)"/>
+      <path d="M 367.871094 18.835938 
+L 367.871094 25.085938 
+L 445.512533 25.085938 
+L 445.512533 18.835938 
+L 367.871094 18.835938 
+z
+"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0bae122b4a">
+   <rect x="40.334375" y="26.16" width="524.865625" height="287.63"/>
+  </clipPath>
+ </defs>
+</svg>
+
+  </div>
+$$\begin{aligned}
+V(E) &= \int_{-\sqrt{2E}}^{\sqrt{2E}}\left(E-\frac{v^2}{2} \right)dv \\\\
+&= \frac{4\sqrt{2}}{3}E^{\frac{3}{2}}
+\end{aligned}$$<p>The density of states \(N(E)\), i.e. the number of states available specifically in the interval \([E, E+dE]\), is the derivative of this volume:</p>
+$$N(E) = \frac{\partial V(E)}{\partial E} \varpropto \sqrt{E}$$<p>This completes our derivation. The final probability distribution for the energy is the product of the number of available states and the exponential <em>Boltzmann factor</em>:</p>
+$$\boxed{\pi(E) \varpropto N(E)e^{-\beta E}}$$<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Canonical ensemble is a 5 dollar word for a 25 cent concept - it's a system of particles in thermal equilibrium with a heat bath at a constant temperature.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share From Maxwell-Boltzmann to Boltzmann distribution on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fpawelpamula.github.io%2fposts%2fboltzmann-sampling%2f&amp;title=From%20Maxwell-Boltzmann%20to%20Boltzmann%20distribution&amp;summary=From%20Maxwell-Boltzmann%20to%20Boltzmann%20distribution&amp;source=https%3a%2f%2fpawelpamula.github.io%2fposts%2fboltzmann-sampling%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share From Maxwell-Boltzmann to Boltzmann distribution on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fpawelpamula.github.io%2fposts%2fboltzmann-sampling%2f&title=From%20Maxwell-Boltzmann%20to%20Boltzmann%20distribution">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share From Maxwell-Boltzmann to Boltzmann distribution on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=From%20Maxwell-Boltzmann%20to%20Boltzmann%20distribution&u=https%3a%2f%2fpawelpamula.github.io%2fposts%2fboltzmann-sampling%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://pawelpamula.github.io/">Truly Random</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

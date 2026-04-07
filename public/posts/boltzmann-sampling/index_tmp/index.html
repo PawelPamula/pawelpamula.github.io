@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Boltzmann distribution and Boltzmann sampling | Truly Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="In the previous post we&#39;ve derived the Maxwell-Boltzmann distribution for velocities of particles in an ideal gas. We made a pretty important assumption that the total energy of the system is constant. Now, let&#39;s take a look at the distribution for energies of particles if we allow changes in the box volume and allow exchange of energy with an external system. This setup will let us derive the Boltzmann distribution - one of the key concepts in statistical mechanics.">
+<meta name="author" content="Paweł Pamuła">
+<link rel="canonical" href="http://localhost:1313/posts/boltzmann-sampling/index_tmp/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/boltzmann-sampling/index_tmp/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script data-goatcounter="https://trulyrandom.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.css" integrity="sha384-DVShYR21zvUU4zL2VjLlIbYSeiS43grntDO/Sm1DwmGGXKxGmvBlXWZ9lnyKhota" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.js" integrity="sha384-qrraMcfiHZOij7s14X818B0oe4NpSugmOO0Q0fmDYBWV+6c10vA26yjevqe5zD0D" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://d3js.org/d3.v7.min.min.js"></script>
+
+<meta property="og:url" content="http://localhost:1313/posts/boltzmann-sampling/index_tmp/">
+  <meta property="og:site_name" content="Truly Random">
+  <meta property="og:title" content="Boltzmann distribution and Boltzmann sampling">
+  <meta property="og:description" content="In the previous post we&#39;ve derived the Maxwell-Boltzmann distribution for velocities of particles in an ideal gas. We made a pretty important assumption that the total energy of the system is constant. Now, let&#39;s take a look at the distribution for energies of particles if we allow changes in the box volume and allow exchange of energy with an external system. This setup will let us derive the Boltzmann distribution - one of the key concepts in statistical mechanics.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-03-25T21:56:30+09:00">
+    <meta property="article:modified_time" content="2026-03-25T21:56:30+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Boltzmann distribution and Boltzmann sampling">
+  <meta name="twitter:description" content="In the previous post we&#39;ve derived the Maxwell-Boltzmann distribution for velocities of particles in an ideal gas. We made a pretty important assumption that the total energy of the system is constant. Now, let&#39;s take a look at the distribution for energies of particles if we allow changes in the box volume and allow exchange of energy with an external system. This setup will let us derive the Boltzmann distribution - one of the key concepts in statistical mechanics.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Boltzmann distribution and Boltzmann sampling",
+      "item": "http://localhost:1313/posts/boltzmann-sampling/index_tmp/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Boltzmann distribution and Boltzmann sampling",
+  "name": "Boltzmann distribution and Boltzmann sampling",
+  "description": "In the previous post we've derived the Maxwell-Boltzmann distribution for velocities of particles in an ideal gas. We made a pretty important assumption that the total energy of the system is constant. Now, let's take a look at the distribution for energies of particles if we allow changes in the box volume and allow exchange of energy with an external system. This setup will let us derive the Boltzmann distribution - one of the key concepts in statistical mechanics.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "In the previous post we've derived the Maxwell-Boltzmann distribution for velocities of particles in an ideal gas. We made a pretty important assumption that the total energy of the system is constant. Now, let's take a look at the distribution for energies of particles if we allow changes in the box volume and allow exchange of energy with an external system. This setup will let us derive the Boltzmann distribution - one of the key concepts in statistical mechanics.\nError: SVG \"piston.svg\" not found\nParticles in a box interacting with an external bath In the figure above we have a box with particles closed off by a piston. On the left side, we assume there is a large bath of particles behind an elastic plate to allow for exchange of energy behind the particles. If the box was closed off by a wall on the left side, since the total energy of the system is a sum of the potential energy of the spring and kinetic energy of the particles, the average kinetic energy would be increasing if the piston was moving in the negative \\(x\\) direction, transforming potential into kinetic energy. In other words, the temperature of the system would increase.\nHowever, if we allow the particles to exchange the energy through a loose elastic plate through an external system (also called a \"bath\"), we can keep the piston-box system at constant temperature. The plate moves along the \\(x\\) direction over a small distance \\(\\Delta\\), responing to hits from partciles in the system and the bath.\nElastic head-on collisions exchange velocities (assuming equal mass), so once hit by a particle, the plate starts vibrating with a velocity \\(\\pm v_x\\). The plate will have its own velocity distribution different from the Maxwell distribution of particles' \\(x\\) velocity component, which is the following\n$$ \\begin{aligned} \\pi(v_x)dv_x \\varpropto e^{-\\beta\\frac{v_x^2}{2}}dx \\end{aligned} $$However, from the perspective of the plate, there's going to be disproprtionately more fast particles hitting the plate than slow ones. Fast particles cover more ground in the box and reach the plate sooner. So a single particle travelling with a velocity \\(v_x\\) needs to travel total distance of \\(2L\\) to hit the plate, bounce off the piston and hit the plate again. Time needed is \\(\\Delta t\\ = \\frac{|v_x|}{2L}\\), which gives us the collision frequency \\(f = \\frac{|v_x|}{2L}\\).\nThe frequency of a particle hitting the plate is directly proportional to the \\(x\\) component of the velocity. To find the distribution of velocities of the collisions (which dictates how the plate gets pushed around and ultimately its own velocity distribution), we need to multiply how many particles exist with velocity \\(v_x\\) and the frequency of these particles hitting the plane.\n$$ \\begin{aligned} \\pi_{collision}(v_x)dv_x \\varpropto |v_x|e^{-\\beta\\frac{v_x^2}{2}}dx \\end{aligned} $$Getting rid of the bath Now, since we know the distribution of plate velocities, we can get rid of the concept of an external bath and the elastic plate with a clever trick. Instead of thinking about the collisions between particles with the plate, we can redraw the horizontal velocity component from the above distribution.\nSince this distribution is equivalent to the Maxwell distribution for the absolute velocity in two dimensions, and we can replace it by two independent Gaussian variables $$ \\Upsilon_1, \\Upsilon_2 \\sim Gaussian(0, \\frac{1}{\\sqrt\\beta}) $$ The \\(x\\) velocity component becomes \\(v_x = \\sqrt{\\Upsilon_1^2 + \\Upsilon_2^2}\\).\nWith a couple of substitiutions similar to the ones in the derivation of Maxwell-Boltzmann distribution, we can arrive at the explicit value of \\(v_x\\) in the model without the external bath and a loose plate, so called boundary sampler.\nStarting with a uniform random variable \\(\\Upsilon \\sim Uniform(0, 1)\\), we can substitute \\(\\Upsilon = e^{-u}\\), which gives \\(u = -\\log\\Upsilon\\) which, from the first substitiution, is equal to \\(\\beta\\frac{v_x^2}{2}\\). We arrive at the following boundary sampler.\n$$ v_x = \\sqrt{\\frac{-2\\log\\Upsilon}{\\beta}} $$Whenever a particle hits the plate, it's outgoing horizontal velocity component is redrawn from the \\(\\pi_{collision}(v_x)\\) distribution.\nSwitching to the piston perspective Error: SVG \"piston-launch.svg\" not found\nLet's shift our focus to the piston. In the microscopic picture, when the piston reaches the plate, it interacts with it. However, we showed above that we can get rid of the particles and the plate with the Maxwell boundary sampler. The net effect is that when the contact of a piston occurs at \\(L = 0\\), piston gets relaunched with outgoing velocity \\(v_0\\) drawn from the same distribution. Note that we can drop the absolute value as we're talking only about the launch velocity in the positive \\(x\\) direction.\n$$ \\begin{aligned} \\pi_{launch}(v_0)dv_0 \\varpropto v_0e^{-\\beta\\frac{v_0^2}{2}}dv_0 \\end{aligned} $$After the launch, the piston moves under constant acceleration according to Newton law's with the initial velocity \\(v_0\\). Piston is under the constant force from the spring. We can set the units so that the mass and restoring force are equal to 1 and write the equations of motion.\n$$ \\ddot{x} = -1 $$After integrating with respect to time, we get\n$$ \\dot{x} = v_0 - t $$where \\(v_0\\) is the integration constant. Integrating once again, we know that that the initial position of the piston is 0 at the boundary, so the equation of the piston motion becomes\n$$ x = v_0t - \\frac{1}{2}t^2 $$Now we can calculate how long it takes for the piston to get back to the plate, in other words the return time.\n$$ 0 = v_0t - \\frac{1}{2}t^2 = t(v_0 - \\frac{1}{2}t)$$The following equation will have two solutions, one obviously for \\(t = 0\\) and the second one for \\(t = 2v_0\\). So the total flight time is proportional to the launch velocity. Basically, launching the piston with higher initial speed produces longer flight time.\nSwitching from launch velocity to time distribution Piston launches with initial speed in \\(v_0, v_0 + dv_0\\) happen with probability proportional to $$ \\pi_{launch}(v_0)dv_0 \\varpropto v_0e^{-\\beta\\frac{v_0^2}{2}}dv_0 $$Each launch lasts for time \\(2v_0\\). Hence, if we observe the system at a random time, the fraction of time spent on trajectories that started with speed \\(v_0\\) is proportional to (dropping constants)\n$$ \\pi_{time}(v_0)dv_0 \\varpropto v_0 v_0e^{-\\beta\\frac{v_0^2}{2}}dv_0 $$Now let's take a look at the total energy, the sum of potential (depending on \\(x\\)) and kinetic (depending on \\(v_0^2\\)) energy. Again, we can set the units so that we can write the following:\n$$ E = x + \\frac{v^2}{2} $$At the instant just after the launch at \\(x = 0\\), the energy is equal to \\(E = \\frac{v_0^2}{2}\\), which we can differentiate and get \\(dE = v_0dv_0\\).\nThat lets us rewrite the distribution in terms of E. $$ \\begin{aligned} \\pi_{time}(v_0)dv_0 \u0026\\varpropto v_0 v_0e^{-\\beta\\frac{v_0^2}{2}}dv_0 \\\\\\\\ \u0026\\varpropto v_0e^{-\\beta E}dE \\end{aligned} $$Boltzmann distribution Because \\(dE = v_0dv_0\\) and \\(v_0 = \\sqrt{2E}\\), the time the piston sends in the \\([E, E+dE]\\) interval is given with the following distribution, again omitting the constants\n$$ \\begin{aligned} \\pi_{time}(E)dE \\varpropto \\sqrt{E}e^{-\\beta E}dE \\end{aligned} $$Interestingly, we arrived at the well-known Boltzmann distribution with the \\(\\sqrt{E}\\) coefficient. This coefficient can be thought of as the density of states for a given energy \\(E\\).\nWe've said that the energy is the sum of potential and kinetic energy \\(E = x + \\frac{v^2}{2}\\) and \\(x \\geq 0\\). If we fix the energy, the allowed values for \\(x\\) run from 0 to \\(E - \\frac{v^2}{2}\\).\nError: SVG \"energy_phase_space.svg\" not found\nSo the total phase-space area with energy at most E is given by the following integral. The exact calculations are not that important though.\n$$ \\begin{aligned} V(E) \u0026= \\int_{-\\sqrt{2E}}^{\\sqrt{2E}}\\left(E-\\frac{v^2}{2} \\right)dv \\\\\\\\ \u0026= E(2\\sqrt{2E}) - \\frac{2\\sqrt{2}}{3} E^{\\frac{3}{2}} \\\\\\\\ \u0026= \\frac{4\\sqrt{2}}{3}E^{\\frac{3}{2}} \\end{aligned} $$Now, the density of states for an energy E, i.e. the number of phase space elements in the interval \\([E, E+dE]\\) is given by\n$$ N(E) = \\frac{\\partial V(E)}{\\partial E} \\sim \\sqrt{E} $$Therefore, finally we can write the energy probability distribution as $$ \\pi(E) \\varpropto N(E)e^{-\\beta E} $$",
+  "wordCount" : "1287",
+  "inLanguage": "en",
+  "datePublished": "2026-03-25T21:56:30+09:00",
+  "dateModified": "2026-03-25T21:56:30+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "Paweł Pamuła"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/boltzmann-sampling/index_tmp/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Truly Random",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Truly Random (Alt + H)">Truly Random</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Boltzmann distribution and Boltzmann sampling
+    </h1>
+    <div class="post-meta"><span title='2026-03-25 21:56:30 +0900 JST'>March 25, 2026</span>&nbsp;·&nbsp;<span>Paweł Pamuła</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>In the previous post we've derived the Maxwell-Boltzmann distribution for velocities of particles in an ideal gas. We made a pretty important assumption that the total energy of the system is constant. Now, let's take a look at the distribution for energies of particles if we allow changes in the box volume and allow exchange of energy with an external system. This setup will let us derive the Boltzmann distribution - one of the key concepts in statistical mechanics.</p>
+<p style="color:red;">Error: SVG "<strong>piston.svg</strong>" not found</p>
+<h3 id="particles-in-a-box-interacting-with-an-external-bath">Particles in a box interacting with an external bath<a hidden class="anchor" aria-hidden="true" href="#particles-in-a-box-interacting-with-an-external-bath">#</a></h3>
+<p>In the figure above we have a box with particles closed off by a piston. On the left side, we assume there is a large bath of particles behind an elastic plate to allow for exchange of energy behind the particles.
+If the box was closed off by a wall on the left side, since the total energy of the system is a sum of the potential energy of the spring and kinetic energy of the particles, the average kinetic energy would be increasing if the piston was moving in the negative \(x\) direction, transforming potential into kinetic energy. In other words, the temperature of the system would increase.</p>
+<p>However, if we allow the particles to exchange the energy through a loose elastic plate through an external system (also called a &quot;bath&quot;), we can keep the piston-box system at constant temperature. The plate moves along the \(x\) direction over a small distance \(\Delta\), responing to hits from partciles in the system and the bath.</p>
+<p>Elastic head-on collisions exchange velocities (assuming equal mass), so once hit by a particle, the plate starts vibrating with a velocity \(\pm v_x\). The plate will have its own velocity distribution different from the Maxwell distribution of particles' \(x\) velocity component, which is the following</p>
+$$
+\begin{aligned}
+\pi(v_x)dv_x \varpropto e^{-\beta\frac{v_x^2}{2}}dx
+\end{aligned}
+$$<p>However, from the perspective of the plate, there's going to be disproprtionately more fast particles hitting the plate than slow ones. Fast particles cover more ground in the box and reach the plate sooner. So a single particle travelling with a velocity \(v_x\) needs to travel total distance of \(2L\) to hit the plate, bounce off the piston and hit the plate again. Time needed is \(\Delta t\ = \frac{|v_x|}{2L}\), which gives us the collision frequency \(f = \frac{|v_x|}{2L}\).</p>
+<p>The frequency of a particle hitting the plate is directly proportional to the \(x\) component of the velocity. To find the distribution of velocities of the <em>collisions</em> (which dictates how the plate gets pushed around and ultimately its own velocity distribution), we need to multiply how many particles exist with velocity \(v_x\) and the frequency of these particles hitting the plane.</p>
+$$
+\begin{aligned}
+\pi_{collision}(v_x)dv_x \varpropto |v_x|e^{-\beta\frac{v_x^2}{2}}dx
+\end{aligned}
+$$<h3 id="getting-rid-of-the-bath">Getting rid of the bath<a hidden class="anchor" aria-hidden="true" href="#getting-rid-of-the-bath">#</a></h3>
+<p>Now, since we know the distribution of plate velocities, we can get rid of the concept of an external bath and the elastic plate with a clever trick. Instead of thinking about the collisions between particles with the plate, we can redraw the horizontal velocity component from the above distribution.</p>
+<p>Since this distribution is equivalent to the Maxwell distribution for the absolute velocity in two dimensions, and we can replace it by two independent Gaussian variables
+</p>
+$$ \Upsilon_1, \Upsilon_2 \sim Gaussian(0, \frac{1}{\sqrt\beta}) $$<p>
+The \(x\) velocity component becomes \(v_x = \sqrt{\Upsilon_1^2 + \Upsilon_2^2}\).</p>
+<p>With a couple of substitiutions similar to the ones in the derivation of Maxwell-Boltzmann distribution, we can arrive at the explicit value of \(v_x\) in the model without the external bath and a loose plate, so called boundary sampler.</p>
+<p>Starting with a uniform random variable \(\Upsilon \sim Uniform(0, 1)\), we can substitute \(\Upsilon = e^{-u}\), which gives \(u = -\log\Upsilon\) which, from the first substitiution, is equal to \(\beta\frac{v_x^2}{2}\). We arrive at the following boundary sampler.</p>
+$$
+v_x = \sqrt{\frac{-2\log\Upsilon}{\beta}}
+$$<p>Whenever a particle hits the plate, it's outgoing horizontal velocity component is redrawn from the \(\pi_{collision}(v_x)\) distribution.</p>
+<h3 id="switching-to-the-piston-perspective">Switching to the piston perspective<a hidden class="anchor" aria-hidden="true" href="#switching-to-the-piston-perspective">#</a></h3>
+<p style="color:red;">Error: SVG "<strong>piston-launch.svg</strong>" not found</p>
+<p>Let's shift our focus to the piston. In the microscopic picture, when the piston reaches the plate, it interacts with it. However, we showed above that we can get rid of the particles and the plate with the Maxwell boundary sampler. The net effect is that when the contact of a piston occurs at \(L = 0\), piston gets relaunched with outgoing velocity \(v_0\) drawn from the same distribution. Note that we can drop the absolute value as we're talking only about the launch velocity in the positive \(x\) direction.</p>
+$$
+\begin{aligned}
+\pi_{launch}(v_0)dv_0 \varpropto v_0e^{-\beta\frac{v_0^2}{2}}dv_0
+\end{aligned}
+$$<p>After the launch, the piston moves under constant acceleration according to Newton law's with the initial velocity \(v_0\). Piston is under the constant force from the spring. We can set the units so that the mass and restoring force are equal to 1 and write the equations of motion.</p>
+$$ \ddot{x} = -1 $$<p>After integrating with respect to time, we get</p>
+$$ \dot{x} = v_0 - t $$<p>where \(v_0\) is the integration constant. Integrating once again, we know that that the initial position of the piston is 0 at the boundary, so the equation of the piston motion becomes</p>
+$$ x = v_0t - \frac{1}{2}t^2 $$<p>Now we can calculate how long it takes for the piston to get back to the plate, in other words the return time.</p>
+$$ 0 = v_0t - \frac{1}{2}t^2 = t(v_0 - \frac{1}{2}t)$$<p>The following equation will have two solutions, one obviously for \(t = 0\) and the second one for \(t = 2v_0\). So the total flight time is proportional to the launch velocity. Basically, launching the piston with higher initial speed produces longer flight time.</p>
+<h3 id="switching-from-launch-velocity-to-time-distribution">Switching from launch velocity to time distribution<a hidden class="anchor" aria-hidden="true" href="#switching-from-launch-velocity-to-time-distribution">#</a></h3>
+<p>Piston launches with initial speed in \(v_0, v_0 + dv_0\) happen with probability proportional to
+</p>
+$$
+\pi_{launch}(v_0)dv_0 \varpropto v_0e^{-\beta\frac{v_0^2}{2}}dv_0
+$$<p>Each launch lasts for time \(2v_0\). Hence, if we observe the system at a random time, the fraction of time spent on trajectories that started with speed \(v_0\) is proportional to (dropping constants)</p>
+$$
+\pi_{time}(v_0)dv_0 \varpropto v_0 v_0e^{-\beta\frac{v_0^2}{2}}dv_0
+$$<p>Now let's take a look at the total energy, the sum of potential (depending on \(x\)) and kinetic (depending on \(v_0^2\)) energy. Again, we can set the units so that we can write the following:</p>
+$$
+E = x + \frac{v^2}{2} 
+$$<p>At the instant just after the launch at \(x = 0\), the energy is equal to \(E = \frac{v_0^2}{2}\), which we can differentiate and get \(dE = v_0dv_0\).</p>
+<p>That lets us rewrite the distribution in terms of E.
+</p>
+$$
+\begin{aligned}
+\pi_{time}(v_0)dv_0 &\varpropto v_0 v_0e^{-\beta\frac{v_0^2}{2}}dv_0 \\\\
+&\varpropto v_0e^{-\beta E}dE
+\end{aligned}
+$$<h3 id="boltzmann-distribution">Boltzmann distribution<a hidden class="anchor" aria-hidden="true" href="#boltzmann-distribution">#</a></h3>
+<p>Because \(dE = v_0dv_0\) and \(v_0 = \sqrt{2E}\), the time the piston sends in the \([E, E+dE]\) interval is given with the following distribution, again omitting the constants</p>
+$$
+\begin{aligned}
+\pi_{time}(E)dE \varpropto \sqrt{E}e^{-\beta E}dE
+\end{aligned}
+$$<p>Interestingly, we arrived at the well-known Boltzmann distribution with the \(\sqrt{E}\) coefficient. This coefficient can be thought of as the density of states for a given energy \(E\).</p>
+<p>We've said that the energy is the sum of potential and kinetic energy \(E = x + \frac{v^2}{2}\) and \(x \geq 0\). If we fix the energy, the allowed values for \(x\) run from 0 to \(E - \frac{v^2}{2}\).</p>
+<p style="color:red;">Error: SVG "<strong>energy_phase_space.svg</strong>" not found</p>
+<p>So the total phase-space area with energy at most E is given by the following integral. The exact calculations are not that important though.</p>
+$$
+\begin{aligned}
+V(E) &= \int_{-\sqrt{2E}}^{\sqrt{2E}}\left(E-\frac{v^2}{2} \right)dv \\\\
+&= E(2\sqrt{2E}) - \frac{2\sqrt{2}}{3} E^{\frac{3}{2}} \\\\
+&= \frac{4\sqrt{2}}{3}E^{\frac{3}{2}}
+\end{aligned}
+$$<p>Now, the density of states for an energy E, i.e. the number of phase space elements in the interval \([E, E+dE]\) is given by</p>
+$$
+N(E) = \frac{\partial V(E)}{\partial E} \sim \sqrt{E}
+$$<p>Therefore, finally we can write the energy probability distribution as
+</p>
+$$
+\pi(E) \varpropto N(E)e^{-\beta E}
+$$
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Boltzmann distribution and Boltzmann sampling on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fboltzmann-sampling%2findex_tmp%2f&amp;title=Boltzmann%20distribution%20and%20Boltzmann%20sampling&amp;summary=Boltzmann%20distribution%20and%20Boltzmann%20sampling&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fboltzmann-sampling%2findex_tmp%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Boltzmann distribution and Boltzmann sampling on reddit"
+            href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fboltzmann-sampling%2findex_tmp%2f&title=Boltzmann%20distribution%20and%20Boltzmann%20sampling">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Boltzmann distribution and Boltzmann sampling on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Boltzmann%20distribution%20and%20Boltzmann%20sampling&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fboltzmann-sampling%2findex_tmp%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Truly Random</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

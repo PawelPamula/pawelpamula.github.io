@@ -17,3 +17,38 @@
 :root {
     --main-width: 800px;
 }
+
+.svg-inline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  padding: 10px;
+  border-radius: 4px;
+  /* Remove max-width: fit-content; here */
+}
+
+.svg-inline svg {
+  width: 100%; /* Ensure the SVG fills the container width set by the shortcode */
+  height: auto;
+  display: block;
+}
+
+/* LIGHT MODE: Default look */
+.svg-inline {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: inherit; /* Lines match your site's text color */
+}
+
+/* DARK MODE: The "Plate" background */
+@media (prefers-color-scheme: dark) {
+  .svg-inline {
+    background-color: #fcfcfc; /* Light gray box */
+    border: 1px solid #e0e0e0;
+    
+    /* CRITICAL: Force the diagram lines to stay dark 
+       against the light gray box, even if the site text is white */
+    color: #1a1a1a !important; 
+  }
+}

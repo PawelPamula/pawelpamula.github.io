@@ -1,0 +1,13 @@
+{{- $path := .Get "src" -}}
+{{- $class := .Get "class" | default "svg-inline" -}}
+{{- $svg := .Page.Resources.Get $path -}}
+{{- $width := .Get "width" | default "100%" -}}
+
+{{- with $svg -}}
+  {{- $content := .Content -}}
+  <div class="{{ $class }}" style="max-width: {{ $width }}; width: 100%;">
+    {{ $content | safeHTML }}
+  </div>
+{{- else -}}
+  <p style="color:red;">Error: SVG "<strong>{{ $path }}</strong>" not found</p>
+{{- end -}}
