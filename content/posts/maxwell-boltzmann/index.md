@@ -1,7 +1,7 @@
 ---
 date: '2026-03-25T21:56:30+09:00'
 draft: false
-title: "How does one derive Maxwell-Boltzmann distribution again?"
+title: "Hyperspheres and Maxwell-Boltzmann distribution"
 ---
 
 I was recently watching [3blue1brown's video](https://www.youtube.com/watch?v=fsLh-NYhOoU) on the properties of hyperspheres, and it reminded me of a classic problem from statistical mechanics: the distribution of speeds for particles in a gas. While they might seem unrelated at first, hyperspheres are actually a great tool for explaining why a system of particles behaves the way it does. I decided to revisit the derivation of the Maxwell-Boltzmann distribution, which at its heart comes down to a simple geometric realization: if you treat the velocities of every particle as a single point in a high-dimensional space, the conservation of energy forces that point to live on the surface of a hypersphere.
@@ -158,7 +158,17 @@ So far, we have shown that normalizing a vector of independent normal variables 
 
 However, the **Herschel-Maxwell Theorem**[^2] proves that if a random vector's distribution is rotationally invariant and its components are independent, then those components must be identically and normally distributed. I’ll leave the proof for another post.
 
-The Maxwell-Boltzmann distribution was the first time that made me see conservation of kinetic energy geometrically as sampling points on a hypersphere, which was quite an interesting realization. The simple observation that space has no preferred direction actually dictates the micro-scale statistical distribution of velocities of every single particle in the gas.
+### Thermodynamical consequences
+
+Our initial setup assumed an isolated system with a fixed number of particles, resulting in a constant total energy. In statistical mechanics, this setup is known as the microcanonical ensemble. There is also another framework, called the canonical ensemble, where the system is allowed to exchange energy with its surroundings, meaning the temperature is fixed, but the total energy can fluctuate. Geometrically, instead of just the surface, this corresponds to looking at the entire volume of a hypersphere for energies up to \(E\).
+
+However, as Grant pointed out in his [video](https://youtu.be/fsLh-NYhOoU?t=3017), as the dimension \(d\) increases, the volume of a hypersphere of radius \(R\) becomes almost entirely concentrated near its surface. The ratio of the volume of a slightly smaller sphere of radius \(R-\epsilon\) to the volume of the original sphere quickly approaches zero:
+
+$$\frac{V_d(R-\epsilon)}{V_d(R)} = \left(1-\frac{\epsilon}{R}\right)^d$$
+
+Because of this property, even without complex calculations, we can see that in the high-dimensional limit, these two setups: one strictly isolated with fixed energy, and the other exchanging energy at a fixed temperature, become physically indistinguishable.
+
+We'll dive deeper into the canonical ensemble in the [next post]({{< relref "posts/boltzmann-distribution/index.md" >}}), where we'll build on today's Maxwell-Boltzmann derivation to find the distribution of energies.
 
 [^1]: https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
 [^2]: https://en.wikipedia.org/wiki/Maxwell%27s_theorem

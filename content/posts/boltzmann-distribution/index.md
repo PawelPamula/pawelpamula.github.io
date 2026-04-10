@@ -6,7 +6,7 @@ title: 'From Maxwell-Boltzmann to Boltzmann distribution'
 
 In the [previous post]({{< relref "posts/maxwell-boltzmann/index.md" >}}), we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.
 
-In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy of a canonical ensemble[^1], we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.
+In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change but the temperature is fixed, also called the _canonical ensemble_. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.
 
 
 ### Particles in a box interacting with an external bath
@@ -116,5 +116,3 @@ $$N(E) = \frac{\partial V(E)}{\partial E} \varpropto \sqrt{E}$$
 This completes our derivation. The final probability distribution for the energy is the product of the number of available states and the exponential _Boltzmann factor_:
 
 $$\boxed{\pi(E) \varpropto N(E)e^{-\beta E}}$$
-
-[^1]: Canonical ensemble is a 5 dollar word for a 25 cent concept - it's a system of particles in thermal equilibrium with a heat bath at a constant temperature.

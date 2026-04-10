@@ -15,7 +15,7 @@
 [data-theme="dark"] .img-dark { display: block; }
 
 :root {
-    --main-width: 800px;
+    --main-width: 750px;
 }
 
 .svg-inline {
