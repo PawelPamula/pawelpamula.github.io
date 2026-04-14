@@ -5,7 +5,8 @@
 
 {{- with $svg -}}
   {{- $content := .Content -}}
-  <div class="{{ $class }}" style="max-width: {{ $width }}; width: 100%;">
+  {{/* We remove the inline style attribute entirely */}}
+  <div class="svg-inline {{ $class }}">
     {{ $content | safeHTML }}
   </div>
 {{- else -}}

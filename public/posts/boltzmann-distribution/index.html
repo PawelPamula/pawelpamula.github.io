@@ -205,7 +205,8 @@ In this post, we are going to take a look at the distribution of particle energi
   <div class="post-content"><p>In the <a href="/posts/maxwell-boltzmann/">previous post</a>, we derived the Maxwell-Boltzmann distribution for particle velocities by exploring the geometric properties of hyperspheres. That derivation relied on a critical assumption: that the total energy of the system remains constant.</p>
 <p>In this post, we are going to take a look at the distribution of particle energies when the system is allowed to exchange energy with its surroundings and the box volume is permitted to change but the temperature is fixed, also called the <em>canonical ensemble</em>. This setup leads directly to the Boltzmann distribution - a foundational concept in statistical mechanics. While typical derivations involve maximizing the entropy, we will take a more elementary path (essentially without introducing entropy), building directly on our previous results to show how the Boltzmann distribution naturally emerges.</p>
 <h3 id="particles-in-a-box-interacting-with-an-external-bath">Particles in a box interacting with an external bath<a hidden class="anchor" aria-hidden="true" href="#particles-in-a-box-interacting-with-an-external-bath">#</a></h3>
-<div class="svg-inline" style="max-width: 60%; width: 100%;">
+
+  <div class="svg-inline svg-inline">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="242.53865pt" height="98.235547pt" viewBox="19.92528 -.000002 242.53865 98.235547">
 <defs>
 <path id="g0-76" d="M3.726027-6.027397C3.815691-6.386052 3.845579-6.495641 4.782067-6.495641C5.080946-6.495641 5.160648-6.495641 5.160648-6.684932C5.160648-6.804483 5.051059-6.804483 5.001245-6.804483C4.672478-6.804483 3.855542-6.774595 3.526775-6.774595C3.227895-6.774595 2.500623-6.804483 2.201743-6.804483C2.132005-6.804483 2.012453-6.804483 2.012453-6.60523C2.012453-6.495641 2.102117-6.495641 2.291407-6.495641C2.311333-6.495641 2.500623-6.495641 2.669988-6.475716C2.849315-6.455791 2.938979-6.445828 2.938979-6.316314C2.938979-6.276463 2.929016-6.246575 2.899128-6.127024L1.564134-.777086C1.464508-.388543 1.444583-.308842 .657534-.308842C.488169-.308842 .388543-.308842 .388543-.109589C.388543 0 .478207 0 .657534 0H5.270237C5.50934 0 5.519303 0 5.579078-.169365L6.366127-2.321295C6.405978-2.430884 6.405978-2.450809 6.405978-2.460772C6.405978-2.500623 6.37609-2.570361 6.286426-2.570361S6.1868-2.520548 6.117061-2.361146C5.778331-1.444583 5.339975-.308842 3.616438-.308842H2.67995C2.540473-.308842 2.520548-.308842 2.460772-.318804C2.361146-.328767 2.331258-.33873 2.331258-.418431C2.331258-.448319 2.331258-.468244 2.381071-.647572L3.726027-6.027397Z"/>
@@ -497,7 +498,8 @@ $$\begin{aligned}
 $$\Upsilon_1, \Upsilon_2 \sim Gaussian(0, \frac{1}{\sqrt\beta})$$<p>The \(x\)-velocity component becomes \(v_x = \sqrt{\Upsilon_1^2 + \Upsilon_2^2}\). To implement this in a model, we can start with a uniform random variable \(\Upsilon \sim Uniform(0, 1)\) and substitute \(\Upsilon = e^{-u}\), which gives \(u = -\log\Upsilon\). Setting this equal to \(\beta\frac{v_x^2}{2}\), we arrive at a simple &quot;boundary sampler&quot;:</p>
 $$v_x = \sqrt{\frac{-2\log\Upsilon}{\beta}}$$<p>Whenever a particle hits the plate, its outgoing horizontal velocity component is redrawn from this \(\pi_{collision}(v_x)\) distribution.</p>
 <h3 id="switching-to-the-piston-perspective">Switching to the piston perspective<a hidden class="anchor" aria-hidden="true" href="#switching-to-the-piston-perspective">#</a></h3>
-<div class="svg-inline" style="max-width: 60%; width: 100%;">
+
+  <div class="svg-inline svg-inline">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="222.439711pt" height="98.235547pt" viewBox="19.92528 -.000002 222.439711 98.235547">
 <defs>
 <path id="g2-48" d="M4.582814-3.188045C4.582814-3.985056 4.533001-4.782067 4.184309-5.519303C3.726027-6.475716 2.909091-6.635118 2.49066-6.635118C1.892902-6.635118 1.165629-6.37609 .757161-5.449564C.438356-4.762142 .388543-3.985056 .388543-3.188045C.388543-2.440847 .428394-1.544209 .836862-.787049C1.265255 .019925 1.992528 .219178 2.480697 .219178C3.01868 .219178 3.775841 .009963 4.214197-.936488C4.533001-1.62391 4.582814-2.400996 4.582814-3.188045ZM2.480697 0C2.092154 0 1.504359-.249066 1.325031-1.205479C1.215442-1.803238 1.215442-2.719801 1.215442-3.307597C1.215442-3.945205 1.215442-4.60274 1.295143-5.140722C1.484433-6.326276 2.231631-6.41594 2.480697-6.41594C2.809465-6.41594 3.466999-6.236613 3.656289-5.250311C3.755915-4.692403 3.755915-3.935243 3.755915-3.307597C3.755915-2.560399 3.755915-1.882939 3.646326-1.24533C3.496887-.298879 2.929016 0 2.480697 0Z"/>
@@ -626,7 +628,8 @@ $$\begin{aligned}
 \pi_{time}(E)dE \varpropto \sqrt{E}e^{-\beta E}dE
 \end{aligned}$$<p>We have arrived at the Boltzmann distribution. The \(\sqrt{E}\) term is the density of states—a factor that accounts for how much &quot;room&quot; exists in phase space at a particular energy level.</p>
 <p>To visualize this, consider the phase space \((x, v)\). For a fixed energy \(E = x + \frac{v^2}{2}\), there are many combinations of position and velocity that satisfy the equation. The &quot;volume&quot; of states available up to energy \(E\) is the area under the curve in phase space:</p>
-<div class="svg-inline" style="max-width: 60%; width: 100%;">
+
+  <div class="svg-inline svg-inline">
     <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">

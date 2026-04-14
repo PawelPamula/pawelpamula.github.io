@@ -11,7 +11,7 @@ In this post, we are going to take a look at the distribution of particle energi
 
 ### Particles in a box interacting with an external bath
 
-{{< svg src="piston.svg" class="svg-inline" width="60%" >}}
+{{< svg src="piston.svg" >}}
 
 In the figure above, we have a box of particles closed off by a piston. On the left side, we assume there is a large bath of particles behind an elastic plate, which allows for an exchange of energy between the particles in the system and the bath.
 
@@ -49,7 +49,7 @@ Whenever a particle hits the plate, its outgoing horizontal velocity component i
 
 ### Switching to the piston perspective
 
-{{< svg src="piston-launch.svg" class="svg-inline" width="60%" >}}
+{{< svg src="piston-launch.svg" class="svg-inline" width="100%" >}}
 
 Now, let's shift our focus to the piston itself. From a microscopic view, the piston interacts with the plate when it reaches the boundary. As we've shown, we can replace the bath and particles with our boundary sampler. The result is that when the piston makes contact at \(L = 0\), it is "relaunched" with an outgoing velocity \(v_0\) drawn from the collision distribution. We can drop the absolute value since the launch always occurs in the positive \(x\) direction:
 
@@ -102,7 +102,7 @@ We have arrived at the Boltzmann distribution. The \(\sqrt{E}\) term is the dens
 
 To visualize this, consider the phase space \((x, v)\). For a fixed energy \(E = x + \frac{v^2}{2}\), there are many combinations of position and velocity that satisfy the equation. The "volume" of states available up to energy \(E\) is the area under the curve in phase space:
 
-{{< svg src="energy_phase_space.svg" class="svg-inline" width="60%" >}}
+{{< svg src="energy_phase_space.svg" class="svg-inline">}}
 
 $$\begin{aligned}
 V(E) &= \int_{-\sqrt{2E}}^{\sqrt{2E}}\left(E-\frac{v^2}{2} \right)dv \\\\
