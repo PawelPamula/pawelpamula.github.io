@@ -1,0 +1,8 @@
+<details class="detail-card">
+  <summary class="detail-summary">
+    <span class="detail-summary-text">{{ (.Get 0) | markdownify }}</span>
+  </summary>
+  <div class="detail-body">
+    {{ .Inner | markdownify }}
+  </div>
+</details>

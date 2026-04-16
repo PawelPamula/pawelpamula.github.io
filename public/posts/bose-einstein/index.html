@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate | Truly Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="For classical particles in thermal equilibrium, the Boltzmann distribution governs the spread of their energies. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).
+On the other hand, quantum mechanics tells us that, according to the Born rule, the conditional probability density of finding a particle in a specific position \(x\), given that it is in quantum state \(n\), is the squared modulus of its wave function:">
+<meta name="author" content="Paweł Pamuła">
+<link rel="canonical" href="http://localhost:1313/posts/bose-einstein/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/bose-einstein/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script data-goatcounter="https://trulyrandom.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.css" integrity="sha384-DVShYR21zvUU4zL2VjLlIbYSeiS43grntDO/Sm1DwmGGXKxGmvBlXWZ9lnyKhota" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.js" integrity="sha384-qrraMcfiHZOij7s14X818B0oe4NpSugmOO0Q0fmDYBWV+6c10vA26yjevqe5zD0D" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://d3js.org/d3.v7.min.min.js"></script>
+
+<meta property="og:url" content="http://localhost:1313/posts/bose-einstein/">
+  <meta property="og:site_name" content="Truly Random">
+  <meta property="og:title" content="From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate">
+  <meta property="og:description" content="For classical particles in thermal equilibrium, the Boltzmann distribution governs the spread of their energies. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).
+On the other hand, quantum mechanics tells us that, according to the Born rule, the conditional probability density of finding a particle in a specific position \(x\), given that it is in quantum state \(n\), is the squared modulus of its wave function:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-16T20:49:15+09:00">
+    <meta property="article:modified_time" content="2026-04-16T20:49:15+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate">
+  <meta name="twitter:description" content="For classical particles in thermal equilibrium, the Boltzmann distribution governs the spread of their energies. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).
+On the other hand, quantum mechanics tells us that, according to the Born rule, the conditional probability density of finding a particle in a specific position \(x\), given that it is in quantum state \(n\), is the squared modulus of its wave function:">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate",
+      "item": "http://localhost:1313/posts/bose-einstein/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate",
+  "name": "From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate",
+  "description": "For classical particles in thermal equilibrium, the Boltzmann distribution governs the spread of their energies. The probability of finding the system in a specific state \\(n\\) with energy \\(E_n\\) is proportional to the Boltzmann factor, \\(e^{-\\beta E_n}\\).\nOn the other hand, quantum mechanics tells us that, according to the Born rule, the conditional probability density of finding a particle in a specific position \\(x\\), given that it is in quantum state \\(n\\), is the squared modulus of its wave function:\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "For classical particles in thermal equilibrium, the Boltzmann distribution governs the spread of their energies. The probability of finding the system in a specific state \\(n\\) with energy \\(E_n\\) is proportional to the Boltzmann factor, \\(e^{-\\beta E_n}\\).\nOn the other hand, quantum mechanics tells us that, according to the Born rule, the conditional probability density of finding a particle in a specific position \\(x\\), given that it is in quantum state \\(n\\), is the squared modulus of its wave function:\n$$P(x|n) = |\\psi_n(x)|^2 = \\psi_n(x)\\psi^*_n(x)$$By merging these two seemingly incompatible descriptions—classical thermal statistics and quantum wave mechanics—we can unlock profound insights into a bizarre state of matter: the Bose-Einstein Condensate (BEC).\nOn our journey there, we will uncover a deep connection between statistical mechanics and combinatorics, demonstrating how these seemingly distant mathematical concepts weave together to perfectly describe the quantum world.\nThe Density Matrix Let's start by combining these two concepts to build a joint probability density using standard probability rules (ignoring normalization constants for a moment):\n$$P(n, x) = P(n) \\times P(x|n) \\propto e^{-\\beta E_n} \\psi_n(x)\\psi^*_n(x)$$In general, the energy levels (eigenvalues) and wave functions (eigenstates) of a quantum system can be exceedingly difficult to calculate explicitly. However, if we only care about the position \\(x\\), we can calculate the marginal probability density \\(P(x)\\) by summing over all possible energy states \\(n\\):\n$$P(x) \\propto \\rho(x, x, \\beta) = \\sum_n e^{-\\beta E_n} \\psi_n(x)\\psi^*_n(x)$$This summation leads us to the diagonal elements of what is known as the (thermal) density matrix, denoted by \\(\\rho\\). But this object is richer than a simple marginal probability. If we introduce a second, distinct position variable \\(x' \\neq x\\), the expression \\(\\psi_n(x)\\psi_n^*(x')\\) is generally a complex number, not a physical probability.\nThese off-diagonal elements, \\(\\rho(x, x', \\beta)\\), are known as interference terms and encode spatial phase correlations. They give us deep insights into the quantum mechanical properties of the system. Specifically, they tell us how two positions of a particle in a superposition of being located at \\(x\\) and \\(x'\\) are capable of interfering with one another.\nIf an off-diagonal element approaches zero, it means that the phase correlation between those two points has been destroyed (usually by thermal noise). This makes physical sense when we look at the temperature dependence. The thermodynamic beta is defined as \\(\\beta = \\frac{1}{k_B T}\\). At high temperatures \\(T\\) (small \\(\\beta\\)), a massive number of excited energy states become thermally accessible. Summing over these wave functions causes destructive interference, washing out the off-diagonal terms and leaving us with classical thermal chaos.\nThe Free Particle Density Matrix To better understand and visualize the meaning of the density matrix, it is useful to consider the simplest example: a free particle moving in an infinite one-dimensional space.\nFor a free particle, energy levels are not quantized into discrete steps. Instead, the particle can possess any continuous momentum \\(p\\), meaning we must integrate over all possible momenta rather than sum over discrete states:\n$$ \\rho(x, x') = \\int_{-\\infty}^{\\infty} dp \\, e^{-\\beta E_p} \\psi_p(x)\\psi_p^*(x') $$The energy eigenvalue \\(E_p = \\frac{p^2}{2m}\\) depends only on the momentum \\(p\\) and mass \\(m\\), with corresponding position-space wave functions given by plane waves:\n$$\\psi_p(x) = \\frac{1}{\\sqrt{2\\pi\\hbar}} e^{i p x / \\hbar}$$Substituting these into the density matrix definition, we obtain:\n$$\\rho(x, x') = \\int_{-\\infty}^{\\infty} dp \\, e^{-\\beta \\frac{p^2}{2m}} \\left( \\frac{1}{\\sqrt{2\\pi\\hbar}} e^{i p x / \\hbar} \\right) \\left( \\frac{1}{\\sqrt{2\\pi\\hbar}} e^{-i p x' / \\hbar} \\right)$$ Derivation details The derivation relies on algebraic simplifications and a well-known Gaussian integral.\nAfter pulling out the constants and combining the exponents, we get:\n$$\\rho(x, x') = \\frac{1}{2\\pi\\hbar} \\int_{-\\infty}^{\\infty} dp \\, e^{ -\\frac{\\beta}{2m} p^2 + \\frac{i(x - x')}{\\hbar} p }$$We recognize a familiar Gaussian integral over the momentum \\(p\\), which we can evaluate easily using the standard formula:\n$$\\int_{-\\infty}^{\\infty} e^{-A p^2 + B p} dp = \\sqrt{\\frac{\\pi}{A}} e^{B^2 / 4A}$$By matching the terms, we identify our constants \\(A\\) and \\(B\\):\n$$\\sqrt{\\frac{\\pi}{A}} = \\sqrt{\\frac{2m\\pi}{\\beta}}$$And the exponent term becomes:\n$$\\frac{B^2}{4A} = \\frac{\\left( \\frac{i(x - x')}{\\hbar} \\right)^2}{4 \\left( \\frac{\\beta}{2m} \\right)} = \\frac{-\\frac{(x - x')^2}{\\hbar^2}}{\\frac{2\\beta}{m}} = - \\frac{m}{2\\beta\\hbar^2} (x - x')^2$$Finally, we multiply by the \\(\\frac{1}{2\\pi\\hbar}\\) constant from our simplified integral expression:\n$$\\rho(x, x') = \\frac{1}{2\\pi\\hbar} \\sqrt{\\frac{2m\\pi}{\\beta}} e^{ - \\frac{m}{2\\beta\\hbar^2} (x - x')^2 }$$By simplifying the prefactor and recalling that \\(\\beta = \\frac{1}{k_B T}\\), we arrive at the final expression for the free particle density matrix.\n$$ \\rho(x, x') = \\sqrt{\\frac{m k_B T}{2\\pi \\hbar^2}} e^{ - \\frac{m k_B T}{2\\hbar^2} (x - x')^2 } $$Now, let's take a look at the diagonal elements where \\(x = x'\\). The distance term in the exponent vanishes to \\(0\\), collapsing the matrix to a constant:\n$$ \\rho(x, x) = \\sqrt{\\frac{m k_B T}{2\\pi \\hbar^2}} $$Interestingly, the result does not depend on \\(x\\), which means that the particle is equally likely to be found anywhere.\nMore generally, the off-diagonal elements follow a Gaussian decay governed by the temperature \\(T\\) and the spatial separation \\((x - x')\\). In the quantum limit, as \\(T\\) approaches absolute zero, we can move \\(x\\) and \\(x'\\) far apart while the exponential term remains close to \\(1\\). The Gaussian broadens out, meaning the particle's quantum wave function smears across space, maintaining phase coherence over macroscopic distances. We can observe this phenomenon visually in the graphs below as temperature decreases.\n",
+  "wordCount" : "865",
+  "inLanguage": "en",
+  "datePublished": "2026-04-16T20:49:15+09:00",
+  "dateModified": "2026-04-16T20:49:15+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "Paweł Pamuła"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/bose-einstein/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Truly Random",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Truly Random (Alt + H)">Truly Random</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta"><span title='2026-04-16 20:49:15 +0900 JST'>April 16, 2026</span>&nbsp;·&nbsp;<span>Paweł Pamuła</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>For classical particles in thermal equilibrium, the Boltzmann distribution governs the spread of their energies. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).</p>
+<p>On the other hand, quantum mechanics tells us that, according to the Born rule, the conditional probability density of finding a particle in a specific position \(x\), given that it is in quantum state \(n\), is the squared modulus of its wave function:</p>
+$$P(x|n) = |\psi_n(x)|^2 = \psi_n(x)\psi^*_n(x)$$<p>By merging these two seemingly incompatible descriptions—classical thermal statistics and quantum wave mechanics—we can unlock profound insights into a bizarre state of matter: the Bose-Einstein Condensate (BEC).</p>
+<p>On our journey there, we will uncover a deep connection between statistical mechanics and combinatorics, demonstrating how these seemingly distant mathematical concepts weave together to perfectly describe the quantum world.</p>
+<h3 id="the-density-matrix">The Density Matrix<a hidden class="anchor" aria-hidden="true" href="#the-density-matrix">#</a></h3>
+<p>Let's start by combining these two concepts to build a joint probability density using standard probability rules (ignoring normalization constants for a moment):</p>
+$$P(n, x) = P(n) \times P(x|n) \propto e^{-\beta E_n} \psi_n(x)\psi^*_n(x)$$<p>In general, the energy levels (eigenvalues) and wave functions (eigenstates) of a quantum system can be exceedingly difficult to calculate explicitly. However, if we only care about the position \(x\), we can calculate the marginal probability density \(P(x)\) by summing over all possible energy states \(n\):</p>
+$$P(x) \propto \rho(x, x, \beta) = \sum_n e^{-\beta E_n} \psi_n(x)\psi^*_n(x)$$<p>This summation leads us to the diagonal elements of what is known as the (thermal) density matrix, denoted by \(\rho\). But this object is richer than a simple marginal probability. If we introduce a second, distinct position variable \(x' \neq x\), the expression \(\psi_n(x)\psi_n^*(x')\) is generally a complex number, not a physical probability.</p>
+<p>These off-diagonal elements, \(\rho(x, x', \beta)\), are known as interference terms and encode spatial phase correlations. They give us deep insights into the quantum mechanical properties of the system. Specifically, they tell us how two positions of a particle in a superposition of being located at \(x\) and \(x'\) are capable of interfering with one another.</p>
+<p>If an off-diagonal element approaches zero, it means that the phase correlation between those two points has been destroyed (usually by thermal noise). This makes physical sense when we look at the temperature dependence. The thermodynamic beta is defined as \(\beta = \frac{1}{k_B T}\). At high temperatures \(T\) (small \(\beta\)), a massive number of excited energy states become thermally accessible. Summing over these wave functions causes destructive interference, washing out the off-diagonal terms and leaving us with classical thermal chaos.</p>
+<h3 id="the-free-particle-density-matrix">The Free Particle Density Matrix<a hidden class="anchor" aria-hidden="true" href="#the-free-particle-density-matrix">#</a></h3>
+<p>To better understand and visualize the meaning of the density matrix, it is useful to consider the simplest example: a free particle moving in an infinite one-dimensional space.</p>
+<p>For a free particle, energy levels are not quantized into discrete steps. Instead, the particle can possess any continuous momentum \(p\), meaning we must integrate over all possible momenta rather than sum over discrete states:</p>
+$$
+\rho(x, x') = \int_{-\infty}^{\infty} dp \, e^{-\beta E_p} \psi_p(x)\psi_p^*(x')
+$$<p>The energy eigenvalue \(E_p = \frac{p^2}{2m}\) depends only on the momentum \(p\) and mass \(m\), with corresponding position-space wave functions given by plane waves:</p>
+$$\psi_p(x) = \frac{1}{\sqrt{2\pi\hbar}} e^{i p x / \hbar}$$<p>Substituting these into the density matrix definition, we obtain:</p>
+$$\rho(x, x') = \int_{-\infty}^{\infty} dp \, e^{-\beta \frac{p^2}{2m}} \left( \frac{1}{\sqrt{2\pi\hbar}} e^{i p x / \hbar} \right) \left( \frac{1}{\sqrt{2\pi\hbar}} e^{-i p x' / \hbar} \right)$$<details class="detail-card">
+  <summary class="detail-summary">
+    <span class="detail-summary-text">Derivation details</span>
+  </summary>
+  <div class="detail-body">
+    <p>The derivation relies on algebraic simplifications and a well-known Gaussian integral.</p>
+<p>After pulling out the constants and combining the exponents, we get:</p>
+$$\rho(x, x') = \frac{1}{2\pi\hbar} \int_{-\infty}^{\infty} dp \, e^{ -\frac{\beta}{2m} p^2 + \frac{i(x - x')}{\hbar} p }$$<p>We recognize a familiar Gaussian integral over the momentum \(p\), which we can evaluate easily using the standard formula:</p>
+$$\int_{-\infty}^{\infty} e^{-A p^2 + B p} dp = \sqrt{\frac{\pi}{A}} e^{B^2 / 4A}$$<p>By matching the terms, we identify our constants \(A\) and \(B\):</p>
+$$\sqrt{\frac{\pi}{A}} = \sqrt{\frac{2m\pi}{\beta}}$$<p>And the exponent term becomes:</p>
+$$\frac{B^2}{4A} = \frac{\left( \frac{i(x - x')}{\hbar} \right)^2}{4 \left( \frac{\beta}{2m} \right)} = \frac{-\frac{(x - x')^2}{\hbar^2}}{\frac{2\beta}{m}} = - \frac{m}{2\beta\hbar^2} (x - x')^2$$<p>Finally, we multiply by the \(\frac{1}{2\pi\hbar}\) constant from our simplified integral expression:</p>
+$$\rho(x, x') = \frac{1}{2\pi\hbar} \sqrt{\frac{2m\pi}{\beta}} e^{ - \frac{m}{2\beta\hbar^2} (x - x')^2 }$$<p>By simplifying the prefactor and recalling that \(\beta = \frac{1}{k_B T}\), we arrive at the final expression for the free particle density matrix.</p>
+
+  </div>
+</details>
+
+$$
+\rho(x, x') = \sqrt{\frac{m k_B T}{2\pi \hbar^2}} e^{ - \frac{m k_B T}{2\hbar^2} (x - x')^2 }
+$$<p>Now, let's take a look at the diagonal elements where \(x = x'\). The distance term in the exponent vanishes to \(0\), collapsing the matrix to a constant:</p>
+$$ \rho(x, x) = \sqrt{\frac{m k_B T}{2\pi \hbar^2}} $$<p>Interestingly, the result does not depend on \(x\), which means that the particle is equally likely to be found anywhere.</p>
+<p>More generally, the off-diagonal elements follow a Gaussian decay governed by the temperature \(T\) and the spatial separation \((x - x')\). In the quantum limit, as \(T\) approaches absolute zero, we can move \(x\) and \(x'\) far apart while the exponential term remains close to \(1\). The Gaussian broadens out, meaning the particle's quantum wave function smears across space, maintaining phase coherence over macroscopic distances. We can observe this phenomenon visually in the graphs below as temperature decreases.</p>
+ 
+
+
+
+
+<div class="themed-image-container">
+  <img src="density_matrix_T_1_10_100_light.png" class="img-light" alt="Density matrix at different temperatures" loading="lazy" >
+  <img src="density_matrix_T_1_10_100_dark.png" class="img-dark" alt="Density matrix at different temperatures" loading="lazy" >
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fbose-einstein%2f&amp;title=From%20Thermal%20Chaos%20to%20Quantum%20Coherence%3a%20Simulating%20a%20Bose-Einstein%20Condensate&amp;summary=From%20Thermal%20Chaos%20to%20Quantum%20Coherence%3a%20Simulating%20a%20Bose-Einstein%20Condensate&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fbose-einstein%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate on reddit"
+            href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fbose-einstein%2f&title=From%20Thermal%20Chaos%20to%20Quantum%20Coherence%3a%20Simulating%20a%20Bose-Einstein%20Condensate">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share From Thermal Chaos to Quantum Coherence: Simulating a Bose-Einstein Condensate on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=From%20Thermal%20Chaos%20to%20Quantum%20Coherence%3a%20Simulating%20a%20Bose-Einstein%20Condensate&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fbose-einstein%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Truly Random</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
