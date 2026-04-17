@@ -16,7 +16,7 @@ params:
 
   homeInfoParams:
     Title: "Paweł Pamuła"
-    Content: "Hi! I'm Paweł, a software engineer in Tokyo. I use this blog to think deeply about physics, computer science, and math, using writing as a way to uncover and address gaps in my understanding."
+    Content: "Hi! I'm Paweł, a software engineer in Tokyo. I use this blog to think deeply about physics, computer science, and math—using writing to uncover gaps in my understanding and to document the interesting concepts I stumble upon."
   socialIcons:
     - name: linkedin
       url: "https://linkedin.com/in/pamulapawel"
