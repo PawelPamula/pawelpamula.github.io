@@ -1,12 +1,11 @@
 {{- $path := .Get "src" -}}
-{{- $class := .Get "class" | default "svg-inline" -}}
+{{- $class := .Get "class" -}}
 {{- $svg := .Page.Resources.Get $path -}}
 {{- $width := .Get "width" | default "100%" -}}
 
 {{- with $svg -}}
   {{- $content := .Content -}}
-  {{/* We remove the inline style attribute entirely */}}
-  <div class="svg-inline {{ $class }}">
+  <div class="svg-inline{{ with $class }} {{ . }}{{ end }}" {{ printf "style=%q" (printf "--svg-width: %s;" $width) | safeHTMLAttr }}>
     {{ $content | safeHTML }}
   </div>
 {{- else -}}

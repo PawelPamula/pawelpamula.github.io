@@ -24,6 +24,71 @@ code {
   margin: 2rem 0; /* Adds a bit of breathing room above and below the image */
 }
 
+.detail-card {
+  margin: 1.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  background: transparent;
+  overflow: hidden;
+}
+
+.detail-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.1rem;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  user-select: none;
+}
+
+.detail-summary::-webkit-details-marker {
+  display: none;
+}
+
+.detail-summary::before {
+  content: "▸";
+  color: var(--secondary);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.detail-card[open] .detail-summary::before {
+  transform: rotate(90deg);
+  color: var(--primary);
+}
+
+.detail-summary:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: -2px;
+}
+
+.detail-summary-text > * {
+  margin: 0;
+}
+
+.detail-body {
+  padding: 0 1.1rem 1.1rem;
+  background: transparent;
+  color: var(--content);
+}
+
+.detail-card[open] .detail-body {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.detail-body > :first-child {
+  margin-top: 0;
+}
+
+.detail-body > :last-child {
+  margin-bottom: 0;
+}
+
 /* Default to Light Image */
 .img-dark { display: none; }
 .img-light { display: block; }
@@ -43,17 +108,13 @@ code {
   margin: 2rem auto;
   padding: 10px;
   border-radius: 4px;
-
-  /* --- Responsive Sizing Logic --- */
-  width: 100%;       /* Default for Mobile */
-  max-width: 100%;   /* Ensures it doesn't overflow */
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Media Query for Desktop (Tablets and up) */
 @media (min-width: 768px) {
   .svg-inline {
-    width: 75%;      /* Desktop width */
-    max-width: 750px; 
+    width: var(--svg-width, 100%);
   }
 }
 
