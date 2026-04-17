@@ -16,12 +16,15 @@ params:
 
   homeInfoParams:
     Title: "Paweł Pamuła"
-    Content: "Random thoughts in computer science, math and physics."
+    Content: "Hi! I'm Paweł, a software engineer in Tokyo. I use this blog to think deeply about physics, computer science, and math, using writing as a way to uncover and address gaps in my understanding."
   socialIcons:
     - name: linkedin
       url: "https://linkedin.com/in/pamulapawel"
     - name: email
       url: "mailto:pawel.pamula@gmail.com"
+    - name: rss
+      url: "/posts/index.xml"
+      title: "rss"
 
   # profileMode:
   #   enabled: true
