@@ -6,8 +6,16 @@
     <description>Recent content in Posts on Truly Random</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 07 Apr 2026 14:56:51 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2026 20:49:15 +0900</lastBuildDate>
     <atom:link href="https://pawelpamula.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Quantum Statistical Mechanics &amp; Path Integrals</title>
+      <link>https://pawelpamula.github.io/posts/quantum-statistical-mechanics/</link>
+      <pubDate>Thu, 16 Apr 2026 20:49:15 +0900</pubDate>
+      <guid>https://pawelpamula.github.io/posts/quantum-statistical-mechanics/</guid>
+      <description>&lt;p&gt;Over the last couple of weeks, I&#39;ve been diving deep into statistical mechanics. Recently, &lt;a href=&#34;https://worldquantumday.org/&#34;&gt;World Quantum Day&lt;/a&gt; on April 14th inspired me to revisit &lt;em&gt;quantum&lt;/em&gt; statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.&lt;/p&gt;
+&lt;p&gt;As we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).&lt;/p&gt;</description>
+    </item>
     <item>
       <title>From Maxwell-Boltzmann to Boltzmann distribution</title>
       <link>https://pawelpamula.github.io/posts/boltzmann-distribution/</link>

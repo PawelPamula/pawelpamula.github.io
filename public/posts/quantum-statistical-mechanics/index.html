@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Quantum Statistical Mechanics &amp; Path Integrals | Truly Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="Over the last couple of weeks, I&#39;ve been diving deep into statistical mechanics. Recently, World Quantum Day on April 14th inspired me to revisit quantum statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.
+As we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).">
+<meta name="author" content="Paweł Pamuła">
+<link rel="canonical" href="https://pawelpamula.github.io/posts/quantum-statistical-mechanics/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.82b3313fd242e9e9970c2b059af1ebb4adb0cfaa2e303729291e2eaea237b926.css" integrity="sha256-grMxP9JC6emXDCsFmvHrtK2wz6ouMDcpKR4urqI3uSY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://pawelpamula.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://pawelpamula.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://pawelpamula.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://pawelpamula.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://pawelpamula.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://pawelpamula.github.io/posts/quantum-statistical-mechanics/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script data-goatcounter="https://trulyrandom.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.css" integrity="sha384-DVShYR21zvUU4zL2VjLlIbYSeiS43grntDO/Sm1DwmGGXKxGmvBlXWZ9lnyKhota" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/katex.min.js" integrity="sha384-qrraMcfiHZOij7s14X818B0oe4NpSugmOO0Q0fmDYBWV+6c10vA26yjevqe5zD0D" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.42/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://d3js.org/d3.v7.min.min.js"></script>
+
+<meta property="og:url" content="https://pawelpamula.github.io/posts/quantum-statistical-mechanics/">
+  <meta property="og:site_name" content="Truly Random">
+  <meta property="og:title" content="Quantum Statistical Mechanics & Path Integrals">
+  <meta property="og:description" content="Over the last couple of weeks, I&#39;ve been diving deep into statistical mechanics. Recently, World Quantum Day on April 14th inspired me to revisit quantum statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.
+As we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-16T20:49:15+09:00">
+    <meta property="article:modified_time" content="2026-04-16T20:49:15+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Quantum Statistical Mechanics & Path Integrals">
+  <meta name="twitter:description" content="Over the last couple of weeks, I&#39;ve been diving deep into statistical mechanics. Recently, World Quantum Day on April 14th inspired me to revisit quantum statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.
+As we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://pawelpamula.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Quantum Statistical Mechanics \u0026 Path Integrals",
+      "item": "https://pawelpamula.github.io/posts/quantum-statistical-mechanics/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Quantum Statistical Mechanics \u0026 Path Integrals",
+  "name": "Quantum Statistical Mechanics \u0026 Path Integrals",
+  "description": "Over the last couple of weeks, I've been diving deep into statistical mechanics. Recently, World Quantum Day on April 14th inspired me to revisit quantum statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.\nAs we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \\(n\\) with energy \\(E_n\\) is proportional to the Boltzmann factor, \\(e^{-\\beta E_n}\\).\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Over the last couple of weeks, I've been diving deep into statistical mechanics. Recently, World Quantum Day on April 14th inspired me to revisit quantum statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.\nAs we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \\(n\\) with energy \\(E_n\\) is proportional to the Boltzmann factor, \\(e^{-\\beta E_n}\\).\nIn contrast, quantum mechanics dictates through the Born rule that the conditional probability density of finding a particle in a specific position \\(x\\), given that it is in quantum state \\(n\\), is the squared modulus of its wave function:\n$$P(x|n) = |\\psi_n(x)|^2 = \\psi_n(x)\\psi^*_n(x)$$By merging these two seemingly incompatible descriptions, we can derive a powerful framework known as the quantum path integral. This framework is useful in simulating quantum mechanical systems, e.g. systems at low temperatures, which will come in handy in the next post. It also reveals a beautiful equivalence between quantum mechanics and classical diffusion, demonstrating how the behavior of quantum superpositions can be accurately simulated using simple classical random walks.\nThe Density Matrix Let's construct the joint probability of finding a system in both a specific energy state (dictated by statistical mechanics) and a specific spatial position (dictated by quantum mechanics). Using standard probability rules and ignoring normalization constants for a moment, we get:\n$$P(n, x) = P(n) \\times P(x|n) \\propto e^{-\\beta E_n} \\psi_n(x)\\psi^*_n(x)$$In general, the energy levels (eigenvalues) and wave functions (eigenstates) of a quantum system can be exceedingly difficult to calculate explicitly. However, if we only care about the position \\(x\\), we can calculate the marginal probability density \\(P(x)\\) by summing over all possible energy states \\(n\\):\n$$P(x) \\propto \\rho(x, x, \\beta) = \\sum_n e^{-\\beta E_n} \\psi_n(x)\\psi^*_n(x)$$This summation leads us to the diagonal elements of what is known as the (thermal) density matrix, denoted by \\(\\rho\\). However, this matrix is much richer than a simple marginal probability. If we introduce a second, distinct position variable \\(x' \\neq x\\), the expression \\(\\psi_n(x)\\psi_n^*(x')\\) is generally a complex number, not a physical probability.\nThese off-diagonal elements, \\(\\rho(x, x', \\beta)\\), are known as interference terms and encode spatial phase correlations. They provide deep insights into the quantum mechanical properties of the system. Specifically, they quantify the capacity for interference when a particle exists in a superposition of being located at both \\(x\\) and \\(x'\\).\nWhen an off-diagonal element approaches zero, it indicates that the quantum phase correlation between those two spatial points has been destroyed, typically due to thermal fluctuations. This makes physical sense when considering temperature dependence. The thermodynamic beta is defined as \\(\\beta = \\frac{1}{k_B T}\\). At high temperatures \\(T\\) (small \\(\\beta\\)), a massive number of excited energy states become thermally accessible. Summing over these widely varying wave functions causes destructive interference, washing out the off-diagonal terms and leaving us with classical thermal chaos.\nThe Free Particle Density Matrix To better understand and visualize the meaning of the density matrix, it is useful to consider the simplest example: a free particle moving in an infinite one-dimensional space.\nFor a free particle, energy levels are not quantized into discrete steps. Instead, the particle can possess any continuous momentum \\(p\\), meaning we must integrate over all possible momenta rather than sum over discrete states:\n$$\\rho(x, x') = \\int_{-\\infty}^{\\infty} dp \\, e^{-\\beta E_p} \\psi_p(x)\\psi_p^*(x')$$The energy eigenvalue \\(E_p = \\frac{p^2}{2m}\\) depends only on the momentum \\(p\\) and mass \\(m\\), with corresponding position-space wave functions given by plane waves:\n$$\\psi_p(x) = \\frac{1}{\\sqrt{2\\pi\\hbar}} e^{i p x / \\hbar}$$Substituting these into the density matrix definition, we obtain:\n$$\\rho(x, x') = \\int_{-\\infty}^{\\infty} dp \\, e^{-\\beta \\frac{p^2}{2m}} \\left( \\frac{1}{\\sqrt{2\\pi\\hbar}} e^{i p x / \\hbar} \\right) \\left( \\frac{1}{\\sqrt{2\\pi\\hbar}} e^{-i p x' / \\hbar} \\right)$$ Derivation details The derivation relies on algebraic simplifications and a well-known Gaussian integral.\nAfter pulling out the constants and combining the exponents, we get:\n$$\\rho(x, x') = \\frac{1}{2\\pi\\hbar} \\int_{-\\infty}^{\\infty} dp \\, e^{ -\\frac{\\beta}{2m} p^2 + \\frac{i(x - x')}{\\hbar} p }$$We recognize a familiar Gaussian integral over the momentum \\(p\\), which we can evaluate easily using the standard formula:\n$$\\int_{-\\infty}^{\\infty} e^{-A p^2 + B p} dp = \\sqrt{\\frac{\\pi}{A}} e^{B^2 / 4A}$$By matching the terms, we identify our constants \\(A\\) and \\(B\\):\n$$\\sqrt{\\frac{\\pi}{A}} = \\sqrt{\\frac{2m\\pi}{\\beta}}$$And the exponent term becomes:\n$$\\frac{B^2}{4A} = \\frac{\\left( \\frac{i(x - x')}{\\hbar} \\right)^2}{4 \\left( \\frac{\\beta}{2m} \\right)} = \\frac{-\\frac{(x - x')^2}{\\hbar^2}}{\\frac{2\\beta}{m}} = - \\frac{m}{2\\beta\\hbar^2} (x - x')^2$$Finally, we multiply by the \\(\\frac{1}{2\\pi\\hbar}\\) constant from our simplified integral expression:\n$$\\rho(x, x') = \\frac{1}{2\\pi\\hbar} \\sqrt{\\frac{2m\\pi}{\\beta}} e^{ - \\frac{m}{2\\beta\\hbar^2} (x - x')^2 }$$By simplifying the prefactor and recalling that \\(\\beta = \\frac{1}{k_B T}\\), we arrive at the final expression for the free particle density matrix.\n$$\\rho(x, x') = \\sqrt{\\frac{m k_B T}{2\\pi \\hbar^2}} e^{ - \\frac{m k_B T}{2\\hbar^2} (x - x')^2 }$$Now, let's take a look at the diagonal elements where \\(x = x'\\). The distance term in the exponent vanishes to \\(0\\), collapsing the matrix to a constant:\n$$\\rho(x, x) = \\sqrt{\\frac{m k_B T}{2\\pi \\hbar^2}}$$Interestingly, the result does not depend on \\(x\\), which means a perfectly free particle is equally likely to be found anywhere in space.\nMore generally, the off-diagonal elements follow a Gaussian decay governed by the temperature \\(T\\) and the spatial separation \\((x - x')\\). In the quantum limit, as \\(T\\) approaches absolute zero, we can move \\(x\\) and \\(x'\\) far apart while the exponential term remains close to \\(1\\). The Gaussian broadens out, meaning the particle's quantum wave function smears across space, maintaining phase coherence over macroscopic distances. We can observe this phenomenon visually in the graphs below as temperature decreases.\nTrotter Decomposition The free particle density matrix is an elegant tool, but almost all interesting physical phenomena involve particles interacting with external potentials.\nIntroducing a potential field complicates our math significantly. The Boltzmann factor in our density matrix equation is more generally governed by the system's Hamiltonian operator, \\(\\hat{H}\\), which represents the total energy. This Hamiltonian is the sum of the kinetic energy operator, \\(\\hat{K}\\), and the potential energy operator, \\(\\hat{V}\\).\nFor a free particle, \\(\\hat{H} = \\hat{K}\\), which made our previous derivation straightforward. But for a trapped particle, the density operator becomes \\(e^{-\\beta \\hat{H}} = e^{-\\beta (\\hat{K} + \\hat{V})}\\).\nThese two operators do not commute (\\(\\hat{K}\\hat{V} \\neq \\hat{V}\\hat{K}\\)), meaning we cannot simply split the exponent and write it as \\(e^{-\\beta\\hat{K}}e^{-\\beta\\hat{V}}\\).\nThe key insight here is that while we cannot split the exponential for low temperatures, we can approximate the split for high temperatures. We will rely on another mathematical trick to bring the system from high to low temperatures shortly.\nBecause of operator non-commutativity, the Boltzmann factor can be written, according to the Baker-Campbell-Hausdorff formula, as:\n$$e^{-\\beta(\\hat{K}+\\hat{V})} = e^{-\\beta\\hat{K}}e^{-\\beta\\hat{V}}e^{-\\frac{\\beta^2}{2}[\\hat{K},\\hat{V}]}\\cdots$$At high temperatures, the inverse temperature \\(\\beta\\) is a tiny fraction, which makes \\(\\beta^2\\) and higher powers even smaller. This means we can write, assuming we replace \\(\\beta\\) with a tiny \\(\\tau\\):\n$$e^{-\\tau (\\hat{K} + \\hat{V})} \\approx e^{-\\tau \\hat{K}} e^{-\\tau \\hat{V}}$$We could also approximate the Boltzmann factor with:\n$$e^{-\\tau (\\hat{K} + \\hat{V})} \\approx e^{-\\tau \\hat{V}} e^{-\\tau \\hat{K}}$$To avoid the asymmetric split, the potential energy operator is usually split into two equal parts and applied on both sides of the kinetic energy operator. This is known as symmetric Trotter splitting (or Strang splitting):\n$$e^{-\\tau (\\hat{K} + \\hat{V})} \\approx e^{-\\frac{\\tau}{2} \\hat{V}} e^{-\\tau \\hat{K}} e^{-\\frac{\\tau}{2} \\hat{V}}$$ More rigorous argument A more rigorous argument involves expanding the symmetric operator \\(e^{-\\tau \\frac{\\hat{V}}{2}}e^{-\\tau \\hat{K}} e^{-\\tau \\frac{\\hat{V}}{2}}\\) using a Taylor series, with terms up to \\(\\tau^2\\).\nFirst, we write out the individual expansions:\n$$\\begin{aligned} e^{-\\tau \\frac{\\hat{V}}{2}} \u0026= 1-\\frac{\\tau}{2}\\hat{V}+\\frac{\\tau^2}{8}\\hat{V}^2+\\mathcal{O}(\\tau^3) \\\\ e^{-\\tau \\hat{K}} \u0026= 1-\\tau\\hat{K}+\\frac{\\tau^2}{2}\\hat{K}^2+\\mathcal{O}(\\tau^3) \\end{aligned}$$By putting these all together and multiplying them out (ignoring terms of order \\(\\tau^3\\) and higher), we can write:\n$$\\begin{aligned} e^{-\\tau \\frac{\\hat{V}}{2}}e^{-\\tau \\hat{K}} e^{-\\tau \\frac{\\hat{V}}{2}} \u0026\\approx \\left(1-\\frac{\\tau}{2}\\hat{V}+\\frac{\\tau^2}{8}\\hat{V}^2\\right)\\left(1-\\tau\\hat{K}+\\frac{\\tau^2}{2}\\hat{K}^2\\right)\\left(1-\\frac{\\tau}{2}\\hat{V}+\\frac{\\tau^2}{8}\\hat{V}^2\\right) \\\\ \u0026= 1 - \\tau(\\hat{K} + \\hat{V}) + \\frac{\\tau^2}{2}\\left(\\hat{K}^2 + \\hat{K}\\hat{V} + \\hat{V}\\hat{K} + \\hat{V}^2\\right) \\\\ \u0026= 1 - \\tau(\\hat{K} + \\hat{V}) + \\frac{\\tau^2}{2}(\\hat{K} + \\hat{V})^2 \\end{aligned}$$Notice that this result perfectly matches the analytical Taylor expansion of the exact Boltzmann factor \\(e^{-\\tau (\\hat{K} + \\hat{V})}\\) up to the second order!\nOn the other hand, evaluating the asymmetric split \\(e^{-\\tau \\hat{V}} e^{-\\tau \\hat{K}}\\) leaves us with:\n$$\\left(1-\\tau\\hat{V}+\\frac{\\tau^2}{2}\\hat{V}^2\\right)\\left(1-\\tau\\hat{K}+\\frac{\\tau^2}{2}\\hat{K}^2\\right) \\approx 1 - \\tau(\\hat{K} + \\hat{V}) + \\frac{\\tau^2}{2}\\left(\\hat{K}^2 + 2\\hat{V}\\hat{K} + \\hat{V}^2\\right)$$Because of the asymmetric \\(2\\hat{V}\\hat{K}\\) cross-term, it fails to match the true Taylor expansion. The asymmetric split introduces an error of order \\(\\mathcal{O}(\\tau^2)\\), whereas our symmetric split correctly matches the second order terms, pushing the error down to \\(\\mathcal{O}(\\tau^3)\\).\nWith this symmetric split, we can now approximate and plot the density matrix for a particle trapped in a harmonic oscillator, represented by a parabolic potential \\(V(x) = \\frac{1}{2}x^2\\) (assuming natural units where \\(\\hbar = m = k_B = 1\\)). The potential energy suppresses the density matrix at large values of \\(x\\) and \\(x'\\). Physically, this confines the particle to the center of the trap.\nQuantum Time Evolution The Trotter decomposition lets us approximate a Hamiltonian by separating the kinetic and potential energy operators. However, as we discussed, this only works reliably at high temperatures due to the small \\(\\beta\\) requirement. To calculate the density matrix for a particle in a potential at low temperatures, we must rely on a convolution property of density matrices.\nBefore we explore that property, we need to revisit quantum time evolution. According to the Schrödinger equation, the time evolution operator that moves a quantum system forward in time is (again assuming natural units, with \\(\\hbar=1\\)):\n$$\\hat{U}(t) = e^{-it\\hat{H}}$$ Derivation details Starting with the time-dependent Schrödinger equation:\n$$\\begin{aligned} i\\frac{\\partial}{\\partial t}\\psi(t) \u0026= \\hat{H}\\psi(t) \\\\ \\frac{\\partial}{\\partial t}\\psi(t) \u0026= -i\\hat{H}\\psi(t) \\end{aligned}$$The classic way to solve this kind of differential equation is to separate variables and integrate both sides, here from \\(t = 0\\) to \\(t\\):\n$$\\int_{\\psi(0)}^{\\psi(t)}\\frac{d\\psi}{\\psi} = \\int_0^t -i\\hat{H}dt'$$Assuming the Hamiltonian \\(\\hat{H}\\) does not depend explicitly on time \\(t\\), it can be pulled out of the integral:\n$$\\ln\\left(\\frac{\\psi(t)}{\\psi(0)}\\right) = -i\\hat{H}t$$Taking the exponential of both sides and substituting \\(\\psi_0 = \\psi(0)\\):\n$$\\psi(t) = e^{-it\\hat{H}}\\psi_0$$ Earlier, we introduced the thermal density operator, \\(e^{-\\beta\\hat{H}}\\), which governs the thermodynamic statistical weights. It closely resembles the time evolution operator, and we can map between these two definitions by making a simple substitution:\n$$\\beta = it$$This substitution is known as the Wick rotation. While it might initially seem like we are bizarrely conflating inverse temperature with imaginary time, this mapping is a rigorous mathematical transformation. In fact, this deep equivalence between statistical mechanics and quantum dynamics forms the entire conceptual foundation of thermal quantum field theory. For our simulation, it gives us exactly the mathematical trick needed to bridge the gap from high temperatures down to low ones.\nNow that we have established this relationship between \\(\\beta\\) and imaginary time, we can treat our total inverse temperature like a duration of time. By splitting this \"time\" into \\(N\\) small steps, \\(\\Delta \\tau\\), we mathematically slice our total \\(\\beta\\) into tiny, high-temperature intervals. By calculating the system's evolution over these microscopic steps, we can add all of them together. This process, analogous to integrating our way through discrete temperature slices, allows us to \"cool\" the system down to the low-temperature regime. Returning to our replacement of \\(\\beta\\) with a small \\(\\tau\\) to make the Trotter decomposition work, we can now write:\n$$e^{-\\beta \\hat{H}} = e^{-(\\tau+\\cdots+\\tau)\\hat{H}} = e^{-\\tau \\hat{H}} \\times e^{-\\tau \\hat{H}} \\times \\dots \\times e^{-\\tau \\hat{H}}$$Density Matrix at Low Temperatures Our goal is to derive the density matrix at low temperatures (large \\(\\beta\\)). To achieve this, we leverage another clever procedure that combines all the insights we've gathered so far: the convolution of density matrices.\nLet's look at the following integral, constructed from the basic definition of the density matrix:\n$$\\begin{aligned} \\int dx' \\, \\rho(x, x', \\tau)\\rho(x',x'',\\tau) \u0026= \\int dx'\\sum_n\\psi_n(x)e^{-\\tau E_n}\\psi_n^*(x')\\sum_m\\psi_m(x')e^{-\\tau E_m}\\psi_m^*(x'') \\end{aligned}$$By rearranging the terms to isolate the integral over \\(x'\\) and combining the sums over the indices \\(n\\) and \\(m\\), we can take advantage of the orthogonality of quantum eigenstates. Specifically, \\(\\int dx' \\, \\psi_n^*(x')\\psi_m(x') = \\delta_{nm}\\), meaning the integral evaluates to 1 if \\(n = m\\) and 0 otherwise.\n$$\\begin{aligned} \\int dx' \\, \\rho(x, x', \\tau)\\rho(x',x'',\\tau) \u0026= \\sum_{n,m}\\psi_n(x)e^{-\\tau E_n}\\underbrace{\\int dx'\\psi_n^*(x')\\psi_m(x')}_{\\text{orthogonality}}e^{-\\tau E_m}\\psi_m^*(x'') \\\\ \u0026= \\sum_n\\psi_n(x)e^{-2\\tau E_n}\\psi_n^*(x'') \\\\ \u0026= \\rho(x, x'', 2\\tau) \\end{aligned}$$This result tells us that to \"glue\" two temperature slices together between points \\(x\\) and \\(x''\\), we must integrate over every possible intermediate spatial point \\(x'\\). This aligns perfectly with the core principle of the double-slit experiment: a quantum particle explores all possible paths between two points.\nOn the other hand, if \\(\\beta\\) acts as imaginary time, convolving these matrices is mathematically identical to evolving our quantum system step-by-step through imaginary time, accounting for all possible intermediate spatial trajectories along the way.\nWe can recursively apply this convolution property to keep adding temperature slices, \\(\\tau\\), until they sum up to our total target cold temperature, \\(\\beta\\).\nPath Integrals We have arrived at a recursive algorithm that lets us write the density matrix between two endpoints, \\(x_0\\) and \\(x_N\\) as a multidimensional integral over \\(N-1\\) intermediate points. By slicing \\(\\beta = N\\tau\\) and updating our notation for clarity, we have:\n$$\\rho(x_0, x_N, \\beta) = \\int dx_1 dx_2 \\dots dx_{N-1} \\, \\rho(x_0, x_1, \\tau)\\rho(x_1, x_2, \\tau)\\dots\\rho(x_{N-1}, x_N, \\tau)$$Now, let's borrow a concept from linear algebra: the trace of a matrix, which is simply the sum of its diagonal elements. Since our density matrix is continuous and infinite-dimensional, summing the diagonal elements means setting \\(x' = x\\) and integrating over all possible space:\n$$\\text{Tr}(\\rho) = \\int_{-\\infty}^{\\infty} \\rho(x, x, \\beta) \\, dx$$Let's plug in our original energy-eigenstate definition of the density matrix. By swapping the order of integration and summation, and pulling terms that do not depend on \\(x\\) outside the integral, we find:\n$$\\text{Tr}(\\rho) = \\int_{-\\infty}^{\\infty} \\left( \\sum_n e^{-\\beta E_n} \\psi_n(x)\\psi_n^*(x) \\right) dx = \\sum_n e^{-\\beta E_n} \\underbrace{ \\int_{-\\infty}^{\\infty} |\\psi_n(x)|^2 \\, dx }_{1}$$Because the wave functions \\(\\psi_n(x)\\) represent properly normalized probability amplitudes, they integrate exactly to \\(1\\). We are left with a simple sum over the Boltzmann factors:\n$$Z(\\beta) = \\sum_n e^{-\\beta E_n}$$This sum is defined as the partition function, \\(Z\\). In statistical mechanics, the partition function encodes the total statistical weight of all states a system can be in, allowing us to derive any thermodynamic parameter. We have just shown that the partition function is exactly equal to the trace of the thermal density matrix.\nWe started by calculating the trace from the eigenstate definition. Now, let's calculate that exact same trace using our sliced, low-temperature convolution formula. To take the trace, we must evaluate only the diagonal elements. This physically requires setting the final position equal to the initial position (\\(x_N = x_0\\)), and then integrating over that starting point:\n$$Z(\\beta) = \\int dx_0 \\int dx_1 dx_2 \\dots dx_{N-1} \\, \\rho(x_0, x_1, \\tau)\\rho(x_1, x_2, \\tau)\\dots\\rho(x_{N-1}, x_0, \\tau)$$We have made a pretty big conceptual leap here. In general, the density matrix \\(\\rho(x_0, x_N, \\beta)\\) measures quantum coherence and transition probability amplitudes between two distinct locations. If \\(x_0 \\neq x_N\\), the system is quantum mechanically smeared across space.\nBut the partition function \\(Z(\\beta)\\) doesn't measure transitions; it measures the total statistical weight of a system resting in thermal equilibrium. By enforcing \\(x_N = x_0\\), we mathematically demand that the particle starts at \\(x_0\\), traverses a sequence of intermediate positions across imaginary time, and eventually returns exactly to where it started.\nWe arrived at the definition of a quantum path integral, a framework originally introduced1 by Richard Feynman in 1948. The thermodynamic properties of our system can be simulated by summing over all possible loops a particle can take through imaginary time from \\(0\\) to \\(\\beta\\).\nThis geometric picture aligns with our earlier density matrix visualizations. At high temperatures (small \\(\\beta\\)), a particle experiences minimal quantum fluctuations, so its imaginary-time path remains a tight, highly localized loop around \\(x_0\\). Conversely, as we lower the temperature (large \\(\\beta\\)), these paths can stretch and wander significantly far from their origin point.\nA Different Look at the Schrödinger Equation Having constructed a quantum path integral that sums over all possible paths across imaginary time, we need a practical method to sample these paths.\nWe can turn to a classic Monte Carlo simulation where we select a single position \\(x_i\\) and treat its neighbors, \\(x_{i-1}\\) and \\(x_{i+1}\\), as fixed anchors. Then we propose a new position \\(x'_i\\) by shifting the current position by a value sampled from a uniform distribution:\n$$x'_i = x_i + \\text{Uniform}(-\\delta, \\delta)$$Next, we calculate the current and updated probability weights, which are simply a product of elements from the density matrix slices:\nOld weight (\\(W_{old}\\)): the density matrix slice from \\(x_{i-1} \\to x_i\\), multiplied by the slice from \\(x_i \\to x_{i+1}\\).\nNew weight (\\(W_{new}\\)): the density matrix slice from \\(x_{i-1} \\to x'_i\\), multiplied by the slice from \\(x'_i \\to x_{i+1}\\).\nWe then accept the proposed change according to the Metropolis acceptance criterion, which accepts the move if a uniformly sampled number between 0 and 1 is smaller than the ratio \\(r = \\frac{W_{new}}{W_{old}}\\).\nWhile we are glossing over a few implementation details, this Monte Carlo algorithm is a standard approach in computational physics. Simulating the quantum path for many intermediate points yields the following result:\nVisually, this closely resembles the well-known stochastic process called the Wiener process, and it turns out they are mathematically equivalent concepts. We can check the free density matrix\n$$\\rho_{free}(x_i, x_{i-1}, \\Delta\\tau) = \\sqrt{\\frac{m}{2\\pi \\hbar^2 \\Delta\\tau}} \\exp\\left( - \\frac{m}{2\\hbar^2\\Delta\\tau} (x_i - x_{i-1})^2 \\right)$$against the properties necessary for the construction of the Wiener process:\nInitialization: In our simulations, we pin the initial position at time \\(0\\). Independent increments: In the path integral formulation, the total weight of the path is the product of the individual slices. The slice from \\(x_{i-1} \\to x_i\\) is mathematically decoupled from the slice from \\(x_i \\to x_{i+1}\\). The free density matrix is a Gaussian (as shown earlier) with the mean \\(\\mu = x_{i-1}\\) and variance \\(\\sigma^2 = \\frac{\\hbar^2}{m}\\Delta\\tau\\). This brings us to the final observation connecting quantum mechanics with statistical mechanics. Since quantum paths are governed by the Schrödinger equation and the Wiener process by the diffusion equation, a deep mathematical connection should exists between them.\nGoing back to the time-dependent Schrödinger equation for a free particle with \\(\\hat{H} = -\\frac{\\hbar^2}{2m}\\frac{\\partial^2}{\\partial x^2}\\) (reintroducing \\(\\hbar\\) for clarity):\n$$i\\hbar\\frac{\\partial}{\\partial t}\\psi(x, t) = -\\frac{\\hbar^2}{2m}\\frac{\\partial^2\\psi(x, t)}{\\partial x^2}$$Let's perform the Wick rotation and change time into imaginary time, \\(t=-i\\tau\\):\n$$\\begin{aligned} i\\hbar \\frac{\\partial \\psi(x, \\tau)}{\\partial (-i\\tau)} \u0026= -\\frac{\\hbar^2}{2m} \\frac{\\partial^2 \\psi(x, \\tau)}{\\partial x^2} \\\\\\\\ -\\hbar \\frac{\\partial \\psi(x, \\tau)}{\\partial \\tau} \u0026= -\\frac{\\hbar^2}{2m} \\frac{\\partial^2 \\psi(x, \\tau)}{\\partial x^2} \\\\\\\\ \\frac{\\partial \\psi(x, \\tau)}{\\partial \\tau} \u0026= \\frac{\\hbar}{2m} \\frac{\\partial^2 \\psi(x, \\tau)}{\\partial x^2} \\end{aligned}$$For classical particles undergoing Brownian motion, the probability density \\(P(x, t)\\) of finding the particle at position \\(x\\) and time \\(t\\) is governed by the diffusion equation:\n$$\\frac{\\partial P(x, t)}{\\partial t} = D \\frac{\\partial^2 P(x, t)}{\\partial x^2}$$Comparing these two equations, they are algebraically identical with the diffusion constant \\(D\\) equal to \\(\\frac{\\hbar}{2m}\\). Through what is known as the Feynman-Kac formula, this reveals that we can accurately simulate quantum mechanics using classical random walks.\nSummary We set out to describe a physical system using two fundamentally different frameworks: statistical mechanics and quantum mechanics. The density matrix served as our primary mathematical bridge, describing how quantum coherence decays under thermal chaos. From there, we worked through high-temperature approximations and a method of stitching them together, which eventually built the foundation for Feynman's path integral framework. Finally, we came full circle: by rotating through imaginary time (the Wick rotation), we returned to the classical diffusion equation and random walks, demonstrating a pretty beautiful example of a classical-quantum isomorphism.\nhttp://www-f1.ijs.si/~ramsak/km1/feynman.pdf ↩︎\n",
+  "wordCount" : "3231",
+  "inLanguage": "en",
+  "datePublished": "2026-04-16T20:49:15+09:00",
+  "dateModified": "2026-04-16T20:49:15+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "Paweł Pamuła"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://pawelpamula.github.io/posts/quantum-statistical-mechanics/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Truly Random",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pawelpamula.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://pawelpamula.github.io/" accesskey="h" title="Truly Random (Alt + H)">Truly Random</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://pawelpamula.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Quantum Statistical Mechanics &amp; Path Integrals
+    </h1>
+    <div class="post-meta"><span title='2026-04-16 20:49:15 +0900 JST'>April 16, 2026</span>&nbsp;·&nbsp;<span>Paweł Pamuła</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>Over the last couple of weeks, I've been diving deep into statistical mechanics. Recently, <a href="https://worldquantumday.org/">World Quantum Day</a> on April 14th inspired me to revisit <em>quantum</em> statistical mechanics. Somewhat by accident, this exploration brought me full circle, taking me all the way back to classical statistical mechanics.</p>
+<p>As we derived in previous posts, the Boltzmann distribution governs the energy spread of classical particles in thermal equilibrium. The probability of finding the system in a specific state \(n\) with energy \(E_n\) is proportional to the Boltzmann factor, \(e^{-\beta E_n}\).</p>
+<p>In contrast, quantum mechanics dictates through the Born rule that the conditional probability density of finding a particle in a specific position \(x\), given that it is in quantum state \(n\), is the squared modulus of its wave function:</p>
+$$P(x|n) = |\psi_n(x)|^2 = \psi_n(x)\psi^*_n(x)$$<p>By merging these two seemingly incompatible descriptions, we can derive a powerful  framework known as the quantum path integral. This framework is useful in simulating quantum mechanical systems, e.g. systems at low temperatures, which will come in handy in the next post. It also reveals a beautiful equivalence between quantum mechanics and classical diffusion, demonstrating how the  behavior of quantum superpositions can be accurately simulated using simple classical random walks.</p>
+<h2 id="the-density-matrix">The Density Matrix<a hidden class="anchor" aria-hidden="true" href="#the-density-matrix">#</a></h2>
+<p>Let's construct the joint probability of finding a system in both a specific energy state (dictated by statistical mechanics) and a specific spatial position (dictated by quantum mechanics). Using standard probability rules and ignoring normalization constants for a moment, we get:</p>
+$$P(n, x) = P(n) \times P(x|n) \propto e^{-\beta E_n} \psi_n(x)\psi^*_n(x)$$<p>In general, the energy levels (eigenvalues) and wave functions (eigenstates) of a quantum system can be exceedingly difficult to calculate explicitly. However, if we only care about the position \(x\), we can calculate the marginal probability density \(P(x)\) by summing over all possible energy states \(n\):</p>
+$$P(x) \propto \rho(x, x, \beta) = \sum_n e^{-\beta E_n} \psi_n(x)\psi^*_n(x)$$<p>This summation leads us to the diagonal elements of what is known as the (thermal) density matrix, denoted by \(\rho\). However, this matrix is much richer than a simple marginal probability. If we introduce a second, distinct position variable \(x' \neq x\), the expression \(\psi_n(x)\psi_n^*(x')\) is generally a complex number, not a physical probability.</p>
+<p>These off-diagonal elements, \(\rho(x, x', \beta)\), are known as interference terms and encode spatial phase correlations. They provide deep insights into the quantum mechanical properties of the system. Specifically, they quantify the capacity for interference when a particle exists in a superposition of being located at both \(x\) and \(x'\).</p>
+<p>When an off-diagonal element approaches zero, it indicates that the quantum phase correlation between those two spatial points has been destroyed, typically due to thermal fluctuations. This makes physical sense when considering temperature dependence. The thermodynamic beta is defined as \(\beta = \frac{1}{k_B T}\). At high temperatures \(T\) (small \(\beta\)), a massive number of excited energy states become thermally accessible. Summing over these widely varying wave functions causes destructive interference, washing out the off-diagonal terms and leaving us with classical thermal chaos.</p>
+<h3 id="the-free-particle-density-matrix">The Free Particle Density Matrix<a hidden class="anchor" aria-hidden="true" href="#the-free-particle-density-matrix">#</a></h3>
+<p>To better understand and visualize the meaning of the density matrix, it is useful to consider the simplest example: a free particle moving in an infinite one-dimensional space.</p>
+<p>For a free particle, energy levels are not quantized into discrete steps. Instead, the particle can possess any continuous momentum \(p\), meaning we must integrate over all possible momenta rather than sum over discrete states:</p>
+$$\rho(x, x') = \int_{-\infty}^{\infty} dp \, e^{-\beta E_p} \psi_p(x)\psi_p^*(x')$$<p>The energy eigenvalue \(E_p = \frac{p^2}{2m}\) depends only on the momentum \(p\) and mass \(m\), with corresponding position-space wave functions given by plane waves:</p>
+$$\psi_p(x) = \frac{1}{\sqrt{2\pi\hbar}} e^{i p x / \hbar}$$<p>Substituting these into the density matrix definition, we obtain:</p>
+$$\rho(x, x') = \int_{-\infty}^{\infty} dp \, e^{-\beta \frac{p^2}{2m}} \left( \frac{1}{\sqrt{2\pi\hbar}} e^{i p x / \hbar} \right) \left( \frac{1}{\sqrt{2\pi\hbar}} e^{-i p x' / \hbar} \right)$$<details class="detail-card">
+  <summary class="detail-summary">
+    <span class="detail-summary-text">Derivation details</span>
+  </summary>
+  <div class="detail-body">
+    <p>The derivation relies on algebraic simplifications and a well-known Gaussian integral.</p>
+<p>After pulling out the constants and combining the exponents, we get:</p>
+$$\rho(x, x') = \frac{1}{2\pi\hbar} \int_{-\infty}^{\infty} dp \, e^{ -\frac{\beta}{2m} p^2 + \frac{i(x - x')}{\hbar} p }$$<p>We recognize a familiar Gaussian integral over the momentum \(p\), which we can evaluate easily using the standard formula:</p>
+$$\int_{-\infty}^{\infty} e^{-A p^2 + B p} dp = \sqrt{\frac{\pi}{A}} e^{B^2 / 4A}$$<p>By matching the terms, we identify our constants \(A\) and \(B\):</p>
+$$\sqrt{\frac{\pi}{A}} = \sqrt{\frac{2m\pi}{\beta}}$$<p>And the exponent term becomes:</p>
+$$\frac{B^2}{4A} = \frac{\left( \frac{i(x - x')}{\hbar} \right)^2}{4 \left( \frac{\beta}{2m} \right)} = \frac{-\frac{(x - x')^2}{\hbar^2}}{\frac{2\beta}{m}} = - \frac{m}{2\beta\hbar^2} (x - x')^2$$<p>Finally, we multiply by the \(\frac{1}{2\pi\hbar}\) constant from our simplified integral expression:</p>
+$$\rho(x, x') = \frac{1}{2\pi\hbar} \sqrt{\frac{2m\pi}{\beta}} e^{ - \frac{m}{2\beta\hbar^2} (x - x')^2 }$$<p>By simplifying the prefactor and recalling that \(\beta = \frac{1}{k_B T}\), we arrive at the final expression for the free particle density matrix.</p>
+
+  </div>
+</details>
+
+$$\rho(x, x') = \sqrt{\frac{m k_B T}{2\pi \hbar^2}} e^{ - \frac{m k_B T}{2\hbar^2} (x - x')^2 }$$<p>Now, let's take a look at the diagonal elements where \(x = x'\). The distance term in the exponent vanishes to \(0\), collapsing the matrix to a constant:</p>
+$$\rho(x, x) = \sqrt{\frac{m k_B T}{2\pi \hbar^2}}$$<p>Interestingly, the result does not depend on \(x\), which means a perfectly free particle is equally likely to be found anywhere in space.</p>
+<p>More generally, the off-diagonal elements follow a Gaussian decay governed by the temperature \(T\) and the spatial separation \((x - x')\). In the quantum limit, as \(T\) approaches absolute zero, we can move \(x\) and \(x'\) far apart while the exponential term remains close to \(1\). The Gaussian broadens out, meaning the particle's quantum wave function smears across space, maintaining phase coherence over macroscopic distances. We can observe this phenomenon visually in the graphs below as temperature decreases.</p>
+ 
+
+
+
+
+<div class="themed-image-container">
+  <img src="density_matrix_T_1_10_100_light.png" class="img-light" alt="Density matrix at different temperatures" loading="lazy" >
+  <img src="density_matrix_T_1_10_100_dark.png" class="img-dark" alt="Density matrix at different temperatures" loading="lazy" >
+</div>
+<h3 id="trotter-decomposition">Trotter Decomposition<a hidden class="anchor" aria-hidden="true" href="#trotter-decomposition">#</a></h3>
+<p>The free particle density matrix is an elegant tool, but almost all interesting physical phenomena involve particles interacting with external potentials.</p>
+<p>Introducing a potential field complicates our math significantly. The Boltzmann factor in our density matrix equation is more generally governed by the system's Hamiltonian operator, \(\hat{H}\), which represents the total energy. This Hamiltonian is the sum of the kinetic energy operator, \(\hat{K}\), and the potential energy operator, \(\hat{V}\).</p>
+<p>For a free particle, \(\hat{H} = \hat{K}\), which made our previous derivation straightforward. But for a trapped particle, the density operator becomes \(e^{-\beta \hat{H}} = e^{-\beta (\hat{K} + \hat{V})}\).</p>
+<p>These two operators do not commute (\(\hat{K}\hat{V} \neq \hat{V}\hat{K}\)), meaning we cannot simply split the exponent and write it as \(e^{-\beta\hat{K}}e^{-\beta\hat{V}}\).</p>
+<p>The key insight here is that while we cannot split the exponential for low temperatures, we can approximate the split for high temperatures. We will rely on another mathematical trick to bring the system from high to low temperatures shortly.</p>
+<p>Because of operator non-commutativity, the Boltzmann factor can be written, according to the Baker-Campbell-Hausdorff formula, as:</p>
+$$e^{-\beta(\hat{K}+\hat{V})} = e^{-\beta\hat{K}}e^{-\beta\hat{V}}e^{-\frac{\beta^2}{2}[\hat{K},\hat{V}]}\cdots$$<p>At high temperatures, the inverse temperature \(\beta\) is a tiny fraction, which makes \(\beta^2\) and higher powers even smaller. This means we can write, assuming we replace \(\beta\) with a tiny \(\tau\):</p>
+$$e^{-\tau (\hat{K} + \hat{V})} \approx e^{-\tau \hat{K}} e^{-\tau \hat{V}}$$<p>We could also approximate the Boltzmann factor with:</p>
+$$e^{-\tau (\hat{K} + \hat{V})} \approx e^{-\tau \hat{V}} e^{-\tau \hat{K}}$$<p>To avoid the asymmetric split, the potential energy operator is usually split into two equal parts and applied on both sides of the kinetic energy operator. This is known as symmetric Trotter splitting (or Strang splitting):</p>
+$$e^{-\tau (\hat{K} + \hat{V})} \approx e^{-\frac{\tau}{2} \hat{V}} e^{-\tau \hat{K}} e^{-\frac{\tau}{2} \hat{V}}$$<details class="detail-card">
+  <summary class="detail-summary">
+    <span class="detail-summary-text">More rigorous argument</span>
+  </summary>
+  <div class="detail-body">
+    <p>A more rigorous argument involves expanding the symmetric operator \(e^{-\tau \frac{\hat{V}}{2}}e^{-\tau \hat{K}} e^{-\tau \frac{\hat{V}}{2}}\) using a Taylor series, with terms up to \(\tau^2\).</p>
+<p>First, we write out the individual expansions:</p>
+$$\begin{aligned}
+e^{-\tau \frac{\hat{V}}{2}} &= 1-\frac{\tau}{2}\hat{V}+\frac{\tau^2}{8}\hat{V}^2+\mathcal{O}(\tau^3) \\
+e^{-\tau \hat{K}} &= 1-\tau\hat{K}+\frac{\tau^2}{2}\hat{K}^2+\mathcal{O}(\tau^3)
+\end{aligned}$$<p>By putting these all together and multiplying them out (ignoring terms of order \(\tau^3\) and higher), we can write:</p>
+$$\begin{aligned}
+e^{-\tau \frac{\hat{V}}{2}}e^{-\tau \hat{K}} e^{-\tau \frac{\hat{V}}{2}} &\approx \left(1-\frac{\tau}{2}\hat{V}+\frac{\tau^2}{8}\hat{V}^2\right)\left(1-\tau\hat{K}+\frac{\tau^2}{2}\hat{K}^2\right)\left(1-\frac{\tau}{2}\hat{V}+\frac{\tau^2}{8}\hat{V}^2\right) \\
+&= 1 - \tau(\hat{K} + \hat{V}) + \frac{\tau^2}{2}\left(\hat{K}^2 + \hat{K}\hat{V} + \hat{V}\hat{K} + \hat{V}^2\right) \\
+&= 1 - \tau(\hat{K} + \hat{V}) + \frac{\tau^2}{2}(\hat{K} + \hat{V})^2
+\end{aligned}$$<p>Notice that this result perfectly matches the analytical Taylor expansion of the exact Boltzmann factor \(e^{-\tau (\hat{K} + \hat{V})}\) up to the second order!</p>
+<p>On the other hand, evaluating the asymmetric split \(e^{-\tau \hat{V}} e^{-\tau \hat{K}}\) leaves us with:</p>
+$$\left(1-\tau\hat{V}+\frac{\tau^2}{2}\hat{V}^2\right)\left(1-\tau\hat{K}+\frac{\tau^2}{2}\hat{K}^2\right) \approx 1 - \tau(\hat{K} + \hat{V}) + \frac{\tau^2}{2}\left(\hat{K}^2 + 2\hat{V}\hat{K} + \hat{V}^2\right)$$<p>Because of the asymmetric \(2\hat{V}\hat{K}\) cross-term, it fails to match the true Taylor expansion. The asymmetric split introduces an error of order \(\mathcal{O}(\tau^2)\), whereas our symmetric split correctly matches the second order terms, pushing the error down to \(\mathcal{O}(\tau^3)\).</p>
+
+  </div>
+</details>
+
+<p>With this symmetric split, we can now approximate and plot the density matrix for a particle trapped in a harmonic oscillator, represented by a parabolic potential \(V(x) = \frac{1}{2}x^2\) (assuming natural units where \(\hbar = m = k_B = 1\)). The potential energy suppresses the density matrix at large values of \(x\) and \(x'\). Physically, this confines the particle to the center of the trap.</p>
+ 
+
+
+
+
+<div class="themed-image-container">
+  <img src="parabolic_density_matrix_T_1_10_100_light.png" class="img-light" alt="Parabolic density matrix at different temperatures" loading="lazy" >
+  <img src="parabolic_density_matrix_T_1_10_100_dark.png" class="img-dark" alt="Parabolic density matrix at different temperatures" loading="lazy" >
+</div>
+<h3 id="quantum-time-evolution">Quantum Time Evolution<a hidden class="anchor" aria-hidden="true" href="#quantum-time-evolution">#</a></h3>
+<p>The Trotter decomposition lets us approximate a Hamiltonian by separating the kinetic and potential energy operators. However, as we discussed, this only works reliably at high temperatures due to the small \(\beta\) requirement. To calculate the density matrix for a particle in a potential at low temperatures, we must rely on a convolution property of density matrices.</p>
+<p>Before we explore that property, we need to revisit quantum time evolution. According to the Schrödinger equation, the time evolution operator that moves a quantum system forward in time is (again assuming natural units, with \(\hbar=1\)):</p>
+$$\hat{U}(t) = e^{-it\hat{H}}$$<details class="detail-card">
+  <summary class="detail-summary">
+    <span class="detail-summary-text">Derivation details</span>
+  </summary>
+  <div class="detail-body">
+    <p>Starting with the time-dependent Schrödinger equation:</p>
+$$\begin{aligned}
+i\frac{\partial}{\partial t}\psi(t) &= \hat{H}\psi(t) \\
+\frac{\partial}{\partial t}\psi(t) &= -i\hat{H}\psi(t)
+\end{aligned}$$<p>The classic way to solve this kind of differential equation is to separate variables and integrate both sides, here from \(t = 0\) to \(t\):</p>
+$$\int_{\psi(0)}^{\psi(t)}\frac{d\psi}{\psi} = \int_0^t -i\hat{H}dt'$$<p>Assuming the Hamiltonian \(\hat{H}\) does not depend explicitly on time \(t\), it can be pulled out of the integral:</p>
+$$\ln\left(\frac{\psi(t)}{\psi(0)}\right) = -i\hat{H}t$$<p>Taking the exponential of both sides and substituting \(\psi_0 = \psi(0)\):</p>
+$$\psi(t) = e^{-it\hat{H}}\psi_0$$
+  </div>
+</details>
+
+<p>Earlier, we introduced the thermal density operator, \(e^{-\beta\hat{H}}\), which governs the thermodynamic statistical weights. It closely resembles the time evolution operator, and we can map between these two definitions by making a simple substitution:</p>
+$$\beta = it$$<p>This substitution is known as the <a href="https://en.wikipedia.org/wiki/Wick_rotation">Wick rotation</a>. While it might initially seem like we are bizarrely conflating inverse temperature with imaginary time, this mapping is a rigorous mathematical transformation. In fact, this deep equivalence between statistical mechanics and quantum dynamics forms the entire conceptual foundation of thermal quantum field theory. For our simulation, it gives us exactly the mathematical trick needed to bridge the gap from high temperatures down to low ones.</p>
+<p>Now that we have established this relationship between \(\beta\) and imaginary time, we can treat our total inverse temperature like a duration of time. By splitting this &quot;time&quot; into \(N\) small steps, \(\Delta \tau\), we mathematically slice our total \(\beta\) into tiny, high-temperature intervals. By calculating the system's evolution over these microscopic steps, we can add all of them together. This process, analogous to integrating our way through discrete temperature slices, allows us to &quot;cool&quot; the system down to the low-temperature regime. Returning to our replacement of \(\beta\) with a small \(\tau\) to make the Trotter decomposition work, we can now write:</p>
+$$e^{-\beta \hat{H}} = e^{-(\tau+\cdots+\tau)\hat{H}} =  e^{-\tau \hat{H}} \times e^{-\tau \hat{H}} \times \dots \times e^{-\tau \hat{H}}$$<h3 id="density-matrix-at-low-temperatures">Density Matrix at Low Temperatures<a hidden class="anchor" aria-hidden="true" href="#density-matrix-at-low-temperatures">#</a></h3>
+<p>Our goal is to derive the density matrix at low temperatures (large \(\beta\)). To achieve this, we leverage another clever procedure that combines all the insights we've gathered so far: the convolution of density matrices.</p>
+<p>Let's look at the following integral, constructed from the basic definition of the density matrix:</p>
+$$\begin{aligned}
+\int dx' \, \rho(x, x', \tau)\rho(x',x'',\tau) &= \int dx'\sum_n\psi_n(x)e^{-\tau E_n}\psi_n^*(x')\sum_m\psi_m(x')e^{-\tau E_m}\psi_m^*(x'')
+\end{aligned}$$<p>By rearranging the terms to isolate the integral over \(x'\) and combining the sums over the indices \(n\) and \(m\), we can take advantage of the orthogonality of quantum eigenstates. Specifically, \(\int dx' \, \psi_n^*(x')\psi_m(x') = \delta_{nm}\), meaning the integral evaluates to 1 if \(n = m\) and 0 otherwise.</p>
+$$\begin{aligned}
+\int dx' \, \rho(x, x', \tau)\rho(x',x'',\tau) &= \sum_{n,m}\psi_n(x)e^{-\tau E_n}\underbrace{\int dx'\psi_n^*(x')\psi_m(x')}_{\text{orthogonality}}e^{-\tau E_m}\psi_m^*(x'') \\
+&= \sum_n\psi_n(x)e^{-2\tau E_n}\psi_n^*(x'') \\
+&= \rho(x, x'', 2\tau)
+\end{aligned}$$<p>This result tells us that to &quot;glue&quot; two temperature slices together between points \(x\) and \(x''\), we must integrate over every possible intermediate spatial point \(x'\). This aligns perfectly with the core principle of the double-slit experiment: a quantum particle explores all possible paths between two points.</p>
+<p>On the other hand, if \(\beta\) acts as imaginary time, convolving these matrices is mathematically identical to evolving our quantum system step-by-step through imaginary time, accounting for all possible intermediate spatial trajectories along the way.</p>
+<p>We can recursively apply this convolution property to keep adding temperature slices, \(\tau\), until they sum up to our total target cold temperature, \(\beta\).</p>
+<h2 id="path-integrals">Path Integrals<a hidden class="anchor" aria-hidden="true" href="#path-integrals">#</a></h2>
+<p>We have arrived at a recursive algorithm that lets us write the density matrix between two endpoints, \(x_0\) and \(x_N\) as a multidimensional integral over \(N-1\) intermediate points. By slicing \(\beta = N\tau\) and updating our notation for clarity, we have:</p>
+$$\rho(x_0, x_N, \beta) = \int dx_1 dx_2 \dots dx_{N-1} \, \rho(x_0, x_1, \tau)\rho(x_1, x_2, \tau)\dots\rho(x_{N-1}, x_N, \tau)$$<p>Now, let's borrow a concept from linear algebra: the trace of a matrix, which is simply the sum of its diagonal elements. Since our density matrix is continuous and infinite-dimensional, summing the diagonal elements means setting \(x' = x\) and integrating over all possible space:</p>
+$$\text{Tr}(\rho) = \int_{-\infty}^{\infty} \rho(x, x, \beta) \, dx$$<p>Let's plug in our original energy-eigenstate definition of the density matrix. By swapping the order of integration and summation, and pulling terms that do not depend on \(x\) outside the integral, we find:</p>
+$$\text{Tr}(\rho) = \int_{-\infty}^{\infty} \left( \sum_n e^{-\beta E_n} \psi_n(x)\psi_n^*(x) \right) dx = \sum_n e^{-\beta E_n} \underbrace{ \int_{-\infty}^{\infty} |\psi_n(x)|^2 \, dx }_{1}$$<p>Because the wave functions \(\psi_n(x)\) represent properly normalized probability amplitudes, they integrate exactly to \(1\). We are left with a simple sum over the Boltzmann factors:</p>
+$$Z(\beta) = \sum_n e^{-\beta E_n}$$<p>This sum is defined as the partition function, \(Z\). In statistical mechanics, the partition function encodes the total statistical weight of all states a system can be in, allowing us to derive any thermodynamic parameter. We have just shown that the partition function is exactly equal to the trace of the thermal density matrix.</p>
+<p>We started by calculating the trace from the eigenstate definition. Now, let's calculate that exact same trace using our sliced, low-temperature convolution formula. To take the trace, we must evaluate only the diagonal elements. This physically requires setting the final position equal to the initial position (\(x_N = x_0\)), and then integrating over that starting point:</p>
+$$Z(\beta) = \int dx_0 \int dx_1 dx_2 \dots dx_{N-1} \, \rho(x_0, x_1, \tau)\rho(x_1, x_2, \tau)\dots\rho(x_{N-1}, x_0, \tau)$$<p>We have made a pretty big conceptual leap here. In general, the density matrix \(\rho(x_0, x_N, \beta)\) measures quantum coherence and transition probability amplitudes between two distinct locations. If \(x_0 \neq x_N\), the system is quantum mechanically smeared across space.</p>
+<p>But the partition function \(Z(\beta)\) doesn't measure transitions; it measures the total statistical weight of a system resting in thermal equilibrium. By enforcing \(x_N = x_0\), we mathematically demand that the particle starts at \(x_0\), traverses a sequence of intermediate positions across imaginary time, and eventually returns exactly to where it started.</p>
+<div class="svg-inline svg-inline" style="--svg-width: 50%;">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="154.465694pt" height="179.659318pt" viewBox="19.92528 -.000002 154.465694 179.659318">
+<defs>
+<path id="g2-48" d="M3.598506-2.224658C3.598506-2.991781 3.507846-3.542715 3.187049-4.030884C2.970859-4.351681 2.538481-4.630635 1.980573-4.630635C.36264-4.630635 .36264-2.726775 .36264-2.224658S.36264 .139477 1.980573 .139477S3.598506-1.72254 3.598506-2.224658ZM1.980573-.055791C1.659776-.055791 1.234371-.244085 1.094894-.81594C.99726-1.227397 .99726-1.799253 .99726-2.315318C.99726-2.824408 .99726-3.354421 1.101868-3.737983C1.248319-4.288917 1.694645-4.435367 1.980573-4.435367C2.357161-4.435367 2.719801-4.20523 2.84533-3.800747C2.956912-3.424159 2.963885-2.922042 2.963885-2.315318C2.963885-1.799253 2.963885-1.283188 2.873225-.843836C2.733748-.209215 2.259527-.055791 1.980573-.055791Z"/>
+<path id="g1-12" d="M4.414446-3.947198C4.414446-4.560897 3.884433-4.916563 3.270735-4.916563C2.315318-4.916563 1.610959-3.828643 1.436613-3.124284L.341719 1.26924C.327771 1.318057 .397509 1.352927 .439352 1.352927C.502117 1.352927 .557908 1.345953 .571856 1.30411L1.039103-.557908C1.185554-.237111 1.520299 .062765 2.085181 .062765C3.061519 .062765 4.163387-.641594 4.163387-1.708593C4.163387-2.12005 3.975093-2.538481 3.619427-2.768618C3.961146-2.984807 4.414446-3.382316 4.414446-3.947198ZM3.033624-2.775592C2.929016-2.75467 2.880199-2.726775 2.677958-2.726775C2.566376-2.726775 2.399004-2.733748 2.350187-2.761644C2.419925-2.803487 2.615193-2.810461 2.677958-2.810461C2.782565-2.810461 2.93599-2.803487 3.033624-2.775592ZM3.954172-4.072727C3.954172-3.703113 3.772852-3.159153 3.340473-2.915068C3.20797-2.956912 3.075467-3.005729 2.684932-3.005729C2.440847-3.005729 2.092154-2.991781 2.092154-2.740722C2.092154-2.566376 2.308344-2.538481 2.66401-2.538481C2.901121-2.538481 3.110336-2.57335 3.326526-2.636115C3.535741-2.489664 3.647323-2.203736 3.647323-1.896887C3.647323-.885679 2.956912-.132503 2.106102-.132503C1.569116-.132503 1.185554-.460274 1.185554-1.011208C1.185554-1.080946 1.192528-1.150685 1.206476-1.21345L1.66675-3.068493C1.834122-3.731009 2.447821-4.721295 3.256787-4.721295C3.668244-4.721295 3.954172-4.498132 3.954172-4.072727Z"/>
+<path id="g1-78" d="M5.816189-4.002989C5.885928-4.267995 5.997509-4.498132 6.555417-4.51208C6.590286-4.51208 6.694894-4.519054 6.694894-4.665504C6.694894-4.707347 6.660025-4.763138 6.590286-4.763138C6.360149-4.763138 6.102117-4.735243 5.865006-4.735243C5.697634-4.735243 5.293151-4.763138 5.125778-4.763138C5.090909-4.763138 4.986301-4.763138 4.986301-4.609714C4.986301-4.519054 5.076961-4.51208 5.139726-4.51208C5.467497-4.505106 5.586052-4.400498 5.586052-4.226152C5.586052-4.170361 5.579078-4.135492 5.558157-4.05878L4.798007-1.018182L3.02665-4.644583C2.970859-4.763138 2.956912-4.763138 2.789539-4.763138H1.834122C1.701619-4.763138 1.610959-4.763138 1.610959-4.609714C1.610959-4.51208 1.694645-4.51208 1.841096-4.51208S2.140971-4.505106 2.287422-4.47721L1.352927-.746202C1.290162-.481196 1.171606-.27198 .627646-.251059C.578829-.251059 .481196-.244085 .481196-.104608C.481196-.027895 .536986 0 .585803 0C.81594 0 1.073973-.027895 1.311083-.027895C1.478456-.027895 1.882939 0 2.050311 0C2.12005 0 2.189788-.034869 2.189788-.146451C2.189788-.244085 2.106102-.251059 2.02939-.251059C1.590037-.265006 1.590037-.446326 1.590037-.54396C1.590037-.571856 1.590037-.606725 1.617933-.718306L2.510585-4.288917L4.546949-.118555C4.60274-.006974 4.630635 0 4.700374 0C4.811955 0 4.811955-.020922 4.846824-.146451L5.816189-4.002989Z"/>
+<path id="g0-12" d="M5.728518-5.668742C5.728518-6.41594 5.180573-7.033624 4.373599-7.033624C3.795766-7.033624 3.516812-6.874222 3.16812-6.615193C2.620174-6.216687 2.072229-5.250311 1.882939-4.493151L.298879 1.833126C.288917 1.872976 .33873 1.932752 .418431 1.932752S.52802 1.912827 .537983 1.882939L1.235367-.86675C1.424658-.268991 1.863014 .099626 2.590286 .099626S4.064757-.249066 4.513076-.687422C4.991283-1.145704 5.310087-1.783313 5.310087-2.520548C5.310087-3.237858 4.941469-3.755915 4.582814-4.004981C5.160648-4.333748 5.728518-4.951432 5.728518-5.668742ZM3.935243-4.014944C3.805729-3.965131 3.696139-3.945205 3.457036-3.945205C3.317559-3.945205 3.118306-3.935243 3.01868-3.985056C3.038605-4.084682 3.39726-4.064757 3.506849-4.064757C3.716065-4.064757 3.805729-4.064757 3.935243-4.014944ZM5.17061-5.897883C5.17061-5.200498 4.79203-4.483188 4.273973-4.174346C4.004981-4.273973 3.805729-4.293898 3.506849-4.293898C3.297634-4.293898 2.739726-4.303861 2.739726-3.975093C2.729763-3.696139 3.247821-3.726027 3.427148-3.726027C3.795766-3.726027 3.945205-3.73599 4.244085-3.855542C4.622665-3.496887 4.672478-3.188045 4.682441-2.729763C4.702366-2.15193 4.463263-1.404732 4.184309-1.016189C3.795766-.478207 3.128269-.119552 2.560399-.119552C1.803238-.119552 1.424658-.697385 1.424658-1.404732C1.424658-1.504359 1.424658-1.653798 1.474471-1.843088L2.11208-4.363636C2.331258-5.220423 3.048568-6.804483 4.244085-6.804483C4.821918-6.804483 5.17061-6.495641 5.17061-5.897883Z"/>
+<path id="g0-28" d="M2.929016-3.716065H4.60274C4.732254-3.716065 5.090909-3.716065 5.090909-4.054795C5.090909-4.293898 4.881694-4.293898 4.692403-4.293898H1.902864C1.703611-4.293898 1.315068-4.293898 .876712-3.825654C.547945-3.466999 .268991-2.988792 .268991-2.929016C.268991-2.919054 .268991-2.82939 .388543-2.82939C.468244-2.82939 .488169-2.86924 .547945-2.948941C1.036115-3.716065 1.603985-3.716065 1.8132-3.716065H2.6401L1.663761-.518057C1.62391-.398506 1.564134-.18929 1.564134-.14944C1.564134-.039851 1.633873 .119552 1.853051 .119552C2.181818 .119552 2.231631-.159402 2.261519-.308842L2.929016-3.716065Z"/>
+<path id="g0-120" d="M3.327522-3.008717C3.387298-3.267746 3.616438-4.184309 4.313823-4.184309C4.363636-4.184309 4.60274-4.184309 4.811955-4.054795C4.533001-4.004981 4.333748-3.755915 4.333748-3.516812C4.333748-3.35741 4.443337-3.16812 4.712329-3.16812C4.931507-3.16812 5.250311-3.347447 5.250311-3.745953C5.250311-4.26401 4.662516-4.403487 4.323786-4.403487C3.745953-4.403487 3.39726-3.875467 3.277709-3.646326C3.028643-4.303861 2.49066-4.403487 2.201743-4.403487C1.165629-4.403487 .597758-3.118306 .597758-2.86924C.597758-2.769614 .697385-2.769614 .71731-2.769614C.797011-2.769614 .826899-2.789539 .846824-2.879203C1.185554-3.935243 1.843088-4.184309 2.181818-4.184309C2.371108-4.184309 2.719801-4.094645 2.719801-3.516812C2.719801-3.20797 2.550436-2.540473 2.181818-1.145704C2.022416-.52802 1.673724-.109589 1.235367-.109589C1.175592-.109589 .946451-.109589 .737235-.239103C.986301-.288917 1.205479-.498132 1.205479-.777086C1.205479-1.046077 .986301-1.125778 .836862-1.125778C.537983-1.125778 .288917-.86675 .288917-.547945C.288917-.089664 .787049 .109589 1.225405 .109589C1.882939 .109589 2.241594-.587796 2.271482-.647572C2.391034-.278954 2.749689 .109589 3.347447 .109589C4.373599 .109589 4.941469-1.175592 4.941469-1.424658C4.941469-1.524284 4.851806-1.524284 4.821918-1.524284C4.732254-1.524284 4.712329-1.484433 4.692403-1.414695C4.363636-.348692 3.686177-.109589 3.367372-.109589C2.978829-.109589 2.819427-.428394 2.819427-.767123C2.819427-.986301 2.879203-1.205479 2.988792-1.643836L3.327522-3.008717Z"/>
+</defs>
+<g id="page1">
+<g stroke-miterlimit="10" transform="translate(48.470974,167.035193)scale(0.996264,-0.996264)">
+<g fill="#000" stroke="#000">
+<g stroke-width="0.4">
+<path d="M -28.45274 0.0 L 111.811 0.0" fill="none"/>
+<g transform="translate(111.811,0.0)">
+<path d=" M 1.99997 0.0 L -1.19998 1.59998 L 0.0 0.0 L -1.19998 -1.59998  " stroke="none"/>
+</g>
+<g transform="translate(117.34395,-2.15277)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="48.470974" y="167.035193" xlink:href="#g0-120"/>
+</g>
+</g>
+</g>
+</g>
+<path d="M 0.0 0.0 L 0.0 154.49011" fill="none"/>
+<g transform="matrix(0.0,1.0,-1.0,0.0,0.0,154.49011)">
+<path d=" M 1.99997 0.0 L -1.19998 1.59998 L 0.0 0.0 L -1.19998 -1.59998  " stroke="none"/>
+</g>
+<g transform="translate(-2.75174,160.02306)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="48.470974" y="167.035193" xlink:href="#g0-28"/>
+</g>
+</g>
+</g>
+</g>
+<path d="M 2.84544 0.0 L -2.84544 0.0" fill="none"/>
+<path d="M 2.84544 28.45274 L -2.84544 28.45274" fill="none"/>
+<path d="M 2.84544 56.90549 L -2.84544 56.90549" fill="none"/>
+<path d="M 2.84544 85.35823 L -2.84544 85.35823" fill="none"/>
+<path d="M 2.84544 113.81097 L -2.84544 113.81097" fill="none"/>
+<path d="M 2.84544 142.26372 L -2.84544 142.26372" fill="none"/>
+<g stroke-width="0.8">
+<g fill="#000">
+<path d="M -5.77989 28.63162 C -6.9799 28.03165 -8.09045 26.45274 -8.09045 24.45274 C -8.09045 23.92474 -7.29047 23.92474 -7.29047 24.45274 C -7.29047 26.45274 -6.80104 27.67389 -5.60103 28.27386 C -5.3649 28.39192 -5.54376 28.74968 -5.77989 28.63162" stroke="none"/>
+<g fill="#000">
+<path d="M -9.60103 14.0475 C -8.40102 14.64748 -7.29047 16.22638 -7.29047 18.22638 C -7.29047 18.75438 -8.09045 18.75438 -8.09045 18.22638 C -8.09045 16.22638 -8.57988 15.00523 -9.77989 14.40526 C -10.01602 14.2872 -9.83716 13.92944 -9.60103 14.0475" stroke="none"/>
+<g stroke="#000">
+<path d="M -7.69046 24.45274 L -7.69046 18.22638" fill="none"/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width="0.8">
+<g fill="#000">
+<path d="M -9.77989 14.0475 C -8.57988 13.44753 -8.09045 12.22638 -8.09045 10.22638 C -8.09045 9.69838 -7.29047 9.69838 -7.29047 10.22638 C -7.29047 12.22638 -8.40102 13.80528 -9.60103 14.40526 C -9.83716 14.52332 -10.01602 14.16556 -9.77989 14.0475" stroke="none"/>
+<g fill="#000">
+<path d="M -5.60103 0.17888 C -6.80104 0.77885 -7.29047 2.0 -7.29047 4.0 C -7.29047 4.528 -8.09045 4.528 -8.09045 4.0 C -8.09045 2.0 -6.9799 0.4211 -5.77989 -0.17888 C -5.54376 -0.29694 -5.3649 0.06082 -5.60103 0.17888" stroke="none"/>
+<g stroke="#000">
+<path d="M -7.69046 10.22638 L -7.69046 4.0" fill="none"/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width="0.8">
+<path d="" fill="none"/>
+<g transform="translate(-23.90814,11.28949)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="50.757702" y="162.590785" xlink:href="#g1-12"/>
+<rect x="49.666488" y="164.345284" height=".398484" width="7.058264"/>
+<use x="49.666488" y="170.470705" xlink:href="#g1-78"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-dasharray="3.0,3.0" stroke-dashoffset="0.0">
+<g fill="#808080" stroke="#808080">
+<path d="M 0.0 142.26372 L 42.67911 142.26372" fill="none"/>
+<g fill="#000" stroke="#000">
+<g fill="#000" stroke="#000">
+</g>
+<g transform="translate(-21.717,139.76372)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="48.470974" y="167.035193" xlink:href="#g0-12"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g transform="translate(37.57841,-7.83852)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="48.470974" y="167.035193" xlink:href="#g0-120"/>
+<use x="54.164906" y="168.529574" xlink:href="#g2-48"/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width="0.8">
+<g fill="#000" stroke="#000">
+<path d="M 42.67911 0.0 L 79.66776 28.45274 L 14.22636 56.90549 L 91.04869 85.35823 L 19.91682 113.81097 L 42.67911 142.26372" fill="none"/>
+</g>
+</g>
+<g stroke-dasharray="3.0,3.0" stroke-dashoffset="0.0">
+<g fill="#808080" stroke="#808080">
+<path d="M 0.0 28.45274 L 79.66776 28.45274" fill="none"/>
+<g fill="#000" stroke="#000">
+<g fill="#000" stroke="#000">
+</g>
+<g transform="translate(-3.53297,28.45274)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 42.67911 0.0 M 44.17911 0.0 C 44.17911 0.82843 43.50754 1.5 42.67911 1.5 C 41.85068 1.5 41.17911 0.82843 41.17911 0.0 C 41.17911 -0.82843 41.85068 -1.5 42.67911 -1.5 C 43.50754 -1.5 44.17911 -0.82843 44.17911 0.0 Z M 42.67911 0.0"/>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 79.66776 28.45274 M 80.66776 28.45274 C 80.66776 29.00504 80.22005 29.45274 79.66776 29.45274 C 79.11546 29.45274 78.66776 29.00504 78.66776 28.45274 C 78.66776 27.90045 79.11546 27.45274 79.66776 27.45274 C 80.22005 27.45274 80.66776 27.90045 80.66776 28.45274 Z M 79.66776 28.45274"/>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 14.22636 56.90549 M 15.22636 56.90549 C 15.22636 57.45778 14.77866 57.90549 14.22636 57.90549 C 13.67407 57.90549 13.22636 57.45778 13.22636 56.90549 C 13.22636 56.3532 13.67407 55.90549 14.22636 55.90549 C 14.77866 55.90549 15.22636 56.3532 15.22636 56.90549 Z M 14.22636 56.90549"/>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 91.04869 85.35823 M 92.04869 85.35823 C 92.04869 85.91052 91.60098 86.35823 91.04869 86.35823 C 90.4964 86.35823 90.04869 85.91052 90.04869 85.35823 C 90.04869 84.80594 90.4964 84.35823 91.04869 84.35823 C 91.60098 84.35823 92.04869 84.80594 92.04869 85.35823 Z M 91.04869 85.35823"/>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 19.91682 113.81097 M 20.91682 113.81097 C 20.91682 114.36327 20.46912 114.81097 19.91682 114.81097 C 19.36453 114.81097 18.91682 114.36327 18.91682 113.81097 C 18.91682 113.25868 19.36453 112.81097 19.91682 112.81097 C 20.46912 112.81097 20.91682 113.25868 20.91682 113.81097 Z M 19.91682 113.81097"/>
+</g>
+<g fill="#000" stroke="#000">
+<path d="M 42.67911 142.26372 M 44.17911 142.26372 C 44.17911 143.09215 43.50754 143.76372 42.67911 143.76372 C 41.85068 143.76372 41.17911 143.09215 41.17911 142.26372 C 41.17911 141.43529 41.85068 140.76372 42.67911 140.76372 C 43.50754 140.76372 44.17911 141.43529 44.17911 142.26372 Z M 42.67911 142.26372"/>
+</g>
+<g fill="#000" stroke="#000">
+<g fill="#000" stroke="#000">
+</g>
+<g transform="translate(46.21208,143.70638)">
+<g stroke="none" transform="scale(-1.00375,1.00375)translate(48.470974,167.035193)scale(-1,-1)">
+<g fill="#000">
+<g stroke="none">
+<use x="48.470974" y="167.035193" xlink:href="#g0-120"/>
+<use x="54.164906" y="168.529574" xlink:href="#g2-48"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+  </div>
+<p>We arrived at the definition of a quantum path integral, a framework originally introduced<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> by Richard Feynman in 1948. The thermodynamic properties of our system can be simulated by summing over all possible loops a particle can take through imaginary time from \(0\) to \(\beta\).</p>
+<p>This geometric picture aligns with our earlier density matrix visualizations. At high temperatures (small \(\beta\)), a particle experiences minimal quantum fluctuations, so its imaginary-time path remains a tight, highly localized loop around \(x_0\). Conversely, as we lower the temperature (large \(\beta\)), these paths can stretch and wander significantly far from their origin point.</p>
+<h2 id="a-different-look-at-the-schrödinger-equation">A Different Look at the Schrödinger Equation<a hidden class="anchor" aria-hidden="true" href="#a-different-look-at-the-schrödinger-equation">#</a></h2>
+<p>Having constructed a quantum path integral that sums over all possible paths across imaginary time, we need a practical method to sample these paths.</p>
+<p>We can turn to a classic Monte Carlo simulation where we select a single position \(x_i\) and treat its neighbors, \(x_{i-1}\) and \(x_{i+1}\), as fixed anchors. Then we propose a new position \(x'_i\) by shifting the current position by a value sampled from a uniform distribution:</p>
+$$x'_i = x_i + \text{Uniform}(-\delta, \delta)$$<p>Next, we calculate the current and updated probability weights, which are simply a product of elements from the density matrix slices:</p>
+<ul>
+<li>
+<p>Old weight (\(W_{old}\)): the density matrix slice from \(x_{i-1} \to x_i\), multiplied by the slice from \(x_i \to x_{i+1}\).</p>
+</li>
+<li>
+<p>New weight (\(W_{new}\)): the density matrix slice from \(x_{i-1} \to x'_i\), multiplied by the slice from \(x'_i \to x_{i+1}\).</p>
+</li>
+</ul>
+<p>We then accept the proposed change according to the Metropolis acceptance criterion, which accepts the move if a uniformly sampled number between 0 and 1 is smaller than the ratio \(r = \frac{W_{new}}{W_{old}}\).</p>
+<p>While we are glossing over a few implementation details, this Monte Carlo algorithm is a standard approach in computational physics. Simulating the quantum path for many intermediate points yields the following result:</p>
+ 
+
+
+
+
+<div class="themed-image-container">
+  <img src="random_free_quantum_path_light.png" class="img-light" alt="Random free quantum path" loading="lazy" >
+  <img src="random_free_quantum_path_dark.png" class="img-dark" alt="Random free quantum path" loading="lazy" >
+</div>
+<p>Visually, this closely resembles the well-known stochastic process called the Wiener process, and it turns out they are mathematically equivalent concepts. We can check the free density matrix</p>
+$$\rho_{free}(x_i, x_{i-1}, \Delta\tau) = \sqrt{\frac{m}{2\pi \hbar^2 \Delta\tau}} \exp\left( - \frac{m}{2\hbar^2\Delta\tau} (x_i - x_{i-1})^2 \right)$$<p>against the properties necessary for the construction of the Wiener process:</p>
+<ul>
+<li>Initialization: In our simulations, we pin the initial position at time \(0\).</li>
+<li>Independent increments: In the path integral formulation, the total weight of the path is the product of the individual slices. The slice from \(x_{i-1} \to x_i\) is mathematically decoupled from the slice from \(x_i \to x_{i+1}\).</li>
+<li>The free density matrix is a Gaussian (as shown earlier) with the mean \(\mu = x_{i-1}\) and variance \(\sigma^2 = \frac{\hbar^2}{m}\Delta\tau\).</li>
+</ul>
+<p>This brings us to the final observation connecting quantum mechanics with statistical mechanics. Since quantum paths are governed by the Schrödinger equation and the Wiener process by the diffusion equation, a deep mathematical connection should exists between them.</p>
+<p>Going back to the time-dependent Schrödinger equation for a free particle with \(\hat{H} = -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}\) (reintroducing \(\hbar\) for clarity):</p>
+$$i\hbar\frac{\partial}{\partial t}\psi(x, t) = -\frac{\hbar^2}{2m}\frac{\partial^2\psi(x, t)}{\partial x^2}$$<p>Let's perform the Wick rotation and change time into imaginary time, \(t=-i\tau\):</p>
+$$\begin{aligned}
+i\hbar \frac{\partial \psi(x, \tau)}{\partial (-i\tau)} &= -\frac{\hbar^2}{2m} \frac{\partial^2 \psi(x, \tau)}{\partial x^2} \\\\
+-\hbar \frac{\partial \psi(x, \tau)}{\partial \tau} &= -\frac{\hbar^2}{2m} \frac{\partial^2 \psi(x, \tau)}{\partial x^2} \\\\
+\frac{\partial \psi(x, \tau)}{\partial \tau} &= \frac{\hbar}{2m} \frac{\partial^2 \psi(x, \tau)}{\partial x^2}
+\end{aligned}$$<p>For classical particles undergoing Brownian motion, the probability density \(P(x, t)\) of finding the particle at position \(x\) and time \(t\) is governed by the diffusion equation:</p>
+$$\frac{\partial P(x, t)}{\partial t} = D \frac{\partial^2 P(x, t)}{\partial x^2}$$<p>Comparing these two equations, they are algebraically identical with the diffusion constant \(D\) equal to \(\frac{\hbar}{2m}\). Through what is known as the <a href="https://en.wikipedia.org/wiki/Feynman%E2%80%93Kac_formula">Feynman-Kac formula</a>, this reveals that we can accurately simulate quantum mechanics using classical random walks.</p>
+<h2 id="summary">Summary<a hidden class="anchor" aria-hidden="true" href="#summary">#</a></h2>
+<p>We set out to describe a physical system using two fundamentally different frameworks: statistical mechanics and quantum mechanics. The density matrix served as our primary mathematical bridge, describing how quantum coherence decays under thermal chaos. From there, we worked through high-temperature approximations and a method of stitching them together, which eventually built the foundation for Feynman's path integral framework. Finally, we came full circle: by rotating through imaginary time (the Wick rotation), we returned to the classical diffusion equation and random walks, demonstrating a pretty beautiful example of a classical-quantum isomorphism.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="http://www-f1.ijs.si/~ramsak/km1/feynman.pdf">http://www-f1.ijs.si/~ramsak/km1/feynman.pdf</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quantum Statistical Mechanics & Path Integrals on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fpawelpamula.github.io%2fposts%2fquantum-statistical-mechanics%2f&amp;title=Quantum%20Statistical%20Mechanics%20%26%20Path%20Integrals&amp;summary=Quantum%20Statistical%20Mechanics%20%26%20Path%20Integrals&amp;source=https%3a%2f%2fpawelpamula.github.io%2fposts%2fquantum-statistical-mechanics%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quantum Statistical Mechanics & Path Integrals on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fpawelpamula.github.io%2fposts%2fquantum-statistical-mechanics%2f&title=Quantum%20Statistical%20Mechanics%20%26%20Path%20Integrals">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quantum Statistical Mechanics & Path Integrals on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Quantum%20Statistical%20Mechanics%20%26%20Path%20Integrals&u=https%3a%2f%2fpawelpamula.github.io%2fposts%2fquantum-statistical-mechanics%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://pawelpamula.github.io/">Truly Random</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
