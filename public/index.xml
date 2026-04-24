@@ -6,8 +6,15 @@
     <description>Recent content on Truly Random</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 16 Apr 2026 20:49:15 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 11:38:46 +0900</lastBuildDate>
     <atom:link href="https://pawelpamula.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Unreasonable Effectiveness of Combinatorics in Quantum Statistical Mechanics</title>
+      <link>https://pawelpamula.github.io/posts/bose-einstein/</link>
+      <pubDate>Thu, 23 Apr 2026 11:38:46 +0900</pubDate>
+      <guid>https://pawelpamula.github.io/posts/bose-einstein/</guid>
+      <description>&lt;p&gt;Eugene Wigner, a prominent theoretical physicist and Nobel Prize winner, famously published an essay in 1960 titled &lt;a href=&#34;https://webhomes.maths.ed.ac.uk/~v1ranick/papers/wigner.pdf&#34;&gt;&amp;quot;The Unreasonable Effectiveness of Mathematics in the Natural Sciences&amp;quot;&lt;/a&gt;. In it, he defines mathematics as a discipline where the emphasis is on the invention of concepts and rules for the sake of deriving even more complex abstractions. To Wigner, mathematics was fundamentally a pursuit of the mind. While elementary geometry and arithmetic were initially developed to describe entities directly present in the physical world, he argued that this does not seem to apply to more advanced mathematical concepts, which are often derived through strings of complex arguments from first principles, seemingly divorced from reality.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Quantum Statistical Mechanics &amp; Path Integrals</title>
       <link>https://pawelpamula.github.io/posts/quantum-statistical-mechanics/</link>

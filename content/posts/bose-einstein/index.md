@@ -1,7 +1,7 @@
 ---
 date: '2026-04-23T11:38:46+09:00'
-draft: true
-title: 'Bose Einstein'
+draft: false
+title: 'The Unreasonable Effectiveness of Combinatorics in Quantum Statistical Mechanics'
 ---
 
 Eugene Wigner, a prominent theoretical physicist and Nobel Prize winner, famously published an essay in 1960 titled ["The Unreasonable Effectiveness of Mathematics in the Natural Sciences"](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/wigner.pdf). In it, he defines mathematics as a discipline where the emphasis is on the invention of concepts and rules for the sake of deriving even more complex abstractions. To Wigner, mathematics was fundamentally a pursuit of the mind. While elementary geometry and arithmetic were initially developed to describe entities directly present in the physical world, he argued that this does not seem to apply to more advanced mathematical concepts, which are often derived through strings of complex arguments from first principles, seemingly divorced from reality.
