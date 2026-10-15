@@ -94,32 +94,61 @@ then $\mathbb{P}(M_n \in S) \le e^\epsilon \mathbb{P}(M_m \in S) + \delta$ for a
 
 # 2. Outline
 
-Proving $(\epsilon, \delta)$-$k$-DP reduces to finding a good set
-([Lemma F1](#15-the-good-set-translation-lemma)) for every pair $M_n$,
-$M_{n+k'}$ with $0 \le k' \le k$, in both directions, due to symmetry of the problem.
+To prove $(\epsilon, \delta)$-$k$-DP, we compare the counter on a population of
+$n$ requests with the counter on a population with up to $k$ more requests.
+In each direction, due to symmetry, we follow the good-set approach of
+[Lemma F1](#15-the-good-set-translation-lemma): we look for a set of
+well-behaved counter values that are at most $e^\epsilon$ times as likely under
+the first population as under the second, and then show that the remaining
+values are rare enough to fit within the failure probability $\delta$.
 
-In the reverse direction, with the larger population in the numerator,
-[Section 3](#3-reverse-ratio-bounding-via-cauchys-mean-value-theorem) uses
-Cauchy's Mean Value Theorem to bound the likelihood ratio by $1 + k/n$ at every
-outcome, so the entire support is a good set once $1 + k/n \le e^\epsilon$. 
+Adding requests can only push the
+maximum up, and it does so gradually, so a few extra requests cannot make any
+value much more likely. In [Section 3](#3-reverse-ratio-bounding-via-cauchys-mean-value-theorem), we make
+this precise using Cauchy's Mean Value Theorem: with up to $k$ extra requests,
+no value becomes more than $1 + k/n$ times as likely. As long as the group is
+small enough compared to the population, every value is therefore well-behaved,
+and nothing has to be excluded.
 
-In the forward direction, the ratio reaches $2^k$ at $l = 1$, so
-[Section 4](#4-forward-ratio-bounding) restricts the good set to levels at or
-above a cutoff $l_{\epsilon,k}$, where the ratio is at most $e^\epsilon$.
+The opposite direction is more difficult, because small values become
+much rarer as requests are added. For example, the chance that the maximum stays
+at $1$ halves with every extra request, so the smaller population is $2^k$ times
+as likely to produce it, a factor that no privacy budget below $k \ln 2$ can
+absorb. Instead, [Section 4](#4-forward-ratio-bounding) separates the small
+values from the rest: we bound how much a single extra request can lower the
+probability of each value, chain this bound across the $k$ extra requests, and
+find a cutoff level $l_{\epsilon,k}$ such that every value at or above it keeps
+the probability ratio within $e^\epsilon$. The values below the cutoff form the
+bad set. 
 
-[Section 5](#5-bounding-the-bad-set-probability) shows that $M_n$ falls below
-this cutoff with probability at most $\delta$ once $n$ is at least
-$N_{\epsilon,k,\delta}$. 
+In [Section 5](#5-bounding-the-bad-set-probability), we show that a
+large population rarely produces them, since the maximum of many samples is
+unlikely to be small: once the population reaches a threshold
+$N_{\epsilon,k,\delta}$, the bad set has total probability at most $\delta$.
 
-For $\delta \le 1/e$, this population condition already
-implies $1 + k/n \le e^\epsilon$ ([Section 6](#6-reverse-ratio-verification)),
-so both directions combine into the main theorem
-([Section 7](#7-main-theorem-and-asymptotics)), with a population threshold
-$N_{\epsilon,k,\delta} = \Theta(k\ln(1/\delta)/\epsilon)$ for $\epsilon \le k$.
-Finally, [Section 8](#8-a-lower-bound-on-delta) shows that $\delta$ cannot
-vanish as $n \to \infty$ for linear-sized groups $k \ge cn$, and
-[Section 9](#9-comparison-with-generic-group-privacy) compares the result with
-generic Dwork-Roth group privacy.
+In [Section 6](#6-reverse-ratio-verification), we check that, for any failure
+probability $\delta \le 1/e$, this threshold is already large enough for the
+easy direction as well, so it is the only requirement on the population.
+[Section 7](#7-main-theorem-and-asymptotics) then combines both directions into
+the main theorem: the MaxGeo counter satisfies $(\epsilon, \delta)$-$k$-DP on
+every population of at least $N_{\epsilon,k,\delta}$ requests. We also show
+that, in the main regime of interest ($\epsilon \le k$), this threshold is
+roughly proportional to the group size $k$ and inversely proportional to the
+privacy budget $\epsilon$, while it grows only logarithmically in $1/\delta$.
+
+The last two sections put this result into context. In
+[Section 8](#8-a-lower-bound-on-delta), we show that this limitation comes from
+the counter itself rather than from our proof technique: when the group is at
+least a fixed fraction of the population, the event that the maximum is small
+always reveals too much, so the failure probability cannot drop below a positive
+constant, however large the population gets. 
+
+Finally, [Section 9](#9-comparison-with-generic-group-privacy) compares our direct
+analysis with the generic approach of Dwork and Roth, which treats a group of
+$k$ people as $k$ separate single-person changes. That approach either needs a
+privacy budget of $k \ln 2$ or inflates the failure probability by a factor that
+grows linearly with $k$, whereas analyzing all $k$ changes at once allows
+budgets below $k \ln 2$ without paying that extra factor.
 
 # 3. Reverse ratio bounding via Cauchy's Mean Value Theorem
 
