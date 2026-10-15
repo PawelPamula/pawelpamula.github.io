@@ -142,3 +142,40 @@ code {
     color: #1a1a1a !important; 
   }
 }
+
+/* Home Page Sections */
+.home-section-header {
+  margin-top: 2.75rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.home-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.home-section-more {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.home-section-more:hover {
+  color: var(--primary);
+}
+
+.home-section-separator {
+  margin: 3.5rem 0 2rem;
+  height: 1px;
+  background: var(--border);
+  border: none;
+}
+

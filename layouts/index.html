@@ -1,0 +1,41 @@
+{{- define "main" }}
+
+{{- /* 1. Intro / Home Info */}}
+{{- if site.Params.homeInfoParams }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+{{- $recentCount := site.Params.homeRecentCount | default 3 }}
+
+{{- /* 2. Posts Section */}}
+{{- $posts := where site.RegularPages "Type" "posts" }}
+{{- if $posts }}
+<div class="home-section-header">
+  <h2 class="home-section-title">Posts</h2>
+  <a class="home-section-more" href="{{ "posts/" | relURL }}">View all posts →</a>
+</div>
+
+{{- range first $recentCount $posts }}
+  {{- partial "post_entry.html" . }}
+{{- end }}
+{{- end }}
+
+{{- /* 3. Visual Separator */}}
+{{- $research := where site.RegularPages "Type" "research" }}
+{{- if and $posts $research }}
+<div class="home-section-separator"></div>
+{{- end }}
+
+{{- /* 4. Research Section */}}
+{{- if $research }}
+<div class="home-section-header">
+  <h2 class="home-section-title">Research</h2>
+  <a class="home-section-more" href="{{ "research/" | relURL }}">View all research →</a>
+</div>
+
+{{- range first $recentCount $research }}
+  {{- partial "post_entry.html" . }}
+{{- end }}
+{{- end }}
+
+{{- end }}

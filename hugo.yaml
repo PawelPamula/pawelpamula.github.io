@@ -8,6 +8,7 @@ params:
   description: "Random thoughts in computer science, math and physics."
   author: "Paweł Pamuła"
   math: true
+  homeRecentCount: 3
 
   hideFooter: false
 
