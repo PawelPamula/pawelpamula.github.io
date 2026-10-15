@@ -43,6 +43,9 @@ menu:
     - name: Posts
       url: /posts/
       weight: 10
+    - name: Research
+      url: /research/
+      weight: 20
 
 markup:
   goldmark:
@@ -59,3 +62,5 @@ markup:
           inline:
             - - '\('
               - '\)'
+            - - '$'
+              - '$'
